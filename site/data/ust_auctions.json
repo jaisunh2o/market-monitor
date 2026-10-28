@@ -48,6 +48,18 @@
 "source": "TFTC results table; Freenance gives the coupon"
 },
 {
+"auction": "2026-07-27",
+"security": "5-year note (new issue)",
+"size_usd_bn": 70,
+"high_yield_pct": 4.408,
+"bid_to_cover": 2.28,
+"indirect_pct": 59.2,
+"direct_pct": 27.2,
+"coupon_pct": null,
+"coupon_basis": "not stated in the sources I read",
+"source": "TFTC results table; BigGo"
+},
+{
 "auction": "2026-08-12",
 "security": "10-year note (new issue)",
 "size_usd_bn": 42,
@@ -72,6 +84,18 @@
 "source": "TFTC results table; Freenance gives the coupon"
 },
 {
+"auction": "2026-08-26",
+"security": "5-year note (new issue)",
+"size_usd_bn": 70,
+"high_yield_pct": 4.393,
+"bid_to_cover": 2.37,
+"indirect_pct": 61.5,
+"direct_pct": 28.4,
+"coupon_pct": null,
+"coupon_basis": "not stated in the sources I read",
+"source": "TFTC results table; PrimeXBT"
+},
+{
 "auction": "2026-09-09",
 "security": "10-year note (reopening)",
 "size_usd_bn": null,
@@ -94,6 +118,18 @@
 "coupon_pct": 4.75,
 "coupon_basis": "stated",
 "source": "TFTC results table; Freenance and Your Best Savings confirm the coupon"
+},
+{
+"auction": "2026-09-23",
+"security": "5-year note (new issue)",
+"size_usd_bn": 70,
+"high_yield_pct": 5.033,
+"bid_to_cover": 2.21,
+"indirect_pct": 54.31,
+"direct_pct": 29.92,
+"coupon_pct": null,
+"coupon_basis": "not stated in the sources I read",
+"source": "InvestingLive, dated 23 Sep; TFTC and RTTNews give the same yield"
 },
 {
 "auction": "2026-10-07",
@@ -130,5 +166,17 @@
 "coupon_pct": null,
 "coupon_basis": "not yet published in sources I read",
 "source": "InvestingLive, Helious and Rallies agree; issues 2 Nov"
+},
+{
+"auction": "2026-10-27",
+"security": "5-year note (new issue)",
+"size_usd_bn": 70,
+"high_yield_pct": 4.845,
+"bid_to_cover": 2.33,
+"indirect_pct": 60.0,
+"direct_pct": 29.4,
+"coupon_pct": null,
+"coupon_basis": "not stated in the sources I read",
+"source": "RTTNews, TFTC, Rallies and The Vault Report agree on the yield and cover"
 }
 ]
