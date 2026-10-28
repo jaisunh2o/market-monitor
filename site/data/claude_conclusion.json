@@ -9,7 +9,7 @@
 {
 "theme": "1 Oil",
 "headline": "Oil is the transmission channel",
-"analysis": "WTI averaged 58.0 in December 2025, 91.4 in March and 102.1 in May, dipped to 80.5 in July and was back at 97.3 in September. The Brent minus WTI spot spread is 7.33 dollars, wider than on 85% of days since 2016 (median 3.96), and the futures gap on 26 Oct was 14.05. That pattern fits a supply-risk premium on seaborne crude; news reports tie Brent to Middle East attacks on Saudi infrastructure. I have not tested causation.",
+"analysis": "WTI averaged 58.0 in December 2025, 91.4 in March and 102.1 in May, dipped to 80.5 in July and was back at 97.3 in September. The Brent minus WTI spot spread is 7.33 dollars, wider than on 85% of days since 2016 (median 3.96), and the futures gap on 27 Oct was 13.98 (Brent 113.88, WTI 99.90). That pattern fits a supply-risk premium on seaborne crude; news reports tie Brent to Middle East attacks on Saudi infrastructure. I have not tested causation.",
 "evidence": "Oil chart; Brent minus WTI chart; scorecard; news panel",
 "confidence": "Medium"
 },
@@ -23,7 +23,7 @@
 {
 "theme": "3 Oil and stocks",
 "headline": "Stocks look more oil-sensitive lately",
-"analysis": "The oil and S&P 500 correlation moved from -0.14 over 60 months to -0.44 over the last 12 (24-month: -0.13). That is only 12 observations, so read it as a direction. Even so, the S&P 500 closed at 7,676.77 on 26 Oct, 1.8% below its 6 Oct record close of 7,818.93, and the VIX at 18.39 sits inside its 52-week range of 13.38 to 35.30.",
+"analysis": "The oil and S&P 500 correlation moved from -0.14 over 60 months to -0.44 over the last 12 (24-month: -0.13). That is only 12 observations, so read it as a direction. Even so, the S&P 500 closed at 7,722.67 on 27 Oct, 1.2% below its 6 Oct record close of 7,818.93, and the VIX at 17.52 sits inside its 52-week range of 13.38 to 35.30.",
 "evidence": "Correlation table; S&P and VIX charts; news panel",
 "confidence": "Low to medium"
 },
@@ -44,7 +44,7 @@
 {
 "theme": "6 Real rates and the curve",
 "headline": "Real yields are firm, the curve is not inverted",
-"analysis": "The approximate real 10-year yield (10-year minus CPI) was 1.28 points in August, higher than 68% of months since 2006 but far below the 5.66 peak of July 2009. If inflation holds at 3.4%, September's 4.99% implies about 1.6. The 10-year auction yield rose from 4.580% in July to 5.300% in October (+72 basis points), and the 26 Oct 2-year auction covered 2.59 times against an average of 2.64. With the 10-year 0.31 points above the 2-year, the curve points to inflation and term-premium pressure rather than imminent recession.",
+"analysis": "The approximate real 10-year yield (10-year minus CPI) was 1.28 points in August, higher than 68% of months since 2006 but far below the 5.66 peak of July 2009. If inflation holds at 3.4%, September's 4.99% implies about 1.6. The 10-year auction yield rose from 4.580% in July to 5.300% in October (+72 basis points), and the 26 Oct 2-year auction covered 2.59 times against an average of 2.64. The 27 Oct 5-year auction cleared at 4.845% with a cover of 2.33, close to its recent average of about 2.3. With the 10-year 0.31 points above the 2-year (FRED, 23 Oct), the curve points to inflation and term-premium pressure rather than imminent recession. Reuters reports the Fed raised rates last month and markets price at least two more hikes by mid-2027.",
 "evidence": "Real yield chart; yield curve; auction table and trend",
 "confidence": "Medium"
 },
@@ -72,7 +72,7 @@
 {
 "theme": "10 What to watch",
 "headline": "Near-term triggers",
-"analysis": "The Fed decision on 28 Oct; the 5-year and 7-year auctions on 27 and 29 Oct; whether the 10-year holds below 5%; the gap between oil futures and spot; and whether stocks' oil sensitivity persists. A break in the gold and yield relationship would also change the read on gold.",
+"analysis": "The Fed decision on 28 Oct, with a hold widely expected; the 7-year auction on 29 Oct; whether the 10-year holds below 5%; the gap between oil futures and spot; and whether stocks' oil sensitivity persists. A break in the gold and yield relationship would also change the read on gold.",
 "evidence": "News panel; rates section",
 "confidence": "Medium"
 },
