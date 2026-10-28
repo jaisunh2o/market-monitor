@@ -27,7 +27,7 @@
   },
   "metals_daily.json": {
    "rows": 28,
-   "new_rows": 1,
+   "new_rows": 0,
    "latest": "2026-10-28"
   }
  },
@@ -35,5 +35,5 @@
   "daily_markets: FRED unreachable (TimeoutError); GitHub datasets only"
  ],
  "failures": [],
- "ran_at": "2026-10-28T08:38:17Z"
+ "ran_at": "2026-10-28T09:05:09Z"
 }
