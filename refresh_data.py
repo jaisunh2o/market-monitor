@@ -18,15 +18,18 @@ OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join("site", "data")
 GH = "https://raw.githubusercontent.com/datasets/"
 FRED = "https://fred.stlouisfed.org/graph/fredgraph.csv?id=%s&cosd=%s"
 STACKER = "https://www.stackerscan.com/api/metal-prices.md?currency=USD&unit=troy_oz"
+TREAS_A = "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value_month=%s"
+TREAS_B = "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=%s"
+CBOE_VIX = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv"
 os.makedirs(OUT, exist_ok=True)
 summary = {"files": {}, "notes": [], "failures": []}
 
-def get(url):
-    req = urllib.request.Request(url, headers={"User-Agent": "market-dashboard-refresh/2.0"})
-    return urllib.request.urlopen(req, timeout=60).read().decode("utf-8-sig")
+def get(url, timeout=25):
+    req = urllib.request.Request(url, headers={"User-Agent": "market-dashboard-refresh/3.0"})
+    return urllib.request.urlopen(req, timeout=timeout).read().decode("utf-8-sig")
 
-def rows(url):
-    return list(csv.DictReader(io.StringIO(get(url))))
+def rows(url, timeout=25):
+    return list(csv.DictReader(io.StringIO(get(url, timeout))))
 
 def num(x):
     try:
@@ -34,14 +37,69 @@ def num(x):
     except ValueError:
         return None
 
+FRED_DOWN = False   # FRED timed out from GitHub's servers on 28 Oct 2026, so fail fast and move on
+
 def fred(ids, start="2016-01-01"):
+    global FRED_DOWN
+    if FRED_DOWN:
+        raise RuntimeError("FRED skipped: an earlier request this run failed")
     out = {i: {} for i in ids}
-    for r in rows(FRED % (",".join(ids), start)):
+    try:
+        data = rows(FRED % (",".join(ids), start), 12)
+    except Exception:
+        FRED_DOWN = True
+        raise
+    for r in data:
         d = r.get("observation_date") or r.get("DATE")
         for i in ids:
             v = num(r.get(i))
             if v is not None:
                 out[i][d] = v
+    return out
+
+def parse_treasury(text):
+    """Treasury's daily par yield curve XML -> {date: {ust2_pct, ust10_pct, ust30_pct}}."""
+    out = {}
+    for block in re.split(r"<m:properties>", text)[1:]:
+        tags = dict(re.findall(r"<d:(\w+)[^>]*>([^<]*)</d:\1>", block))
+        dt = (tags.get("NEW_DATE") or "")[:10]
+        if not dt:
+            continue
+        rec = {}
+        for tag, key in (("BC_2YEAR", "ust2_pct"), ("BC_10YEAR", "ust10_pct"), ("BC_30YEAR", "ust30_pct")):
+            v = num(tags.get(tag))
+            if v is not None:
+                rec[key] = v
+        if rec:
+            out[dt] = rec
+    return out
+
+def treasury():
+    today = datetime.date.today()
+    months = sorted({today.strftime("%Y%m"), (today.replace(day=1) - datetime.timedelta(days=1)).strftime("%Y%m")})
+    out, err = {}, None
+    for m in months:
+        txt = None
+        for url in (TREAS_A % m, TREAS_B % m[:4]):
+            try:
+                txt = get(url, 20)
+                break
+            except Exception as e:
+                err = e
+        if txt is None:
+            raise err or RuntimeError("no response")
+        out.update(parse_treasury(txt))
+    if not out:
+        raise RuntimeError("no rows parsed")
+    return out
+
+def parse_cboe(rows_):
+    out = {}
+    for r in rows_:
+        d = r.get("DATE") or r.get("Date"); v = num(r.get("CLOSE") or r.get("Close"))
+        if d and v is not None and "/" in d:
+            mo, dd, yy = d.split("/")
+            out["%s-%s-%s" % (yy, mo.zfill(2), dd.zfill(2))] = v
     return out
 
 def merge_save(name, new_rows, key):
@@ -85,7 +143,15 @@ def daily_markets():
                 d.setdefault(dt, {})[k] = v
         summary["notes"].append("daily_markets: FRED overlay applied")
     except Exception as e:
-        summary["notes"].append("daily_markets: FRED unreachable (%s); GitHub datasets only" % type(e).__name__)
+        summary["notes"].append("daily_markets: FRED unreachable (%s)" % type(e).__name__)
+        try:
+            ty = treasury()
+            for dt, vals in ty.items():
+                for k, v in vals.items():
+                    d.setdefault(dt, {})[k] = v
+            summary["notes"].append("daily_markets: Treasury yields applied (%d days)" % len(ty))
+        except Exception as e2:
+            summary["notes"].append("daily_markets: Treasury yields unreachable (%s)" % type(e2).__name__)
     merge_save("daily_markets.json", [{"date": k, "wti": d[k].get("wti"), "brent": d[k].get("brent"), "natgas": d[k].get("natgas"), "ust10_pct": d[k].get("ust10_pct"), "ust2_pct": d[k].get("ust2_pct"), "ust30_pct": d[k].get("ust30_pct")} for k in sorted(d)], "date")
 
 def monthly_markets():
@@ -104,8 +170,14 @@ def vix():
     d = {r["DATE"]: num(r["CLOSE"]) for r in rows(GH + "finance-vix/main/data/vix-daily.csv") if r["DATE"] >= "2016-01-01"}
     try:
         d.update(fred(["VIXCLS"])["VIXCLS"])
+        summary["notes"].append("vix: FRED applied")
     except Exception:
-        pass
+        try:
+            cb = {k: v for k, v in parse_cboe(rows(CBOE_VIX, 25)).items() if k >= "2016-01-01"}
+            d.update(cb)
+            summary["notes"].append("vix: CBOE history applied (%d days)" % len(cb))
+        except Exception as e2:
+            summary["notes"].append("vix: FRED and CBOE unreachable (%s); dataset only" % type(e2).__name__)
     merge_save("vix_daily.json", [{"date": k, "close": d[k]} for k in sorted(d) if d[k] is not None], "date")
 
 def fx():
