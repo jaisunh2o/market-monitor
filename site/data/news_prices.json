@@ -11,13 +11,23 @@
 },
 {
 "as_of": "2026-10-27",
-"series": "WTI crude (futures)",
+"series": "WTI crude (futures, early Asia)",
 "value": 100.83,
 "unit": "$/bbl",
 "basis": "early Asian trade",
 "source": "HDFC Sky, via FinanceFeeds",
 "change_pct": null,
 "change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "WTI crude (futures)",
+"value": 99.9,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Investrade and Cappnotes agree (-1.86, -1.83%)",
+"change_pct": -1.83,
+"change_abs": -1.86
 },
 {
 "as_of": "2026-10-27",
@@ -31,6 +41,36 @@
 },
 {
 "as_of": "2026-10-27",
+"series": "VIX",
+"value": 17.52,
+"unit": "index",
+"basis": "close",
+"source": "Cappnotes (-4.73%); HDFC Sky gives 17.53",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "US 10-year yield",
+"value": 4.992,
+"unit": "%",
+"basis": "close",
+"source": "Investrade; HDFC Sky gives 4.99%. FRED's 27 Oct value is not published yet",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "S&P 500",
+"value": 7722.67,
+"unit": "index",
+"basis": "close",
+"source": "Investrade (shows 7,722; +45.90, +0.60%). Value is the 26 Oct close 7,676.77 plus the reported +45.90; HDFC Sky and Yahoo Finance also report +0.60%",
+"change_pct": 0.6,
+"change_abs": 45.9
+},
+{
+"as_of": "2026-10-27",
 "series": "Brent crude (futures, pre-market)",
 "value": 116.01,
 "unit": "$/bbl",
@@ -41,13 +81,23 @@
 },
 {
 "as_of": "2026-10-27",
-"series": "Brent crude (futures)",
+"series": "Brent crude (futures, early Asia)",
 "value": 114.68,
 "unit": "$/bbl",
 "basis": "early Asian trade",
 "source": "HDFC Sky, via FinanceFeeds",
 "change_pct": null,
 "change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "Brent crude (futures)",
+"value": 113.88,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Investrade, Cappnotes and HDFC Sky agree (-1.93, -1.67%)",
+"change_pct": -1.67,
+"change_abs": -1.93
 },
 {
 "as_of": "2026-10-27",
@@ -65,7 +115,7 @@
 "value": 101.76,
 "unit": "$/bbl",
 "basis": "settle",
-"source": "CNBC, Herald Business and Grafa via FinanceFeeds (-1.46%, consistent with the 23 Oct settle). A CNBC live-blog snippet reads -1.7% for WTI, unresolved",
+"source": "CNBC, Herald Business and Grafa via FinanceFeeds (-1.46%). Confirmed on 27 Oct: Investrade and Cappnotes report the 27 Oct settle of 99.90 as down 1.86 from 101.76",
 "change_pct": -1.46,
 "change_abs": null
 },
