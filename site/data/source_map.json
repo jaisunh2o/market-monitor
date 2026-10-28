@@ -4,12 +4,12 @@
 "views": "Headline tiles; oil chart (dots); news panel",
 "source": "Tiles and dots: futures settles reported by news sites. Oil chart, scorecard, spread, correlation: EIA daily spot via public dataset",
 "comparison": "Differ by design: futures settle versus spot. The chart now shows the futures settle as a dot beside the spot line",
-"status": "Labelled on every view; not interchangeable (26 Oct WTI settle 101.76 against 20 Oct EIA spot 107.89)"
+"status": "Labelled on every view; not interchangeable (27 Oct WTI settle 99.90 against 20 Oct EIA spot 107.89)"
 },
 {
 "measure": "US 10-year yield",
 "views": "Headline tile; monthly chart; real-yield chart; yield curve; news panel",
-"source": "Tile and chart dot: FRED DGS10 daily. Monthly chart and real yield: Fed monthly average (FRED GS10). Curve: Treasury par yields via Freenance",
+"source": "Tile and chart dot: FRED DGS10 daily (to 26 Oct); the 2-year and 30-year are also FRED. Monthly chart and real yield: Fed monthly average (FRED GS10). Curve: Treasury par yields via Freenance",
 "comparison": "Agree on 23 Oct: FRED 5.00, curve 5.00, news 5.00. The September monthly average (4.99) is a different measure",
 "status": "Consistent"
 },
@@ -30,15 +30,15 @@
 {
 "measure": "S&P 500",
 "views": "Headline tile; monthly chart (dot); scorecard; news panel",
-"source": "Tile and dot: TheStreet 26 Oct close. Monthly chart and scorecard: public monthly series compiled from Shiller data",
-"comparison": "Same index, different frequency; tile 7,676.80 against September monthly value 7,669.41",
+"source": "Tile and dot: news close for 27 Oct (Investrade, consistent with the 26 Oct close of 7,676.77 plus the reported gain). Monthly chart and scorecard: public monthly series compiled from Shiller data",
+"comparison": "Same index, different frequency; tile 7,722.67 against September monthly value 7,669.41",
 "status": "Consistent in level; monthly series not cross-checked"
 },
 {
 "measure": "VIX",
 "views": "Watchlist tile; chart (dots); news panel",
 "source": "Tile and dots: Investing.com and Zacks closes via the news panel. Chart line: public dataset to 22 Sep",
-"comparison": "Tile previously read the stale dataset (14.21 on 22 Sep); now reads the 26 Oct close of 18.39",
+"comparison": "Tile previously read the stale dataset (14.21 on 22 Sep); now reads the 27 Oct close of 17.52",
 "status": "Fixed"
 },
 {
