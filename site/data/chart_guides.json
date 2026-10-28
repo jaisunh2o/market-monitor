@@ -1,0 +1,202 @@
+[
+{
+"id": "tiles_markets",
+"how_to_read": "Each tile shows the newest reading of a market, its change from the previous close and its date. Oil tiles are futures settles, gold is an aggregator reading, and gas is the EIA daily series.",
+"what_to_make_of_it": "Use the tiles as a pulse check. Always look at the date on each tile, because different tiles are as of different days, and compare oil futures with oil futures, not with spot."
+},
+{
+"id": "tiles_beyond",
+"how_to_read": "Inflation, market volatility (VIX), CO2, global temperature and the dollar. Each tile shows its newest value and its change against the prior reading or the same month a year earlier.",
+"what_to_make_of_it": "The slow series (CPI, CO2, temperature) are monthly and lag. The VIX is a daily fear gauge: higher means traders are paying more for protection. The dollar tile averages the one-year move against five currencies."
+},
+{
+"id": "t-score",
+"how_to_read": "One row per series. Newest is the freshest reading with its source. The trend columns use a consistent history that can end earlier (see Trend basis). In 52-wk range places the series between its 52-week low (0%) and high (100%). Click a header to sort.",
+"what_to_make_of_it": "Look for series near either end of their range and for large year-to-date moves. Do not compare rows blindly: yields and inflation change in percentage points, the rest in percent, and the newest reading may use a different basis from the trend."
+},
+{
+"id": "c-oil",
+"how_to_read": "Solid lines are EIA daily spot prices for WTI and Brent. Dashed lines end in a dot at the latest futures settles reported by news. Use the range buttons to zoom.",
+"what_to_make_of_it": "Spot and futures are different measures, so a step between the line and the dashed segment is partly basis, not only a price move. EIA publishes with a lag, so the solid lines end earlier than the dashed ones. A widening gap between the two benchmarks signals a squeeze in one of them."
+},
+{
+"id": "c-spread",
+"how_to_read": "Brent minus WTI in dollars per barrel, using EIA daily spot. Above zero means Brent costs more.",
+"what_to_make_of_it": "A wide spread suggests seaborne (Brent) supply is tighter than inland US supply; a narrow one means the two markets are moving together. Judge the level against the history on the chart, not against a single day."
+},
+{
+"id": "c-gas",
+"how_to_read": "Henry Hub is the US natural gas benchmark, in dollars per million BTU, daily from EIA.",
+"what_to_make_of_it": "Gas is driven mainly by US weather and storage, so it often moves differently from oil. A divergence from oil is normal and not a signal by itself."
+},
+{
+"id": "c-ren",
+"how_to_read": "Cumulative installed solar and wind capacity at each year end, in gigawatts (IRENA).",
+"what_to_make_of_it": "A steeper line means faster build-out. Capacity is not output: a gigawatt of solar or wind generates less energy over a year than a gigawatt of conventional plant, so read it as direction and pace."
+},
+{
+"id": "c-adds",
+"how_to_read": "Gigawatts added each year, the year-on-year change of the capacity chart.",
+"what_to_make_of_it": "Rising lines mean deployment is accelerating; a flat or falling year would signal slowing. Compare solar and wind to see which is driving the growth."
+},
+{
+"id": "c-sol",
+"how_to_read": "Year-end solar capacity by region, in gigawatts.",
+"what_to_make_of_it": "Shows concentration: a few regions hold most of the capacity, so the global trend depends on them."
+},
+{
+"id": "c-wind",
+"how_to_read": "Year-end wind capacity by region, in gigawatts.",
+"what_to_make_of_it": "Compare with the solar chart: regional leaders differ, which shows where each technology has scaled."
+},
+{
+"id": "c-met",
+"how_to_read": "Gold, silver, platinum and palladium rebased to 100 on the first day of the window, so percentage moves can be compared on one scale. Daily readings are an aggregator's samples.",
+"what_to_make_of_it": "A line below 100 has fallen since the window began and the lowest line is the weakest performer. These are not official fixings, so treat small day-to-day wiggles with caution."
+},
+{
+"id": "t-metals",
+"how_to_read": "Latest price of each metal, its one-day change and its change since the window started.",
+"what_to_make_of_it": "Read with the indexed chart above it, and check the As of date. Click a header to sort by performance."
+},
+{
+"id": "c-ratio",
+"how_to_read": "How many ounces of silver one ounce of gold buys: quarterly averages from the World Bank and daily aggregator readings.",
+"what_to_make_of_it": "A rising ratio means silver is underperforming gold. Silver is the more industrial and more volatile metal, so a rising ratio often accompanies risk aversion or weaker industrial demand, but it is not a signal on its own."
+},
+{
+"id": "c-mh",
+"how_to_read": "Quarterly average prices from the World Bank, rebased to 100 in the first quarter of 2025, plus the latest spot reading from a different source.",
+"what_to_make_of_it": "Shows the longer arc of where metals stand relative to early 2025. Because the last point comes from another source, treat the final step as approximate."
+},
+{
+"id": "t-mh",
+"how_to_read": "Annual, quarterly and monthly average prices from the World Bank Pink Sheet, plus the latest spot reading.",
+"what_to_make_of_it": "Use it to look up exact levels. Palladium is available only as a 2025 average, and there is no data between April and late September."
+},
+{
+"id": "c-gold",
+"how_to_read": "The line is the monthly gold series; the dot is the latest spot reading, the same figure as the headline tile.",
+"what_to_make_of_it": "A dot below the end of the line means spot has moved below the last monthly average. A monthly average smooths out intramonth swings that the dot does not."
+},
+{
+"id": "c-ust",
+"how_to_read": "The line is the monthly average 10-year Treasury yield; the dot is the latest daily reading from FRED.",
+"what_to_make_of_it": "A higher yield means the government pays more to borrow and investors demand more compensation for inflation and risk. Compare it with inflation in the real-yield chart."
+},
+{
+"id": "c-real",
+"how_to_read": "The 10-year yield minus year-on-year CPI inflation, in percentage points: a rough measure of the return after inflation. It is a proxy, not the official TIPS yield.",
+"what_to_make_of_it": "Positive and rising real yields tighten financial conditions and tend to weigh on assets such as stocks and gold; negative real yields mean borrowing is cheap in real terms. The dashed zero line marks the boundary."
+},
+{
+"id": "c-curve",
+"how_to_read": "Treasury yield at each maturity on one day, from six months to thirty years.",
+"what_to_make_of_it": "An upward slope is normal. A downward slope (an inverted curve) has historically preceded recessions. The 10-year minus 2-year spread in the note is the usual one-number summary."
+},
+{
+"id": "c-atrend",
+"how_to_read": "High yield at each 2-year and 10-year Treasury auction over time.",
+"what_to_make_of_it": "Rising lines mean the Treasury had to pay more to sell its debt. Check the auction table to see whether demand held up."
+},
+{
+"id": "t-auc",
+"how_to_read": "Each Treasury auction with its size, yield, bid-to-cover ratio (bids per dollar offered), who bought it and the coupon. Click a header to sort.",
+"what_to_make_of_it": "A bid-to-cover below its recent average and a larger dealer share point to soft demand. The coupon is the fixed interest the note pays, set just below the auction yield for new issues, and reopenings keep the original coupon."
+},
+{
+"id": "c-sp",
+"how_to_read": "The line is the monthly S&P 500 level; the dot is the latest close reported by news, the same figure as the headline tile.",
+"what_to_make_of_it": "Use the line for trend and the dot for where the index stands now. The monthly series is not cross-checked."
+},
+{
+"id": "c-vix",
+"how_to_read": "The VIX measures the volatility traders expect for the S&P 500 over the next 30 days. The line is a dataset that stopped earlier; the dots are the latest closes reported by news.",
+"what_to_make_of_it": "Higher readings mean traders are paying more for protection, and spikes tend to coincide with selloffs. A fall after a spike usually means the immediate fear has eased."
+},
+{
+"id": "c-fx",
+"how_to_read": "Each currency per US dollar, rebased to 100 two years ago. Above 100 means the dollar is stronger against that currency.",
+"what_to_make_of_it": "Several lines above 100 together suggest broad dollar strength; a mixed picture points to country-specific moves. The table below gives the latest rates and one-year changes."
+},
+{
+"id": "t-corr",
+"how_to_read": "Correlation of monthly changes, from -1 to +1. Positive means two series tend to move together, negative means opposite directions, near zero means no consistent link. Switch between 60 and 12 months with the buttons.",
+"what_to_make_of_it": "Correlation is not causation, and twelve months is only twelve data points. The useful question is whether a relationship is stable between the two windows."
+},
+{
+"id": "c-roll",
+"how_to_read": "A 24-month rolling correlation for the pair you choose with the buttons.",
+"what_to_make_of_it": "If the line swings between positive and negative the relationship is unstable and should not be relied on. A line that stays on one side of zero is a more dependable link."
+},
+{
+"id": "c-conf",
+"how_to_read": "Number of state-based armed conflicts in each region in 2025 (UCDP).",
+"what_to_make_of_it": "Counts show breadth, not severity. Compare with the deaths chart."
+},
+{
+"id": "c-confd",
+"how_to_read": "Battle deaths in 2025 by region, UCDP best estimates.",
+"what_to_make_of_it": "Compare with the conflict counts: where deaths and conflicts diverge, a few very intense wars account for most of the toll."
+},
+{
+"id": "t-regs",
+"how_to_read": "Conflicts, battle deaths, deaths per conflict and each region's share of the world totals, for 2025.",
+"what_to_make_of_it": "A region with a large share of deaths but a small share of conflicts has few, very intense wars. Click a header to rank regions."
+},
+{
+"id": "c-confh",
+"how_to_read": "The world total of state-based conflicts in the years I could verify.",
+"what_to_make_of_it": "Shows the long-run rise in conflict. Only four years appear because those are the figures I could confirm from the source."
+},
+{
+"id": "c-confi",
+"how_to_read": "Conflicts between states, as opposed to conflicts inside one state.",
+"what_to_make_of_it": "Rising counts mean more interstate tension, which tends to carry wider economic and security spillovers."
+},
+{
+"id": "t-conf",
+"how_to_read": "Headline conflict counts and fatalities with a note on each source.",
+"what_to_make_of_it": "Use it for exact figures and caveats behind the charts."
+},
+{
+"id": "t-nuc",
+"how_to_read": "Estimated warheads per country: deployed, reserve, military stockpile, retired and total, with each country's share of the world total.",
+"what_to_make_of_it": "Deployed warheads are the forces ready to use; retired ones await dismantlement. Figures are estimates and are least certain for the most secretive states."
+},
+{
+"id": "c-cpi",
+"how_to_read": "US consumer price inflation, year on year.",
+"what_to_make_of_it": "Compare with the 10-year yield: yields persistently above inflation imply positive real returns. Falling inflation alongside rising yields means tighter real conditions."
+},
+{
+"id": "c-co2",
+"how_to_read": "The rise in atmospheric CO2 compared with the same month a year earlier, in parts per million.",
+"what_to_make_of_it": "A line above zero means CO2 is still accumulating, and its height is the pace. Year-to-year wobble reflects natural cycles as well as emissions."
+},
+{
+"id": "c-temp",
+"how_to_read": "The monthly global temperature anomaly (thin line) and its trailing 12-month mean (thick line).",
+"what_to_make_of_it": "The thick line smooths month-to-month noise, so a sustained upward drift is the signal. The baseline is not stated in the source file."
+},
+{
+"id": "t-concl",
+"how_to_read": "My written interpretation of the whole dashboard, one theme per row, with the evidence it rests on and a confidence level.",
+"what_to_make_of_it": "It is one reader's synthesis, not data. Check the evidence and confidence columns, and ask me to rewrite it after a refresh."
+},
+{
+"id": "t-fresh",
+"how_to_read": "The latest observation in each series and where it comes from. Red means older than expected for the cadence.",
+"what_to_make_of_it": "Stale series can mislead, so weigh them accordingly. This table feeds the freshness line under the Refresh button."
+},
+{
+"id": "t-src",
+"how_to_read": "Which source feeds each view, how the views compare and what I changed.",
+"what_to_make_of_it": "Where views differ by design (futures against spot, daily against monthly) it says so, so you know which differences are real and which are basis."
+},
+{
+"id": "t-news",
+"how_to_read": "A raw feed of prices quoted by news and finance sites, with the basis (close, settle or intraday) and the source of each.",
+"what_to_make_of_it": "Mostly single-sourced, so use it to check the tiles and chart dots rather than as a record. Oil is futures, not EIA spot."
+}
+]

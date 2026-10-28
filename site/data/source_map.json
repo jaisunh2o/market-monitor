@@ -1,0 +1,86 @@
+[
+{
+"measure": "WTI and Brent crude",
+"views": "Headline tiles; oil chart (dots); news panel",
+"source": "Tiles and dots: futures settles reported by news sites. Oil chart, scorecard, spread, correlation: EIA daily spot via public dataset",
+"comparison": "Differ by design: futures settle versus spot. The chart now shows the futures settle as a dot beside the spot line",
+"status": "Labelled on every view; not interchangeable (26 Oct WTI settle 101.76 against 20 Oct EIA spot 107.89)"
+},
+{
+"measure": "US 10-year yield",
+"views": "Headline tile; monthly chart; real-yield chart; yield curve; news panel",
+"source": "Tile and chart dot: FRED DGS10 daily. Monthly chart and real yield: Fed monthly average (FRED GS10). Curve: Treasury par yields via Freenance",
+"comparison": "Agree on 23 Oct: FRED 5.00, curve 5.00, news 5.00. The September monthly average (4.99) is a different measure",
+"status": "Consistent"
+},
+{
+"measure": "Gold",
+"views": "Headline tile; daily indexed chart; latest-prices table; gold-silver ratio; monthly chart (dot); history table; news panel",
+"source": "Tile, daily views: StackerScan aggregator. Monthly chart and history table: World Bank Pink Sheet and public monthly series. News: Motley Fool close",
+"comparison": "Three sources. StackerScan 26 Oct 4,005.36 against Motley Fool 4,026.30 (0.5 percent apart); monthly average 4,319 is a different period",
+"status": "Level differences are source and timing, not errors; the monthly chart now shows the latest spot as a dot"
+},
+{
+"measure": "Silver, platinum, palladium",
+"views": "Daily indexed chart; latest-prices table; ratio; history table",
+"source": "Daily: StackerScan aggregator. History: World Bank Pink Sheet to April 2026. Palladium history: one LBMA average",
+"comparison": "Single source per view; no overlap period to compare",
+"status": "Gap between April and late September"
+},
+{
+"measure": "S&P 500",
+"views": "Headline tile; monthly chart (dot); scorecard; news panel",
+"source": "Tile and dot: TheStreet 26 Oct close. Monthly chart and scorecard: public monthly series compiled from Shiller data",
+"comparison": "Same index, different frequency; tile 7,676.80 against September monthly value 7,669.41",
+"status": "Consistent in level; monthly series not cross-checked"
+},
+{
+"measure": "VIX",
+"views": "Watchlist tile; chart (dots); news panel",
+"source": "Tile and dots: Investing.com and Zacks closes via the news panel. Chart line: public dataset to 22 Sep",
+"comparison": "Tile previously read the stale dataset (14.21 on 22 Sep); now reads the 26 Oct close of 18.39",
+"status": "Fixed"
+},
+{
+"measure": "US inflation, CO2, temperature",
+"views": "Watchlist tiles and climate charts",
+"source": "Public GitHub datasets (BLS CPI, NOAA CO2 and temperature)",
+"comparison": "One source each; tile and chart read the same dataset",
+"status": "Consistent"
+},
+{
+"measure": "Exchange rates",
+"views": "Watchlist tile; indexed chart; table",
+"source": "Public GitHub exchange-rate dataset",
+"comparison": "One source; tile, chart and table read the same dataset",
+"status": "Consistent"
+},
+{
+"measure": "Treasury auctions and coupons",
+"views": "Auction table; auction yield trend",
+"source": "Auction result pages and news (see Coupon basis column)",
+"comparison": "Yields confirmed by two or three sources per auction",
+"status": "Consistent"
+},
+{
+"measure": "Armed conflicts",
+"views": "Region charts and tables; history; headline table",
+"source": "UCDP via the Journal of Peace Research article",
+"comparison": "One source; regional tallies reproduce the article's totals",
+"status": "Consistent"
+},
+{
+"measure": "Solar and wind capacity",
+"views": "World, regional and additions charts",
+"source": "IRENA Renewable Capacity Statistics 2026",
+"comparison": "One source; regional sums reproduce world totals",
+"status": "Consistent"
+},
+{
+"measure": "Nuclear warheads",
+"views": "Totals and country table",
+"source": "Federation of American Scientists, start of 2026",
+"comparison": "One source; table totals reproduce the published totals",
+"status": "Consistent"
+}
+]

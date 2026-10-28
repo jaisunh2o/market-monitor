@@ -1,0 +1,1055 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Global markets, energy and conflict monitor</title><style>
+:root{--color-fg:#1f1e1c;--color-fg-muted:#6b6862;--color-bg:#faf9f6;--color-panel:#ffffff;--color-border-line:#e5e2db;--color-ok:#2f7d4f;--color-warn:#b7791f;--color-bad:#c0392b;
+--cds-radius:10px;--cds-pad-xs:4px;--cds-pad-sm:8px;--cds-pad-md:12px;--cds-pad-lg:16px;--cds-gap-xs:4px;--cds-gap-sm:8px;--cds-gap-md:12px;--cds-gap-lg:22px;
+--cds-font-size-caption:12px;--cds-font-size-body:14px;--cds-font-size-heading:16px;--cds-font-size-title:28px;--cds-font-weight-medium:500;
+--cds-chart-grid:#ecebe6;--cds-chart-axis:#bbb8b0;--cds-chart-reference:#8c8980;--cds-surface-popover:#ffffff;--cds-border:#d8d5cd;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.14);--cds-text-secondary:#6b6862;--cds-dur-slow:300ms;
+--font-anthropic-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;--font-anthropic-serif:Georgia,"Times New Roman",serif}
+@media (prefers-color-scheme:dark){:root{--color-fg:#ecebe7;--color-fg-muted:#a09d95;--color-bg:#1b1a18;--color-panel:#242320;--color-border-line:#37352f;--color-ok:#5bbf84;--color-warn:#e0a84a;--color-bad:#ef6a5b;--cds-chart-grid:#33312c;--cds-chart-axis:#55524a;--cds-chart-reference:#8c8980;--cds-surface-popover:#2b2a26;--cds-border:#44413a;--cds-shadow-popover:0 6px 20px rgba(0,0,0,.5);--cds-text-secondary:#a09d95}}
+html,body{margin:0;background:var(--color-bg);color:var(--color-fg);font-family:var(--font-anthropic-sans)}
+#dash-root{padding:24px clamp(12px,4vw,48px)}
+.dash-skeleton{background:linear-gradient(90deg,transparent,rgba(127,127,127,.12),transparent);border-radius:8px}
+.mm-banner{max-width:1200px;margin:0 auto var(--cds-gap-md);padding:var(--cds-pad-sm) var(--cds-pad-md);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);background:var(--color-panel);color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
+</style><script src="d3.min.js"></script><script>
+(function(){
+  var NAMES = ["daily_markets", "monthly_markets", "renewables", "conflicts_2025", "nuclear_2026", "ust_auctions", "metals_daily", "vix_daily", "fx_daily", "watch_monthly", "news_prices", "yield_curve", "metals_history", "source_map", "claude_conclusion", "chart_guides"], raw = {}, calcs = {}, cache = {}, handlers = [], params = {}, ready = false;
+  function get(id){
+    if (Object.prototype.hasOwnProperty.call(raw, id)) return raw[id];
+    if (calcs[id]) { if (!(id in cache)) cache[id] = calcs[id].fn.apply(null, calcs[id].inputs.map(get)); return cache[id]; }
+    throw new Error('missing source ' + id);
+  }
+  function run(){ if (!ready) return; handlers.forEach(function(f){ try { f(); } catch (e) { console.error(e); } }); }
+  var t; window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(run, 120); });
+  window.dash = {
+    colors: ['#3b6fd8','#e07b39','#2f9e6b','#b84a62','#7a5ac8','#c9a227','#1e9dae','#8c8c8c'],
+    data: function(id){ if (!ready) return {status: 'loading', data: []}; try { var d = get(id); return {status: 'ok', data: d, columns: d.length ? Object.keys(d[0]) : [], refreshing: false, meta: []}; } catch (e) { console.error(e); return {status: 'error', data: [], message: String(e)}; } },
+    calc: function(id, o){ calcs[id] = o; },
+    onData: function(f){ handlers.push(f); },
+    params: function(){ return params; },
+    setParams: function(o){ Object.keys(o).forEach(function(k){ params[k] = o[k]; }); run(); },
+    resetParams: function(){ params = {}; run(); },
+    refresh: function(){}, loader: function(){}, setLink: function(n){ try { history.replaceState(null, '', '#' + n); } catch (e) {} }
+  };
+  function note(txt){ var el = document.getElementById('mm-loaded'); if (el) el.textContent = txt; }
+  window.addEventListener('load', function(){
+    var v = Math.floor(Date.now() / 36e5);
+    Promise.all(NAMES.map(function(n){ return fetch('data/' + n + '.json?v=' + v).then(function(r){ if (!r.ok) throw new Error(n + ' (' + r.status + ')'); return r.json(); }); }))
+      .then(function(a){ NAMES.forEach(function(n, i){ raw[n] = a[i]; }); ready = true;
+        return fetch('data/last_run.json?v=' + v).then(function(r){ return r.ok ? r.json() : null; }).catch(function(){ return null; }); })
+      .then(function(lr){
+        run();
+        if (lr && lr.ran_at) { var d = new Date(lr.ran_at); note('Updated automatically each day from public sources. Last automatic update: ' + d.toLocaleString([], {dateStyle: 'medium', timeStyle: 'short'}) + (lr.failures && lr.failures.length ? ' (some sources failed that run; see the freshness table)' : '') + '. News-site prices, the conclusion and the guides are updated by hand.'); }
+        else note('Data loaded. News-site prices, the conclusion and the guides are updated by hand.');
+        var h = location.hash.slice(1), el = h && document.getElementById(h); if (el) el.scrollIntoView();
+      })
+      .catch(function(e){ note('Could not load the data files (' + e.message + '). If you opened this file straight from your computer, open the website link instead.'); });
+  });
+})();
+</script></head><body><div id="dash-root"><div class="mm" id="mm">
+<style>
+.mm{position:relative;max-width:1200px;margin-inline:auto;font-family:var(--font-anthropic-sans);color:var(--color-fg)}
+.mm *{box-sizing:border-box}
+.mm-title{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);line-height:1.15;margin:0 0 var(--cds-gap-xs)}
+.mm-sub{margin:0 0 var(--cds-gap-md);color:var(--color-fg-muted);font-size:var(--cds-font-size-body);max-width:70ch}
+.mm-sh{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:var(--cds-gap-lg) 0 var(--cds-gap-sm)}
+.mm-kpis{display:grid;gap:var(--cds-gap-md);grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr))}
+.mm-kpi{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-md) var(--cds-pad-lg);min-height:7.5rem}
+.mm-kl{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.mm-kv{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);font-variant-numeric:tabular-nums;margin:var(--cds-gap-xs) 0}
+.mm-kc{font-size:var(--cds-font-size-caption);font-variant-numeric:tabular-nums}
+.mm-kd{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.mm-grid{display:grid;gap:var(--cds-gap-md);grid-template-columns:repeat(auto-fit,minmax(min(100%,22rem),1fr))}
+.mm-card{background:var(--color-panel);border:1px solid var(--color-border-line);border-radius:var(--cds-radius);padding:var(--cds-pad-lg);min-width:0}
+.mm-ct{font-size:var(--cds-font-size-heading);font-weight:var(--cds-font-weight-medium);margin:0}
+.mm-cn{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);margin:2px 0 var(--cds-gap-sm)}
+.mm-chart{min-height:260px;width:100%}
+.mm-chart-s{min-height:150px;width:100%}
+.mm-fail{display:flex;align-items:center;justify-content:center;gap:.5rem;min-height:inherit;color:var(--color-fg-muted);font-size:var(--cds-font-size-caption)}
+.mm-dot{width:.375rem;height:.375rem;border-radius:50%;background:var(--color-bad)}
+.mm-tick{font-size:var(--cds-font-size-caption);fill:var(--color-fg-muted);font-variant-numeric:tabular-nums}
+.mm-lab{font-size:var(--cds-font-size-caption);fill:var(--color-fg);font-variant-numeric:tabular-nums}
+.mm-tip{position:absolute;display:none;pointer-events:none;z-index:5;white-space:nowrap;background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:var(--cds-pad-xs) var(--cds-pad-sm);font-size:var(--cds-font-size-caption)}
+.mm-tip-t{color:var(--cds-text-secondary);margin-bottom:2px}
+.mm-tip-r{display:flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums}
+.mm-sw{width:8px;height:8px;border-radius:2px;display:inline-block}
+.mm-bar{display:flex;gap:var(--cds-gap-xs);flex-wrap:wrap;margin:var(--cds-gap-sm) 0}
+.mm-btn{font:inherit;font-size:var(--cds-font-size-caption);color:var(--color-fg);background:transparent;border:1px solid var(--color-border-line);border-radius:999px;padding:2px 10px;cursor:pointer}
+.mm-btn[aria-pressed=true]{background:var(--color-fg);color:var(--color-bg);border-color:var(--color-fg)}
+.mm-tw{overflow-x:auto}
+.mm-table{border-collapse:collapse;width:100%;font-size:var(--cds-font-size-caption);font-variant-numeric:tabular-nums}
+.mm-table th{text-align:right;font-weight:var(--cds-font-weight-medium);color:var(--color-fg-muted);padding:4px 8px;border-bottom:1px solid var(--color-border-line);white-space:nowrap}
+.mm-table th:first-child,.mm-table td:first-child{text-align:left}
+.mm-table td{padding:5px 8px;border-bottom:1px solid var(--color-border-line);text-align:right;white-space:nowrap}
+.mm-table td.mm-txt{white-space:normal;text-align:left;color:var(--color-fg-muted);min-width:14rem}
+.mm-tot{display:flex;gap:var(--cds-gap-lg);flex-wrap:wrap;margin-bottom:var(--cds-gap-sm)}
+.mm-tot b{font-family:var(--font-anthropic-serif);font-weight:400;font-size:var(--cds-font-size-title);display:block;font-variant-numeric:tabular-nums}
+.mm-tot span.l{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted)}
+.mm-notes{color:var(--color-fg-muted);font-size:var(--cds-font-size-body);max-width:80ch;line-height:1.5}
+.mm-notes li{margin-bottom:var(--cds-gap-xs)}
+[data-dash-source-state=empty]{color:transparent}
+[data-dash-source-state=refreshing]{opacity:.5;transition:opacity var(--cds-dur-slow)}
+.mm-concl td{vertical-align:top;white-space:normal;text-align:left}.mm-concl td:nth-child(3){min-width:30rem;color:var(--color-fg);line-height:1.45}.mm-concl td:nth-child(2){min-width:11rem;font-weight:var(--cds-font-weight-medium)}.mm-concl td:nth-child(4){min-width:10rem;color:var(--color-fg-muted)}.mm-sortbtn{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;text-align:inherit;white-space:inherit}.mm-table th[aria-sort=ascending] .mm-sortbtn::after{content:" \25B2";font-size:.7em}.mm-table th[aria-sort=descending] .mm-sortbtn::after{content:" \25BC";font-size:.7em}.mm-table th[aria-sort=none] .mm-sortbtn::after{content:" \21C5";font-size:.75em;opacity:.35}.mm-sortbtn:hover{text-decoration:underline}.mm-help{font:inherit;font-size:11px;line-height:1;width:18px;height:18px;margin-left:8px;border-radius:50%;border:1px solid var(--color-border-line);background:transparent;color:var(--color-fg-muted);cursor:help;vertical-align:middle;padding:0}.mm-help:hover,.mm-help:focus{background:var(--color-fg);color:var(--color-bg);outline:none}.mm-guide{position:absolute;display:none;z-index:6;width:min(24rem,calc(100% - 16px));background:var(--cds-surface-popover);border:1px solid var(--cds-border);border-radius:var(--cds-radius);box-shadow:var(--cds-shadow-popover);padding:var(--cds-pad-sm) var(--cds-pad-md);font-size:var(--cds-font-size-caption);line-height:1.45;font-weight:400;text-transform:none;letter-spacing:0}.mm-guide b{display:block;margin-top:6px;color:var(--cds-text-secondary);font-weight:var(--cds-font-weight-medium)}.mm-guide b:first-child{margin-top:0}.mm-nav{position:sticky;top:0;z-index:4;background:var(--color-bg);display:flex;gap:var(--cds-gap-xs);flex-wrap:wrap;padding:8px 0;margin:0 0 var(--cds-gap-sm);border-bottom:1px solid var(--color-border-line)}
+.mm-ss{margin:-4px 0 var(--cds-gap-sm);color:var(--color-fg-muted);font-size:var(--cds-font-size-caption);max-width:80ch}
+.mm-sh2{font-size:var(--cds-font-size-caption);color:var(--color-fg-muted);text-transform:uppercase;letter-spacing:.04em;margin:var(--cds-gap-md) 0 var(--cds-gap-xs)}
+</style>
+<div class="mm-tip"></div><div class="mm-guide" id="mm-guide" role="tooltip"></div>
+<div class="mm-title" id="top">Global markets, energy and conflict monitor</div><p class="mm-sub">Prices, rates, conflict, energy transition and nuclear stockpiles, grouped by theme. Each card names its source and cadence; the Data quality section shows where views share a source and where they differ.</p><div class="mm-nav" id="nav"><button class="mm-btn" data-go="overview">Overview</button><button class="mm-btn" data-go="energy">Energy</button><button class="mm-btn" data-go="metals">Metals</button><button class="mm-btn" data-go="rates">Rates</button><button class="mm-btn" data-go="markets">Markets and risk</button><button class="mm-btn" data-go="security">Security</button><button class="mm-btn" data-go="climate">Climate and cost of living</button><button class="mm-btn" data-go="conclusion">Claude's conclusion</button><button class="mm-btn" data-go="quality">Data quality</button><button class="mm-btn" data-go="news">News feed</button></div><div class="mm-sh" id="overview">Overview</div><p class="mm-ss">The headline numbers and how far each series has moved. The reference news feed is at the end.</p><button id="mm-refresh" hidden></button><div class="mm-bar" style="align-items:center;margin-top:0"><button class="mm-btn" data-go="quality">Sources and freshness</button><span class="mm-kd" id="mm-loaded">Loading the latest data files…</span></div><div class="mm-kd" id="mm-fresh" style="margin-bottom:var(--cds-gap-sm)"></div><div class="mm-sh2">Markets</div><div class="mm-kpis" id="headline">
+  <div class="mm-kpi"><div class="mm-kl">WTI crude · futures settle</div>
+    <div class="mm-kv"><span data-source="kpis" data-field="value" data-where="id=wti">—</span></div>
+    <div class="mm-kc"><span data-source="kpis" data-field="change" data-where="id=wti">—</span> <span data-source="kpis" data-field="change_pct" data-where="id=wti">—</span></div>
+    <div class="mm-kd"><span data-source="kpis" data-field="date" data-where="id=wti">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">Brent crude · futures settle</div>
+    <div class="mm-kv"><span data-source="kpis" data-field="value" data-where="id=brent">—</span></div>
+    <div class="mm-kc"><span data-source="kpis" data-field="change" data-where="id=brent">—</span> <span data-source="kpis" data-field="change_pct" data-where="id=brent">—</span></div>
+    <div class="mm-kd"><span data-source="kpis" data-field="date" data-where="id=brent">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">US 10-year yield · daily</div>
+    <div class="mm-kv"><span data-source="kpis" data-field="value" data-where="id=ust10">—</span></div>
+    <div class="mm-kc"><span data-source="kpis" data-field="change" data-where="id=ust10">—</span></div>
+    <div class="mm-kd"><span data-source="kpis" data-field="date" data-where="id=ust10">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">Gold · daily spot</div>
+    <div class="mm-kv"><span data-source="kpis" data-field="value" data-where="id=gold">—</span></div>
+    <div class="mm-kc"><span data-source="kpis" data-field="change" data-where="id=gold">—</span> <span data-source="kpis" data-field="change_pct" data-where="id=gold">—</span></div>
+    <div class="mm-kd"><span data-source="kpis" data-field="date" data-where="id=gold">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">S&amp;P 500 · daily close</div>
+    <div class="mm-kv"><span data-source="kpis" data-field="value" data-where="id=sp500">—</span></div>
+    <div class="mm-kc"><span data-source="kpis" data-field="change" data-where="id=sp500">—</span> <span data-source="kpis" data-field="change_pct" data-where="id=sp500">—</span></div>
+    <div class="mm-kd"><span data-source="kpis" data-field="date" data-where="id=sp500">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">Henry Hub gas · EIA daily</div>
+    <div class="mm-kv"><span data-source="kpis" data-field="value" data-where="id=natgas">—</span></div>
+    <div class="mm-kc"><span data-source="kpis" data-field="change" data-where="id=natgas">—</span> <span data-source="kpis" data-field="change_pct" data-where="id=natgas">—</span></div>
+    <div class="mm-kd"><span data-source="kpis" data-field="date" data-where="id=natgas">—</span></div></div>
+</div><div class="mm-kd" style="margin:var(--cds-gap-sm) 0">Oil tiles show 26 Oct futures settles reported by news sites. The EIA spot series behind the oil chart ends 20 Oct: WTI <span data-source="kpis" data-field="value" data-where="id=wti_spot">—</span>, Brent <span data-source="kpis" data-field="value" data-where="id=brent_spot">—</span>. Gold is an aggregator reading; gas is EIA to 20 Oct.</div><div class="mm-sh2">Beyond markets</div><div class="mm-kpis">
+  <div class="mm-kpi"><div class="mm-kl">US inflation, CPI year on year</div>
+    <div class="mm-kv"><span data-source="watch_kpis" data-field="value" data-where="id=cpi">—</span></div>
+    <div class="mm-kc"><span data-source="watch_kpis" data-field="change" data-where="id=cpi">—</span> <span data-source="watch_kpis" data-field="basis" data-where="id=cpi">—</span></div>
+    <div class="mm-kd"><span data-source="watch_kpis" data-field="date" data-where="id=cpi">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">VIX, market fear gauge</div>
+    <div class="mm-kv"><span data-source="watch_kpis" data-field="value" data-where="id=vix">—</span></div>
+    <div class="mm-kc"><span data-source="watch_kpis" data-field="change" data-where="id=vix">—</span> <span data-source="watch_kpis" data-field="basis" data-where="id=vix">—</span></div>
+    <div class="mm-kd"><span data-source="watch_kpis" data-field="date" data-where="id=vix">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">Atmospheric CO2, Mauna Loa</div>
+    <div class="mm-kv"><span data-source="watch_kpis" data-field="value" data-where="id=co2">—</span></div>
+    <div class="mm-kc"><span data-source="watch_kpis" data-field="change" data-where="id=co2">—</span> <span data-source="watch_kpis" data-field="basis" data-where="id=co2">—</span></div>
+    <div class="mm-kd"><span data-source="watch_kpis" data-field="date" data-where="id=co2">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">Global temperature anomaly</div>
+    <div class="mm-kv"><span data-source="watch_kpis" data-field="value" data-where="id=temp">—</span></div>
+    <div class="mm-kc"><span data-source="watch_kpis" data-field="change" data-where="id=temp">—</span> <span data-source="watch_kpis" data-field="basis" data-where="id=temp">—</span></div>
+    <div class="mm-kd"><span data-source="watch_kpis" data-field="date" data-where="id=temp">—</span></div></div>
+  <div class="mm-kpi"><div class="mm-kl">US dollar vs 5 currencies, 1 year</div>
+    <div class="mm-kv"><span data-source="watch_kpis" data-field="value" data-where="id=usd">—</span></div>
+    <div class="mm-kc"><span data-source="watch_kpis" data-field="basis" data-where="id=usd">—</span></div>
+    <div class="mm-kd"><span data-source="watch_kpis" data-field="date" data-where="id=usd">—</span></div></div>
+</div><div class="mm-bar" id="range-bar" role="group" aria-label="Time range for price charts">
+  <span class="mm-kl" style="align-self:center">Range</span>
+  <button class="mm-btn" data-r="12">1 year</button>
+  <button class="mm-btn" data-r="36">3 years</button>
+  <button class="mm-btn" data-r="120">10 years</button>
+  <button class="mm-btn" data-r="0">Max</button>
+</div><div style="height:var(--cds-gap-md)"></div><div style="height:var(--cds-gap-md)"></div><div class="mm-card"><div class="mm-ct">Scorecard: how far have things moved</div><div class="mm-cn">Newest reading with its source and date, then the trend. The trend (one month, three months, year to date, position in the 52-week range) is computed on a consistent history that ends earlier, shown in the last column: EIA daily spot for oil and gas, monthly values for the rest. The newest reading and the trend can therefore differ in basis.</div><div class="mm-tw"><table class="mm-table" id="t-score" data-source="scorecard" data-row-key="series"><thead><tr><th data-field="series">Series</th><th data-field="newest">Newest</th><th data-field="newest_as_of">As of</th><th data-field="newest_source">Newest source</th><th data-field="chg_1m">1 month</th><th data-field="chg_3m">3 months</th><th data-field="chg_ytd">Year to date</th><th data-field="pos_52w">In 52-wk range</th><th data-field="trend_basis">Trend basis</th></tr></thead><tbody></tbody></table></div></div><div class="mm-sh" id="energy">Energy</div><p class="mm-ss">Oil and gas prices, the spread between the two benchmarks, and the build-out of solar and wind.</p><div class="mm-grid"><div class="mm-card"><div class="mm-ct">Crude oil, daily</div><div class="mm-cn">Solid lines: EIA daily spot, $ per barrel (published with a lag, so they end on 20 Oct; last five WTI spot closes checked against FRED). Dashed lines: futures settles reported by news on 23 and 26 Oct, the two dates two sources agree on. A different measure, so a step between them is partly basis.</div>
+    <div class="mm-chart dash-skeleton" id="c-oil" data-source="daily_markets news_prices"></div></div><div class="mm-card"><div class="mm-ct">Brent minus WTI, daily</div><div class="mm-cn">EIA spot, $ per barrel. A wide gap means the seaborne benchmark is pricing in more scarcity than the US one.</div><div class="mm-chart dash-skeleton" id="c-spread" style="min-height:260px" data-source="oil_spread"></div></div><div class="mm-card"><div class="mm-ct">Henry Hub natural gas, daily</div><div class="mm-cn">EIA spot, $ per million BTU, to 20 Oct.</div><div class="mm-chart dash-skeleton" id="c-gas" style="min-height:260px" data-source="daily_markets"></div></div></div><div class="mm-sh2">Energy transition</div><div class="mm-grid"><div class="mm-card"><div class="mm-ct">Global installed capacity, 2016 to 2025</div><div class="mm-cn">Gigawatts at year end. IRENA Renewable Capacity Statistics 2026.</div>
+    <div class="mm-chart dash-skeleton" id="c-ren" data-source="renew_gw"></div></div><div class="mm-card"><div class="mm-ct">Annual additions, solar and wind</div><div class="mm-cn">Gigawatts added each year, from the change in IRENA year-end capacity.</div><div class="mm-chart dash-skeleton" id="c-adds" style="min-height:260px" data-source="renew_adds"></div></div><div class="mm-card"><div class="mm-ct">Solar by region, 2025</div><div class="mm-cn">Gigawatts at end of 2025.</div>
+    <div class="mm-chart-s dash-skeleton" id="c-sol" style="min-height:260px" data-source="renew_gw"></div></div><div class="mm-card"><div class="mm-ct">Wind by region, 2025</div><div class="mm-cn">Gigawatts at end of 2025.</div>
+    <div class="mm-chart-s dash-skeleton" id="c-wind" style="min-height:260px" data-source="renew_gw"></div></div></div><div class="mm-sh" id="metals">Precious metals</div><p class="mm-ss">Daily moves, the longer record, and the relative price of gold and silver.</p><div class="mm-grid"><div class="mm-card"><div class="mm-ct">Precious metals, daily, indexed</div><div class="mm-cn">Gold, silver, platinum and palladium over the last four weeks, each set to 100 on the first day. Aggregator data (StackerScan, built on Open Exchange Rates), not official fixings.</div>
+    <div class="mm-chart dash-skeleton" id="c-met" data-source="metals_index"></div></div><div class="mm-card"><div class="mm-ct">Latest metal prices</div><div class="mm-cn">US$ per troy ounce, latest reading, with the change over one day and since the window started.</div>
+    <div class="mm-tw"><table class="mm-table" id="t-metals" data-source="metals_latest" data-row-key="metal"><thead><tr><th data-field="metal">Metal</th><th data-field="price">Price</th><th data-field="d1_pct">1 day</th><th data-field="since_pct">Since start</th><th data-field="as_of">As of</th></tr></thead><tbody></tbody></table></div></div><div class="mm-card"><div class="mm-ct">Gold to silver ratio</div><div class="mm-cn">Ounces of silver that one ounce of gold buys. Quarterly averages from the World Bank, daily from the aggregator. A rising ratio means silver is falling faster than gold.</div><div class="mm-chart dash-skeleton" id="c-ratio" style="min-height:260px" data-source="gs_ratio"></div></div><div class="mm-card"><div class="mm-ct">Precious metals since early 2025, indexed</div><div class="mm-cn">Quarterly averages (World Bank Pink Sheet) with the latest spot reading, each set to 100 in Q1 2025. Gold, silver and platinum only; the spot point is from a different source.</div>
+    <div class="mm-chart dash-skeleton" id="c-mh" data-source="metals_hist_index"></div></div><div class="mm-card"><div class="mm-ct">Precious metals history, US$ per ounce</div><div class="mm-cn">Annual, quarterly and monthly averages from the World Bank Pink Sheet (May 2026 edition), plus the latest spot reading. Palladium is not in the Pink Sheet.</div>
+    <div class="mm-tw"><table class="mm-table" id="t-mh" data-source="metals_history" data-row-key="period"><thead><tr><th data-field="period">Period</th><th data-field="gold">Gold</th><th data-field="silver">Silver</th><th data-field="platinum">Platinum</th><th data-field="palladium">Palladium</th><th data-field="source">Source</th></tr></thead><tbody></tbody></table></div></div><div class="mm-card"><div class="mm-ct">Gold, monthly</div><div class="mm-cn">US$ per troy ounce. Line: monthly series (matches the World Bank Pink Sheet where I checked). Dot: the latest aggregator reading, the same figure as the headline tile.</div>
+    <div class="mm-chart dash-skeleton" id="c-gold" data-source="monthly_markets metals_daily"></div></div></div><div class="mm-sh" id="rates">US rates</div><p class="mm-ss">Yields, what they are after inflation, the shape of the curve, and what the Treasury had to pay to sell its debt.</p><div class="mm-grid"><div class="mm-card"><div class="mm-ct">US 10-year Treasury yield, monthly</div><div class="mm-cn">Line: monthly average, % per year (Fed H.15 via FRED, May to Sep 2026 checked). Dot: the latest daily reading from FRED.</div>
+    <div class="mm-chart dash-skeleton" id="c-ust" data-source="monthly_markets daily_markets"></div></div><div class="mm-card"><div class="mm-ct">Real 10-year yield, approximate</div><div class="mm-cn">Monthly 10-year yield minus CPI inflation year on year, percentage points. A rough proxy, not the TIPS yield.</div><div class="mm-chart dash-skeleton" id="c-real" style="min-height:260px" data-source="real_yield"></div></div><div class="mm-card"><div class="mm-ct">US Treasury yield curve, 23 Oct 2026</div>
+  <div class="mm-cn">Par yields by maturity, % per year. The 10-year minus 2-year spread is <span data-source="curve_stats" data-field="value" data-where="id=spread">—</span> percentage points, so the curve is not inverted. Source: Treasury par yields as published by Freenance; the 10-year matches FRED and the 2-year matches a second note.</div>
+  <div class="mm-chart-s dash-skeleton" id="c-curve" style="min-height:230px" data-source="yield_curve"></div></div><div class="mm-card"><div class="mm-ct">Auction yields over time</div><div class="mm-cn">High yield at each 2-year and 10-year auction since May 2026, %.</div><div class="mm-chart dash-skeleton" id="c-atrend" style="min-height:230px" data-source="auction_trend"></div></div></div><div style="height:var(--cds-gap-md)"></div><div class="mm-card"><div class="mm-ct">Recent Treasury auctions</div>
+  <div class="mm-cn">Size in $ billions, yields and coupons in %. Coupons come from the auction result pages; a reopening carries the original issue's coupon. The 26 Oct 2-year coupon is not published yet.</div>
+  <div class="mm-tw"><table class="mm-table" id="t-auc" data-source="ust_auctions" data-row-key="auction"><thead><tr>
+    <th data-field="auction">Auction</th><th data-field="security">Security</th><th data-field="size_usd_bn">Size</th><th data-field="high_yield_pct">High yield</th><th data-field="bid_to_cover">Bid-to-cover</th><th data-field="indirect_pct">Indirect</th><th data-field="direct_pct">Direct</th><th data-field="coupon_pct">Coupon</th><th data-field="coupon_basis">Coupon basis</th><th data-field="source">Source</th></tr></thead><tbody></tbody></table></div></div><div class="mm-sh" id="markets">Markets and risk</div><p class="mm-ss">Equities, volatility, the dollar, and how oil, gold, stocks and yields move together.</p><div class="mm-grid"><div class="mm-card"><div class="mm-ct">S&amp;P 500, monthly</div><div class="mm-cn">Line: monthly value from a public dataset compiled from Shiller data (not cross-checked). Dot: the latest close reported by news, the same figure as the headline tile.</div>
+    <div class="mm-chart dash-skeleton" id="c-sp" data-source="monthly_markets news_prices"></div></div><div class="mm-card"><div class="mm-ct">VIX, daily close</div><div class="mm-cn">Expected 30-day stock-market volatility. Line: public dataset, which stopped on 22 Sep. Dots: the two most recent closes reported by news, the same source as the tile.</div>
+    <div class="mm-chart dash-skeleton" id="c-vix" data-source="vix_daily news_prices"></div></div><div class="mm-card"><div class="mm-ct">US dollar against five currencies, indexed</div><div class="mm-cn">Last two years, each currency set to 100 at the start; above 100 means the dollar is stronger. Rates are units of foreign currency per dollar.</div>
+    <div class="mm-chart dash-skeleton" id="c-fx" data-source="fx_index"></div>
+    <div class="mm-tw"><table class="mm-table" id="t-fx" data-source="fx_latest" data-row-key="currency"><thead><tr><th data-field="currency">Currency</th><th data-field="per_usd">Per US$</th><th data-field="chg_1y_pct">1-year change</th><th data-field="as_of">As of</th></tr></thead><tbody></tbody></table></div></div><div class="mm-card"><div class="mm-ct">Correlation of monthly changes</div><div class="mm-cn">Pearson correlation. Oil, gold and S&amp;P use percentage change in the monthly average; the yield uses change in points. Twelve months is only twelve observations, so read it as a direction, not a measurement.</div><div class="mm-bar" id="corrwin-bar"><button class="mm-btn" data-w="60 months">Last 60 months</button><button class="mm-btn" data-w="12 months">Last 12 months</button></div><div class="mm-tw"><table class="mm-table" id="t-corr" data-source="corr_matrix" data-row-key="window,series"><thead><tr><th data-field="series">Series</th><th data-field="wti">WTI</th><th data-field="gold">Gold</th><th data-field="sp500">S&amp;P 500</th><th data-field="ust10">10-yr yield</th><th data-field="n">Months</th></tr></thead><tbody></tbody></table></div></div><div class="mm-card"><div class="mm-ct">Rolling 24-month correlation</div>
+    <div class="mm-cn">How the relationship between two series has drifted. Pick a pair.</div>
+    <div class="mm-bar" id="pair-bar">
+      <button class="mm-btn" data-p="wti_sp500">Oil · S&amp;P</button><button class="mm-btn" data-p="wti_gold">Oil · gold</button><button class="mm-btn" data-p="wti_ust10">Oil · yield</button>
+      <button class="mm-btn" data-p="gold_sp500">Gold · S&amp;P</button><button class="mm-btn" data-p="gold_ust10">Gold · yield</button><button class="mm-btn" data-p="sp500_ust10">S&amp;P · yield</button></div>
+    <div class="mm-chart-s dash-skeleton" id="c-roll" style="min-height:220px" data-source="roll_corr"></div></div></div><div class="mm-sh" id="security">Security</div><p class="mm-ss">Armed conflict by region and intensity, and nuclear stockpiles.</p><div class="mm-grid"><div class="mm-card"><div class="mm-ct">State-based conflicts by region, 2025</div><div class="mm-cn">UCDP counts, annual, tallied row by row from the journal article's list. Conflicts with at least one government party.</div>
+    <div class="mm-chart-s dash-skeleton" id="c-conf" style="min-height:150px" data-source="conflicts_2025"></div></div><div class="mm-card"><div class="mm-ct">Battle deaths by region, 2025</div><div class="mm-cn">UCDP best estimates, summed from the article's conflict-by-conflict table. Europe is the war in Ukraine alone.</div>
+    <div class="mm-chart-s dash-skeleton" id="c-confd" style="min-height:150px" data-source="conflicts_2025"></div></div><div class="mm-card"><div class="mm-ct">Where the fighting is deadliest, 2025</div><div class="mm-cn">Conflicts and battle deaths by region. Europe has one conflict and most of the deaths; Africa has the most conflicts and a fraction of the deaths per conflict.</div><div class="mm-tw"><table class="mm-table" id="t-regs" data-source="region_stats" data-row-key="region"><thead><tr><th data-field="region">Region</th><th data-field="conflicts">Conflicts</th><th data-field="deaths">Battle deaths</th><th data-field="deaths_per_conflict">Deaths per conflict</th><th data-field="share_conflicts_pct">Share of conflicts</th><th data-field="share_deaths_pct">Share of deaths</th></tr></thead><tbody></tbody></table></div></div><div class="mm-card"><div class="mm-ct">State-based conflicts, selected years</div><div class="mm-cn">Worldwide total, UCDP. Only the years I could verify: 2010, 2023, 2024, 2025.</div>
+    <div class="mm-chart-s dash-skeleton" id="c-confh" style="min-height:120px" data-source="conflicts_2025"></div></div><div class="mm-card"><div class="mm-ct">Interstate conflicts</div><div class="mm-cn">Conflicts between states. Doubled for the second year running.</div>
+    <div class="mm-chart-s dash-skeleton" id="c-confi" style="min-height:90px" data-source="conflicts_2025"></div></div><div class="mm-card"><div class="mm-ct">2025 headline counts</div><div class="mm-cn">Annual figures; the notes say where sources disagree.</div>
+    <div class="mm-tw"><table class="mm-table" id="t-conf" data-source="conflicts_2025" data-row-key="label"><thead><tr>
+      <th data-field="label">Measure</th><th data-field="value">Value</th><th data-field="unit">Unit</th><th data-field="note">Note</th></tr></thead><tbody></tbody></table></div></div></div><div class="mm-sh2">Nuclear</div><div class="mm-card"><div class="mm-ct">Estimated inventories, start of 2026</div><div class="mm-cn">Federation of American Scientists estimates; most states publish no figures, so treat these as estimates with wide error bars. Retired warheads are intact but awaiting dismantlement.</div><div class="mm-tot"><div><b data-source="nuclear_totals" data-field="value" data-where="id=inventory">—</b><span class="l">Total inventory</span></div><div><b data-source="nuclear_totals" data-field="value" data-where="id=stockpile">—</b><span class="l">Military stockpile</span></div><div><b data-source="nuclear_totals" data-field="value" data-where="id=deployed">—</b><span class="l">Deployed strategic</span></div></div><div class="mm-tw"><table class="mm-table" id="t-nuc" data-source="nuclear_view" data-row-key="country"><thead><tr><th data-field="country">Country</th><th data-field="deployed_strategic">Deployed strategic</th><th data-field="deployed_nonstrategic">Deployed non-strategic</th><th data-field="reserve_nondeployed">Reserve</th><th data-field="military_stockpile">Military stockpile</th><th data-field="retired">Retired</th><th data-field="total_inventory">Total inventory</th><th data-field="share_pct">Share of world</th></tr></thead><tbody></tbody></table></div></div><div class="mm-sh" id="climate">Climate and cost of living</div><p class="mm-ss">Inflation and the physical climate, which move slowly but compound.</p><div class="mm-grid"><div class="mm-card"><div class="mm-ct">US inflation, year on year</div><div class="mm-cn">CPI percent change on the same month a year earlier. Monthly, BLS data via a public dataset.</div>
+    <div class="mm-chart dash-skeleton" id="c-cpi" data-source="cpi_yoy"></div></div><div class="mm-card"><div class="mm-ct">CO2 growth, year on year</div><div class="mm-cn">Mauna Loa monthly mean minus the same month a year earlier, ppm. This removes the seasonal sawtooth, so the line shows how fast the atmosphere is accumulating CO2.</div><div class="mm-chart dash-skeleton" id="c-co2" style="min-height:260px" data-source="co2_growth"></div></div><div class="mm-card"><div class="mm-ct">Global temperature anomaly</div><div class="mm-cn">Degrees Celsius against the dataset baseline (NOAA series; baseline not stated in the file I read). Thin line: monthly. Thick line: trailing 12-month mean.</div><div class="mm-chart dash-skeleton" id="c-temp" style="min-height:260px" data-source="temp_ma"></div></div></div><div class="mm-sh" id="conclusion">Claude's conclusion</div>
+<p class="mm-ss">My reading of the whole dashboard: what moves with what, what does not, and how far to trust it. Written on 27 Oct 2026 from the data shown here; it does not update by itself, so ask me to rewrite it after a refresh.</p>
+<div class="mm-card"><div class="mm-ct">Findings and evidence</div><div class="mm-cn">One theme per row, with the evidence on this page and a confidence level. Click a header to sort.</div><div class="mm-tw"><table class="mm-table mm-concl" id="t-concl" data-source="claude_conclusion" data-row-key="theme"><thead><tr><th data-field="theme">Theme</th><th data-field="headline">Finding</th><th data-field="analysis">Analysis</th><th data-field="evidence">Evidence on this page</th><th data-field="confidence">Confidence</th></tr></thead><tbody></tbody></table></div></div>
+<div class="mm-sh" id="quality">Data quality</div><p class="mm-ss">Freshness of every series, where each number comes from, and what this page does not cover.</p><div class="mm-card"><div class="mm-ct">Freshness by series</div><div class="mm-cn">Latest observation in each series and where it comes from. Red means it is older than expected for its cadence (5 days for daily series, 60 days for monthly, 400 days for annual).</div>
+  <div class="mm-tw"><table class="mm-table" id="t-fresh" data-source="freshness" data-row-key="series"><thead><tr><th data-field="series">Series</th><th data-field="cadence">Cadence</th><th data-field="source">Primary source</th><th data-field="latest">Latest data</th></tr></thead><tbody></tbody></table></div></div><div style="height:var(--cds-gap-md)"></div><div class="mm-card"><div class="mm-ct">Where each number comes from</div><div class="mm-cn">Which source feeds each view, how the views compare, and what I did about differences.</div><div class="mm-tw"><table class="mm-table" id="t-src" data-source="source_map" data-row-key="measure"><thead><tr><th data-field="measure">Measure</th><th data-field="views">Shown in</th><th data-field="source">Source</th><th data-field="comparison">How they compare</th><th data-field="status">Status</th></tr></thead><tbody></tbody></table></div></div><ul class="mm-notes" style="margin-top:var(--cds-gap-md)"><li>Metals: monthly averages stop at April 2026 (World Bank), then daily readings run from late September; palladium has no history beyond a 2025 average.</li><li>Conflicts: regional counts and deaths are 2025 only; the article's regional history chart is an image whose values I could not read.</li><li>The 26 Oct 2-year note's coupon is not published yet. The 30-year yield is only the 23 Oct reading.</li><li>Oil, gas and the VIX line lag the news; the headline tiles and chart dots carry newer readings. Oil there is futures, not spot.</li><li>This page does not fetch new data by itself: say "refresh my dashboard" to Claude.</li></ul><div class="mm-sh" id="news">Latest from the news</div><p class="mm-ss">Reference feed: prices quoted by news and finance sites on 22 to 27 Oct, used for the headline tiles and chart dots. Oil here is futures, not the EIA spot series.</p><div class="mm-card"><div class="mm-ct">Prices quoted by news sites</div><div class="mm-cn">Prices quoted by news sites on 23 to 27 Oct, newer than the datasets below. Oil here is futures, not the EIA spot series, so levels differ. Each row names its source and whether it is a close, a settle or an intraday reading.</div>
+  <div class="mm-tw"><table class="mm-table" id="t-news" data-source="news_prices" data-row-key="as_of,series"><thead><tr><th data-field="as_of">As of</th><th data-field="series">Series</th><th data-field="value">Value</th><th data-field="unit">Unit</th><th data-field="basis">Basis</th><th data-field="source">Source</th></tr></thead><tbody></tbody></table></div></div>
+<script>
+(function(){
+const root = document.getElementById('dash-root');
+const wrap = root.querySelector('.mm');
+const tip = wrap.querySelector('.mm-tip');
+const F = {d0:d3.format(',.0f'), d1:d3.format(',.1f'), d2:d3.format(',.2f'), c0:d3.format('+,.0f'), c1:d3.format('+.1f'), c2:d3.format('+.2f'), r2:d3.format('.2f'), s2:d3.format('+.2f')};
+const pm = s => new Date(s + '-01T00:00:00Z');
+const pd = s => new Date(s + 'T00:00:00Z');
+const fDay = d3.utcFormat('%b %-d, %Y'), fMon = d3.utcFormat('%b %Y'), fYr = d3.utcFormat('%Y');
+
+/* ---------- calcs ---------- */
+dash.calc('kpis', {
+  inputs: ['daily_markets', 'news_prices', 'metals_daily'],
+  title: 'Latest value and change',
+  description: 'Headline values. Oil and the S&P 500 use the newest news-reported settle or close that carries a stated day change; the dollar change is the sourced figure where one is given, otherwise derived from the percentage. The 10-year yield and gas use the latest daily observation against the one before. Gold uses the latest aggregator reading against the day before. The two spot rows give the EIA oil series for comparison.',
+  fn: (dailyMarkets, newsPrices, metalsDaily) => {
+    const mk = (id, label, rows, key, dk, unit, cadence) => {
+      const o = rows.filter(r => r[key] !== null && r[key] !== undefined);
+      const a = o[o.length - 1], b = o[o.length - 2];
+      return {id: id, label: label, date: a[dk], value: a[key], prior_date: b[dk], prior: b[key],
+        change: Math.round((a[key] - b[key]) * 100) / 100,
+        change_pct: Math.round((a[key] / b[key] - 1) * 1000) / 10, unit: unit, cadence: cadence};
+    };
+    const live = (id, label, series, unit) => {
+      const o = newsPrices.filter(r => r.series === series && r.change_pct != null).sort((x, y) => (x.as_of < y.as_of ? 1 : -1))[0];
+      return {id: id, label: label, date: o.as_of, value: o.value, prior_date: null, prior: null,
+        change: o.change_abs != null ? o.change_abs : Math.round(o.value * o.change_pct / (100 + o.change_pct) * 100) / 100, change_pct: o.change_pct, unit: unit, cadence: 'daily'};
+    };
+    return [
+      live('wti', 'WTI crude', 'WTI crude (futures)', '$/bbl'),
+      live('brent', 'Brent crude', 'Brent crude (futures)', '$/bbl'),
+      mk('ust10', 'US 10-year yield', dailyMarkets, 'ust10_pct', 'date', '%', 'daily'),
+      mk('natgas', 'Henry Hub gas', dailyMarkets, 'natgas', 'date', '$/MMBtu', 'daily'),
+      mk('gold', 'Gold', metalsDaily, 'gold', 'date', '$/oz', 'daily'),
+      live('sp500', 'S&P 500', 'S&P 500', 'pts'),
+      mk('wti_spot', 'WTI spot (EIA)', dailyMarkets, 'wti', 'date', '$/bbl', 'daily'),
+      mk('brent_spot', 'Brent spot (EIA)', dailyMarkets, 'brent', 'date', '$/bbl', 'daily')
+    ];
+  }
+});
+
+dash.calc('panel', {
+  inputs: ['daily_markets', 'monthly_markets'],
+  title: 'Monthly panel and changes',
+  description: 'Monthly average WTI joined to monthly gold, S&P 500 and 10-year yield, with month-on-month changes (percent for prices, points for the yield).',
+  fn: (dailyMarkets, monthlyMarkets) => {
+    const acc = {};
+    for (const r of dailyMarkets) {
+      if (r.wti === null || r.wti === undefined) continue;
+      const m = r.date.slice(0, 7);
+      (acc[m] = acc[m] || []).push(r.wti);
+    }
+    const rows = [];
+    for (const r of monthlyMarkets) {
+      const a = acc[r.month];
+      if (!a || r.gold_usd == null || r.sp500 == null || r.ust10_pct == null) continue;
+      rows.push({month: r.month, wti: a.reduce((s, x) => s + x, 0) / a.length, gold: r.gold_usd, sp500: r.sp500, ust10: r.ust10_pct});
+    }
+    rows.sort((x, y) => (x.month < y.month ? -1 : 1));
+    return rows.map((r, i) => {
+      if (i === 0) return {month: r.month, wti: r.wti, gold: r.gold, sp500: r.sp500, ust10: r.ust10, d_wti: null, d_gold: null, d_sp500: null, d_ust10: null};
+      const p = rows[i - 1];
+      return {month: r.month, wti: r.wti, gold: r.gold, sp500: r.sp500, ust10: r.ust10,
+        d_wti: (r.wti / p.wti - 1) * 100, d_gold: (r.gold / p.gold - 1) * 100, d_sp500: (r.sp500 / p.sp500 - 1) * 100, d_ust10: r.ust10 - p.ust10};
+    });
+  }
+});
+
+dash.calc('corr_matrix', {
+  inputs: ['panel'],
+  title: 'Correlation matrix',
+  description: 'Pearson correlation of month-on-month changes over the latest 60 months and the latest 12 months of the monthly panel.',
+  fn: (panel) => {
+    const pear = (a, b) => {
+      const n = a.length, ma = a.reduce((s, x) => s + x, 0) / n, mb = b.reduce((s, x) => s + x, 0) / n;
+      let sab = 0, saa = 0, sbb = 0;
+      for (let i = 0; i < n; i++) { sab += (a[i] - ma) * (b[i] - mb); saa += (a[i] - ma) ** 2; sbb += (b[i] - mb) ** 2; }
+      return Math.round(sab / Math.sqrt(saa * sbb) * 100) / 100;
+    };
+    const keys = ['wti', 'gold', 'sp500', 'ust10'];
+    const names = {wti: 'WTI', gold: 'Gold', sp500: 'S&P 500', ust10: '10-yr yield'};
+    const out = [];
+    for (const n of [60, 12]) {
+      const w = panel.filter(r => r.d_wti !== null).slice(-n);
+      for (const k of keys) {
+        const row = {window: n + ' months', series: names[k]};
+        for (const j of keys) row[j] = pear(w.map(r => r['d_' + k]), w.map(r => r['d_' + j]));
+        row.n = w.length;
+        out.push(row);
+      }
+    }
+    return out;
+  }
+});
+
+dash.calc('roll_corr', {
+  inputs: ['panel'],
+  title: 'Rolling correlations',
+  description: 'Pearson correlation of month-on-month changes over a trailing 24-month window, for each pair of series.',
+  fn: (panel) => {
+    const pear = (a, b) => {
+      const n = a.length, ma = a.reduce((s, x) => s + x, 0) / n, mb = b.reduce((s, x) => s + x, 0) / n;
+      let sab = 0, saa = 0, sbb = 0;
+      for (let i = 0; i < n; i++) { sab += (a[i] - ma) * (b[i] - mb); saa += (a[i] - ma) ** 2; sbb += (b[i] - mb) ** 2; }
+      return sab / Math.sqrt(saa * sbb);
+    };
+    const w = panel.filter(r => r.d_wti !== null);
+    const pairs = [['wti', 'sp500'], ['wti', 'gold'], ['wti', 'ust10'], ['gold', 'sp500'], ['gold', 'ust10'], ['sp500', 'ust10']];
+    const out = [];
+    for (let i = 23; i < w.length; i++) {
+      const win = w.slice(i - 23, i + 1);
+      for (const p of pairs) out.push({month: w[i].month, pair: p[0] + '_' + p[1], r: Math.round(pear(win.map(r => r['d_' + p[0]]), win.map(r => r['d_' + p[1]])) * 1000) / 1000});
+    }
+    return out;
+  }
+});
+
+dash.calc('renew_gw', {
+  inputs: ['renewables'],
+  title: 'Capacity in gigawatts',
+  description: 'IRENA year-end megawatts converted to gigawatts, with year-on-year growth in percent.',
+  fn: (renewables) => {
+    const g = v => (v === null || v === undefined) ? null : Math.round(v / 100) / 10;
+    const key = {};
+    for (const r of renewables) key[r.region + '|' + r.year] = r;
+    return renewables.map(r => {
+      const p = key[r.region + '|' + (r.year - 1)];
+      return {year: r.year, region: r.region, solar_gw: g(r.solar_mw), wind_gw: g(r.wind_mw),
+        solar_yoy_pct: p ? Math.round((r.solar_mw / p.solar_mw - 1) * 1000) / 10 : null,
+        wind_yoy_pct: p ? Math.round((r.wind_mw / p.wind_mw - 1) * 1000) / 10 : null,
+        all_renewables_gw: g(r.all_renewables_mw)};
+    });
+  }
+});
+
+dash.calc('nuclear_totals', {
+  inputs: ['nuclear_2026'],
+  title: 'Nuclear totals',
+  description: 'Sum of the nine national rows: total inventory, military stockpile and deployed strategic warheads. FAS prints about 3,912 for deployed strategic; its footnote says its figures may not add up, and the rows sum to 3,900.',
+  fn: (nuclear2026) => {
+    const s = k => nuclear2026.reduce((a, r) => a + (r[k] || 0), 0);
+    return [{id: 'inventory', value: s('total_inventory')}, {id: 'stockpile', value: s('military_stockpile')}, {id: 'deployed', value: s('deployed_strategic')}];
+  }
+});
+
+
+dash.calc('metals_latest', {
+  inputs: ['metals_daily'],
+  title: 'Latest metal prices',
+  description: 'Latest reading of each metal, its change over one day and since the first day of the window.',
+  fn: (metalsDaily) => {
+    const names = {gold: 'Gold', silver: 'Silver', platinum: 'Platinum', palladium: 'Palladium'};
+    const a = metalsDaily[metalsDaily.length - 1], b = metalsDaily[metalsDaily.length - 2], f = metalsDaily[0];
+    return Object.keys(names).map(k => ({metal: names[k], price: a[k], d1_pct: Math.round((a[k] / b[k] - 1) * 1000) / 10, since_pct: Math.round((a[k] / f[k] - 1) * 1000) / 10, as_of: a.date}));
+  }
+});
+
+dash.calc('metals_index', {
+  inputs: ['metals_daily'],
+  title: 'Metals indexed to 100',
+  description: 'Each metal divided by its first-day price in the window and multiplied by 100.',
+  fn: (metalsDaily) => {
+    const f = metalsDaily[0], keys = ['gold', 'silver', 'platinum', 'palladium'];
+    return metalsDaily.map(r => { const o = {date: r.date}; for (const k of keys) o[k] = Math.round(r[k] / f[k] * 10000) / 100; return o; });
+  }
+});
+
+dash.calc('cpi_yoy', {
+  inputs: ['watch_monthly'],
+  title: 'US CPI year on year',
+  description: 'CPI index divided by the index twelve months earlier, minus one, in percent.',
+  fn: (watchMonthly) => {
+    const idx = {};
+    for (const r of watchMonthly) if (r.cpi_index != null) idx[r.month] = r.cpi_index;
+    const out = [];
+    for (const r of watchMonthly) {
+      if (r.cpi_index == null) continue;
+      const prev = idx[String(Number(r.month.slice(0, 4)) - 1) + r.month.slice(4)];
+      if (prev) out.push({month: r.month, cpi_yoy_pct: Math.round((r.cpi_index / prev - 1) * 1000) / 10});
+    }
+    return out;
+  }
+});
+
+dash.calc('fx_latest', {
+  inputs: ['fx_daily'],
+  title: 'Latest exchange rates',
+  description: 'Latest rate for each currency and its percent change over one year (positive means a stronger dollar).',
+  fn: (fxDaily) => {
+    const names = {eur: 'EUR', gbp: 'GBP', jpy: 'JPY', cny: 'CNY', inr: 'INR'};
+    return Object.keys(names).map(k => {
+      const o = fxDaily.filter(r => r[k] != null), a = o[o.length - 1];
+      const t = new Date(a.date + 'T00:00:00Z'); t.setUTCFullYear(t.getUTCFullYear() - 1);
+      const ty = t.toISOString().slice(0, 10);
+      let b = o[0];
+      for (const r of o) { if (r.date <= ty) b = r; else break; }
+      return {currency: names[k], per_usd: a[k], as_of: a.date, chg_1y_pct: Math.round((a[k] / b[k] - 1) * 1000) / 10};
+    });
+  }
+});
+
+dash.calc('fx_index', {
+  inputs: ['fx_daily'],
+  title: 'Exchange rates indexed',
+  description: 'Last two years of each currency per dollar, set to 100 at its first value in the window.',
+  fn: (fxDaily) => {
+    const t = new Date(fxDaily[fxDaily.length - 1].date + 'T00:00:00Z'); t.setUTCFullYear(t.getUTCFullYear() - 2);
+    const ts = t.toISOString().slice(0, 10), w = fxDaily.filter(r => r.date >= ts), keys = ['eur', 'gbp', 'jpy', 'cny', 'inr'], base = {};
+    for (const k of keys) { const f = w.find(r => r[k] != null); base[k] = f ? f[k] : null; }
+    return w.map(r => { const o = {date: r.date}; for (const k of keys) o[k] = (r[k] != null && base[k]) ? Math.round(r[k] / base[k] * 10000) / 100 : null; return o; });
+  }
+});
+
+dash.calc('watch_kpis', {
+  inputs: ['cpi_yoy', 'news_prices', 'watch_monthly', 'fx_latest'],
+  title: 'Watchlist headline values',
+  description: 'Latest value of each watchlist series with its change against the prior reading or the same month a year earlier. The VIX uses the two most recent closes reported by news.',
+  fn: (cpiYoy, newsPrices, watchMonthly, fxLatest) => {
+    const lastOf = (rows, key) => { const o = rows.filter(r => r[key] != null); return [o[o.length - 1], o[o.length - 2]]; };
+    const yearAgo = (rows, key, a) => rows.find(r => r.month === String(Number(a.month.slice(0, 4)) - 1) + a.month.slice(4) && r[key] != null);
+    const r2 = x => Math.round(x * 100) / 100;
+    const [c1, c0] = lastOf(cpiYoy, 'cpi_yoy_pct');
+    const vx = newsPrices.filter(r => r.series === 'VIX').sort((a, b) => (a.as_of < b.as_of ? 1 : -1));
+    const o1 = lastOf(watchMonthly, 'co2_ppm')[0], o0 = yearAgo(watchMonthly, 'co2_ppm', o1);
+    const t1 = lastOf(watchMonthly, 'temp_anomaly_c')[0], t0 = yearAgo(watchMonthly, 'temp_anomaly_c', t1);
+    const avg = fxLatest.reduce((s, r) => s + r.chg_1y_pct, 0) / fxLatest.length;
+    return [
+      {id: 'cpi', date: c1.month, value: c1.cpi_yoy_pct, change: r2(c1.cpi_yoy_pct - c0.cpi_yoy_pct), basis: 'vs prior month', cadence: 'monthly'},
+      {id: 'vix', date: vx[0].as_of, value: vx[0].value, change: r2(vx[0].value - vx[1].value), basis: 'vs prior close', cadence: 'daily'},
+      {id: 'co2', date: o1.month, value: o1.co2_ppm, change: r2(o1.co2_ppm - o0.co2_ppm), basis: 'vs a year earlier', cadence: 'monthly'},
+      {id: 'temp', date: t1.month, value: t1.temp_anomaly_c, change: r2(t1.temp_anomaly_c - t0.temp_anomaly_c), basis: 'vs a year earlier', cadence: 'monthly'},
+      {id: 'usd', date: fxLatest[0].as_of, value: Math.round(avg * 10) / 10, change: null, basis: 'average of EUR, GBP, JPY, CNY, INR', cadence: 'daily'}
+    ];
+  }
+});
+
+dash.calc('freshness', {
+  inputs: ['daily_markets', 'monthly_markets', 'metals_daily', 'vix_daily', 'fx_daily', 'watch_monthly', 'news_prices', 'yield_curve', 'ust_auctions', 'metals_history', 'conflicts_2025', 'renewables'],
+  title: 'Latest date per series',
+  description: 'The most recent non-empty observation of each series, with its cadence and primary source. Nuclear inventories carry the FAS start-of-2026 estimate date as a constant.',
+  fn: (dailyMarkets, monthlyMarkets, metalsDaily, vixDaily, fxDaily, watchMonthly, newsPrices, yieldCurve, ustAuctions, metalsHistory, conflicts2025, renewables) => {
+    const row = (series, cadence, source, rows, key, dk) => { const o = rows.filter(r => r[key] != null); return {series: series, cadence: cadence, source: source, latest: o.length ? o[o.length - 1][dk] : null}; };
+    const top = arr => arr.slice().sort().slice(-1)[0];
+    return [
+      row('WTI crude, EIA spot', 'daily', 'EIA via public dataset', dailyMarkets, 'wti', 'date'),
+      row('Brent crude, EIA spot', 'daily', 'EIA via public dataset', dailyMarkets, 'brent', 'date'),
+      row('Henry Hub gas', 'daily', 'EIA via public dataset', dailyMarkets, 'natgas', 'date'),
+      row('US 10-year yield, daily', 'daily', 'FRED DGS10', dailyMarkets, 'ust10_pct', 'date'),
+      row('Gold, S&P 500, 10-year, monthly', 'monthly', 'Public monthly series; Fed H.15', monthlyMarkets, 'gold_usd', 'month'),
+      row('Precious metals, daily', 'daily', 'StackerScan aggregator', metalsDaily, 'gold', 'date'),
+      row('VIX line', 'daily', 'Public dataset', vixDaily, 'close', 'date'),
+      row('Exchange rates', 'daily', 'Public dataset', fxDaily, 'eur', 'date'),
+      row('US CPI', 'monthly', 'BLS via public dataset', watchMonthly, 'cpi_index', 'month'),
+      row('CO2', 'monthly', 'NOAA via public dataset', watchMonthly, 'co2_ppm', 'month'),
+      row('Temperature anomaly', 'monthly', 'NOAA via public dataset', watchMonthly, 'temp_anomaly_c', 'month'),
+      {series: 'News prices (oil futures, stocks, VIX, yields)', cadence: 'daily', source: 'News and finance sites', latest: top(newsPrices.map(r => r.as_of))},
+      {series: 'Treasury yield curve', cadence: 'daily', source: 'Treasury par yields via Freenance', latest: yieldCurve[0].date},
+      {series: 'Treasury auctions', cadence: 'monthly', source: 'Auction result pages and news', latest: top(ustAuctions.map(r => r.auction))},
+      {series: 'Precious metals history', cadence: 'monthly', source: 'World Bank Pink Sheet', latest: top(metalsHistory.filter(r => r.kind === 'month').map(r => r.date)).slice(0, 7)},
+      {series: 'Armed conflicts', cadence: 'annual', source: 'UCDP via Journal of Peace Research', latest: top(conflicts2025.filter(r => r.kind === 'history').map(r => r.label))},
+      {series: 'Solar and wind capacity', cadence: 'annual', source: 'IRENA', latest: String(Math.max(...renewables.map(r => r.year)))},
+      {series: 'Nuclear inventories', cadence: 'annual', source: 'Federation of American Scientists', latest: '2026'}
+    ];
+  }
+});
+
+dash.calc('curve_stats', {
+  inputs: ['yield_curve'],
+  title: 'Curve spread',
+  description: 'The 10-year yield minus the 2-year yield, in percentage points.',
+  fn: (yieldCurve) => {
+    const y = t => yieldCurve.find(r => r.tenor === t).yield_pct;
+    return [{id: 'spread', value: Math.round((y('10Y') - y('2Y')) * 100) / 100}];
+  }
+});
+
+dash.calc('metals_hist_index', {
+  inputs: ['metals_history'],
+  title: 'Metals history indexed',
+  description: 'Quarterly averages and the latest spot reading, each metal divided by its Q1 2025 value and multiplied by 100.',
+  fn: (metalsHistory) => {
+    const rows = metalsHistory.filter(r => r.kind === 'quarter' || r.kind === 'spot'), b = rows[0];
+    return rows.map(r => ({date: r.date, gold: Math.round(r.gold / b.gold * 10000) / 100, silver: Math.round(r.silver / b.silver * 10000) / 100, platinum: Math.round(r.platinum / b.platinum * 10000) / 100}));
+  }
+});
+
+dash.calc('scorecard', {
+  inputs: ['daily_markets', 'monthly_markets', 'cpi_yoy', 'news_prices', 'metals_daily'],
+  title: 'Scorecard',
+  description: 'Newest reading of each series with its source, plus change over one month, three months and year to date and the position within the trailing 52-week range. The trend is computed on a consistent history that ends earlier (EIA daily for oil and gas, monthly values for the rest), shown in the trend basis column; the newest reading can come from a different source. Yield and inflation changes are in percentage points, others in percent. Silver, platinum and palladium have only a one-month window from the aggregator.',
+  fn: (dailyMarkets, monthlyMarkets, cpiYoy, newsPrices, metalsDaily) => {
+    const iso = d => d.toISOString().slice(0, 10);
+    const shiftD = (s, n) => { const d = new Date(s + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate() - n); return iso(d); };
+    const shiftM = (s, n) => { const d = new Date(s + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth() - n); return iso(d); };
+    const at = (rows, s) => { let r = null; for (const x of rows) { if (x.d <= s) r = x; else break; } return r; };
+    const r1 = x => Math.round(x * 10) / 10, r2 = x => Math.round(x * 100) / 100;
+    const news = (series, label) => { const o = newsPrices.filter(r => r.series === series && r.change_pct != null).sort((x, y) => (x.as_of < y.as_of ? 1 : -1))[0]; return {value: o.value, date: o.as_of, source: label}; };
+    const lastOf = (rows, key, label) => { const o = rows.filter(r => r[key] != null); const a = o[o.length - 1]; return {value: a[key], date: a.date, source: label}; };
+    const build = (series, basis, unit, rows, monthly, yld, newest) => {
+      const a = rows[rows.length - 1];
+      const back = n => (monthly ? at(rows, shiftM(a.d, n)) : at(rows, shiftD(a.d, n === 1 ? 30 : 91)));
+      const ytd = at(rows, (Number(a.d.slice(0, 4)) - 1) + '-12-31');
+      const win = monthly ? rows.filter(r => r.d > shiftM(a.d, 12)) : rows.filter(r => r.d > shiftD(a.d, 365));
+      const hi = Math.max(...win.map(r => r.v)), lo = Math.min(...win.map(r => r.v));
+      const ch = b => (b ? (yld ? r2(a.v - b.v) : r1((a.v / b.v - 1) * 100)) : null);
+      const nw = newest || {value: a.v, date: monthly ? a.d.slice(0, 7) : a.d, source: basis};
+      return {series: series, unit: unit, newest: nw.value, newest_as_of: nw.date, newest_source: nw.source, chg_1m: ch(back(1)), chg_3m: ch(back(3)), chg_ytd: ch(ytd), pos_52w: r1((a.v - lo) / (hi - lo) * 100), trend_basis: basis + ' to ' + (monthly ? a.d.slice(0, 7) : a.d)};
+    };
+    const dly = key => dailyMarkets.filter(r => r[key] != null).map(r => ({d: r.date, v: r[key]}));
+    const mon = key => monthlyMarkets.filter(r => r[key] != null).map(r => ({d: r.month + '-01', v: r[key]}));
+    const ml = metalsDaily[metalsDaily.length - 1], mf = metalsDaily[0];
+    const metal = (series, key) => ({series: series, unit: '$/oz', newest: ml[key], newest_as_of: ml.date, newest_source: 'Aggregator daily', chg_1m: r1((ml[key] / mf[key] - 1) * 100), chg_3m: null, chg_ytd: null, pos_52w: null, trend_basis: 'Aggregator daily, ' + mf.date + ' to ' + ml.date});
+    return [
+      build('WTI crude', 'EIA daily spot', '$/bbl', dly('wti'), false, false, news('WTI crude (futures)', 'News futures settle')),
+      build('Brent crude', 'EIA daily spot', '$/bbl', dly('brent'), false, false, news('Brent crude (futures)', 'News futures settle')),
+      build('Henry Hub gas', 'EIA daily spot', '$/MMBtu', dly('natgas'), false, false, null),
+      build('US 10-year yield', 'Monthly average', '%', mon('ust10_pct'), true, true, lastOf(dailyMarkets, 'ust10_pct', 'FRED daily')),
+      build('Gold', 'Monthly value', '$/oz', mon('gold_usd'), true, false, lastOf(metalsDaily, 'gold', 'Aggregator daily')),
+      metal('Silver', 'silver'), metal('Platinum', 'platinum'), metal('Palladium', 'palladium'),
+      build('S&P 500', 'Monthly value', 'pts', mon('sp500'), true, false, news('S&P 500', 'News close')),
+      build('US CPI inflation', 'Monthly, year on year', '%', cpiYoy.map(r => ({d: r.month + '-01', v: r.cpi_yoy_pct})), true, true, null)
+    ];
+  }
+});
+
+dash.calc('oil_spread', {
+  inputs: ['daily_markets'],
+  title: 'Brent minus WTI',
+  description: 'EIA daily Brent spot minus WTI spot, on days where both exist.',
+  fn: (dailyMarkets) => dailyMarkets.filter(r => r.wti != null && r.brent != null).map(r => ({date: r.date, spread: Math.round((r.brent - r.wti) * 100) / 100}))
+});
+
+dash.calc('gs_ratio', {
+  inputs: ['metals_history', 'metals_daily'],
+  title: 'Gold to silver ratio',
+  description: 'Gold price divided by silver price: quarterly averages from the World Bank and daily aggregator readings.',
+  fn: (metalsHistory, metalsDaily) => {
+    const out = [];
+    for (const r of metalsHistory) if (r.kind === 'quarter') out.push({date: r.date, quarterly: Math.round(r.gold / r.silver * 10) / 10, daily: null});
+    for (const r of metalsDaily) out.push({date: r.date, quarterly: null, daily: Math.round(r.gold / r.silver * 10) / 10});
+    return out.sort((a, b) => (a.date < b.date ? -1 : 1));
+  }
+});
+
+dash.calc('real_yield', {
+  inputs: ['monthly_markets', 'cpi_yoy'],
+  title: 'Approximate real 10-year yield',
+  description: 'Monthly 10-year yield minus CPI inflation year on year, in percentage points. A proxy, not the TIPS yield.',
+  fn: (monthlyMarkets, cpiYoy) => {
+    const c = {};
+    for (const r of cpiYoy) c[r.month] = r.cpi_yoy_pct;
+    return monthlyMarkets.filter(r => r.ust10_pct != null && c[r.month] != null).map(r => ({month: r.month, ust10_pct: r.ust10_pct, cpi_yoy_pct: c[r.month], real_pct: Math.round((r.ust10_pct - c[r.month]) * 100) / 100}));
+  }
+});
+
+dash.calc('auction_trend', {
+  inputs: ['ust_auctions'],
+  title: 'Auction yields over time',
+  description: 'High yield of each 2-year and 10-year note auction, by date.',
+  fn: (ustAuctions) => ustAuctions.filter(r => /^(10|2)-year note/.test(r.security)).map(r => ({date: r.auction.length === 7 ? r.auction + '-15' : r.auction, tenor: r.security.indexOf('10') === 0 ? '10-year' : '2-year', yield_pct: r.high_yield_pct}))
+});
+
+dash.calc('region_stats', {
+  inputs: ['conflicts_2025'],
+  title: 'Conflict intensity by region',
+  description: 'Conflicts and best-estimate battle deaths per region, deaths per conflict, and each region\'s share of the world totals.',
+  fn: (conflicts2025) => {
+    const c = {}, d = {};
+    for (const r of conflicts2025) { if (r.kind === 'region') c[r.label] = r.value; if (r.kind === 'region_deaths') d[r.label] = r.value; }
+    const tc = Object.keys(c).reduce((a, k) => a + c[k], 0), td = Object.keys(d).reduce((a, k) => a + d[k], 0);
+    return Object.keys(c).map(k => ({region: k, conflicts: c[k], deaths: d[k], deaths_per_conflict: Math.round(d[k] / c[k]), share_conflicts_pct: Math.round(c[k] / tc * 1000) / 10, share_deaths_pct: Math.round(d[k] / td * 1000) / 10})).sort((a, b) => b.deaths - a.deaths);
+  }
+});
+
+dash.calc('co2_growth', {
+  inputs: ['watch_monthly'],
+  title: 'CO2 growth',
+  description: 'Monthly mean CO2 minus the same month a year earlier, in ppm.',
+  fn: (watchMonthly) => {
+    const v = {};
+    for (const r of watchMonthly) if (r.co2_ppm != null) v[r.month] = r.co2_ppm;
+    return watchMonthly.filter(r => r.co2_ppm != null && v[String(Number(r.month.slice(0, 4)) - 1) + r.month.slice(4)] != null).map(r => ({month: r.month, co2_yoy_ppm: Math.round((r.co2_ppm - v[String(Number(r.month.slice(0, 4)) - 1) + r.month.slice(4)]) * 100) / 100}));
+  }
+});
+
+dash.calc('temp_ma', {
+  inputs: ['watch_monthly'],
+  title: 'Temperature with 12-month mean',
+  description: 'Monthly temperature anomaly and its trailing 12-month mean.',
+  fn: (watchMonthly) => {
+    const t = watchMonthly.filter(r => r.temp_anomaly_c != null);
+    return t.map((r, i) => ({month: r.month, anomaly_c: r.temp_anomaly_c, ma12_c: i >= 11 ? Math.round(t.slice(i - 11, i + 1).reduce((s, x) => s + x.temp_anomaly_c, 0) / 12 * 1000) / 1000 : null}));
+  }
+});
+
+dash.calc('renew_adds', {
+  inputs: ['renewables'],
+  title: 'Annual solar and wind additions',
+  description: 'Year-on-year change in IRENA world year-end capacity, in gigawatts.',
+  fn: (renewables) => {
+    const w = renewables.filter(r => r.region === 'World').sort((a, b) => a.year - b.year);
+    return w.slice(1).map((r, i) => ({year: r.year, solar_add_gw: Math.round((r.solar_mw - w[i].solar_mw) / 100) / 10, wind_add_gw: Math.round((r.wind_mw - w[i].wind_mw) / 100) / 10}));
+  }
+});
+
+dash.calc('nuclear_view', {
+  inputs: ['nuclear_2026'],
+  title: 'Nuclear inventories with retired warheads',
+  description: 'FAS national rows plus retired warheads (total inventory minus military stockpile) and each country\'s share of the world inventory.',
+  fn: (nuclear2026) => {
+    const t = nuclear2026.reduce((a, r) => a + r.total_inventory, 0);
+    return nuclear2026.map(r => ({country: r.country, deployed_strategic: r.deployed_strategic, deployed_nonstrategic: r.deployed_nonstrategic, reserve_nondeployed: r.reserve_nondeployed, military_stockpile: r.military_stockpile, total_inventory: r.total_inventory, retired: r.total_inventory - r.military_stockpile, share_pct: Math.round(r.total_inventory / t * 1000) / 10}));
+  }
+});
+
+/* ---------- helpers ---------- */
+function tipShow(title, lines, ev) {
+  tip.replaceChildren();
+  const t = document.createElement('div'); t.className = 'mm-tip-t'; t.textContent = title; tip.append(t);
+  for (const l of lines) {
+    const row = document.createElement('div'); row.className = 'mm-tip-r';
+    if (l.color) { const sw = document.createElement('span'); sw.className = 'mm-sw'; sw.style.background = l.color; row.append(sw); }
+    row.append(document.createTextNode(l.name + ' ' + l.value));
+    tip.append(row);
+  }
+  tip.style.display = 'block';
+  const b = wrap.getBoundingClientRect();
+  let x = ev.clientX - b.left + 14; const y = ev.clientY - b.top + 14;
+  const w = tip.offsetWidth;
+  if (x + w > b.width) x = ev.clientX - b.left - w - 14;
+  if (x < 0) x = 0;
+  tip.style.left = x + 'px'; tip.style.top = y + 'px';
+}
+const tipHide = () => { tip.style.display = 'none'; };
+
+function failBox(el) {
+  el.classList.remove('dash-skeleton'); el.replaceChildren();
+  const d = document.createElement('div'); d.className = 'mm-fail';
+  const dot = document.createElement('span'); dot.className = 'mm-dot';
+  d.append(dot, document.createTextNode('Failed to load')); el.append(d);
+}
+function guard(el, ids, draw) {
+  const sts = ids.map(i => dash.data(i).status);
+  if (sts.some(s => s !== 'ok' && s !== 'loading')) return failBox(el);
+  if (sts.some(s => s === 'loading')) return;
+  draw();
+}
+
+function styleAxis(g) {
+  g.attr('font-size', null).attr('font-family', null);
+  g.select('.domain').attr('stroke', 'var(--cds-chart-axis)');
+  g.selectAll('.tick line').attr('stroke', 'var(--cds-chart-axis)');
+  g.selectAll('text').attr('font-size', null).attr('font-family', null).attr('class', 'mm-tick').attr('fill', null);
+}
+
+function lineChart(el, cfg) {
+  el.replaceChildren(); el.classList.remove('dash-skeleton');
+  const W = el.clientWidth; if (!W) return;
+  const H = cfg.h || 260, B = 24, T = 8;
+  const all = cfg.series.flatMap(s => s.pts);
+  if (!all.length) return;
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H);
+  const ymin = d3.min(all, d => d.y), ymax = d3.max(all, d => d.y);
+  const pad = (ymax - ymin) * 0.08 || 1;
+  const y = d3.scaleLinear([cfg.yMin !== undefined ? cfg.yMin : ymin - pad, cfg.yMax !== undefined ? cfg.yMax : ymax + pad], [H - B, T]);
+  if (cfg.yMin === undefined) y.nice();
+  const ticks = y.ticks(5);
+  const meas = svg.append('text').attr('class', 'mm-tick');
+  let ml = 0, mr = 8;
+  for (const t of ticks) { meas.text(cfg.yFmt(t)); ml = Math.max(ml, meas.node().getComputedTextLength()); }
+  const ends = cfg.series.map(s => ({s: s, last: s.pts[s.pts.length - 1]})).filter(e => e.last);
+  meas.attr('class', 'mm-lab');
+  for (const e of ends) { meas.text(e.s.name + ' ' + cfg.yFmt(e.last.y)); mr = Math.max(mr, meas.node().getComputedTextLength() + 12); }
+  meas.remove();
+  const L = ml + 10, R = W - mr;
+  const x = d3.scaleUtc(d3.extent(all, d => d.x), [L, R]);
+  for (const t of ticks) {
+    svg.append('line').attr('x1', L).attr('x2', R).attr('y1', y(t)).attr('y2', y(t)).attr('stroke', 'var(--cds-chart-grid)').attr('stroke-width', 1);
+    svg.append('text').attr('class', 'mm-tick').attr('x', L - 6).attr('y', y(t) + 4).attr('text-anchor', 'end').text(cfg.yFmt(t));
+  }
+  if (cfg.ref !== undefined) svg.append('line').attr('x1', L).attr('x2', R).attr('y1', y(cfg.ref)).attr('y2', y(cfg.ref)).attr('stroke', 'var(--cds-chart-reference)').attr('stroke-dasharray', '4 4');
+  svg.append('g').attr('transform', 'translate(0,' + (H - B) + ')').call(d3.axisBottom(x).ticks(Math.max(2, Math.floor((R - L) / 100))).tickFormat(cfg.xFmt).tickSizeOuter(0)).call(styleAxis);
+  const line = d3.line().x(d => x(d.x)).y(d => y(d.y));
+  cfg.series.forEach(s => {
+    if (s.dot || s.pts.length < 2) s.pts.forEach(pt => svg.append('circle').attr('cx', x(pt.x)).attr('cy', y(pt.y)).attr('r', 5).style('fill', s.color).attr('stroke', 'var(--color-panel)').attr('stroke-width', 2));
+    else { svg.append('path').datum(s.pts).attr('fill', 'none').attr('stroke', s.color).attr('stroke-width', s.thick ? 3 : 2).attr('stroke-linecap', s.dashed ? 'butt' : 'round').attr('stroke-linejoin', 'round').attr('stroke-dasharray', s.dashed ? '6 4' : null).attr('d', line); if (s.dashed) { const e = s.pts[s.pts.length - 1]; svg.append('circle').attr('cx', x(e.x)).attr('cy', y(e.y)).attr('r', 5).style('fill', s.color).attr('stroke', 'var(--color-panel)').attr('stroke-width', 2); } }
+  });
+  ends.sort((a, b) => y(a.last.y) - y(b.last.y));
+  let prev = -1e9;
+  for (const e of ends) { e.ly = Math.max(y(e.last.y), prev + 14); prev = e.ly; }
+  for (const e of ends) svg.append('text').attr('class', 'mm-lab').attr('x', x(e.last.x) + 6).attr('y', e.ly + 4).attr('fill', e.s.color).style('fill', e.s.color).text(e.s.name + ' ' + cfg.yFmt(e.last.y));
+  const rule = svg.append('line').attr('y1', T).attr('y2', H - B).attr('stroke', 'var(--cds-chart-reference)').attr('display', 'none');
+  const dots = cfg.series.map(s => svg.append('circle').attr('r', 4).attr('fill', s.color).attr('stroke', 'var(--color-panel)').attr('stroke-width', 2).attr('display', 'none'));
+  const bis = d3.bisector(d => d.x).center;
+  svg.append('rect').attr('x', L).attr('y', T).attr('width', Math.max(0, R - L)).attr('height', H - B - T).attr('fill', 'transparent')
+    .on('pointermove', ev => {
+      const mx = d3.pointer(ev, svg.node())[0], xd = x.invert(mx), lines = []; let anchor = null;
+      cfg.series.forEach((s, i) => {
+        if (!s.pts.length || s.dot || s.dashed || s.pts.length < 2) return;
+        const p = s.pts[bis(s.pts, xd)];
+        dots[i].attr('cx', x(p.x)).attr('cy', y(p.y)).attr('display', null);
+        lines.push({color: s.color, name: s.name, value: cfg.yFmt(p.y)});
+        if (!anchor) anchor = p;
+      });
+      if (anchor) { rule.attr('x1', x(anchor.x)).attr('x2', x(anchor.x)).attr('display', null); tipShow(cfg.tipFmt(anchor.x), lines, ev); }
+    })
+    .on('pointerleave', () => { rule.attr('display', 'none'); dots.forEach(d => d.attr('display', 'none')); tipHide(); });
+}
+
+function barChart(el, cfg) {
+  el.replaceChildren(); el.classList.remove('dash-skeleton');
+  const W = el.clientWidth; if (!W || !cfg.items.length) return;
+  const rh = 28, H = cfg.items.length * rh + 6;
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('height', H).attr('viewBox', '0 0 ' + W + ' ' + H);
+  const meas = svg.append('text').attr('class', 'mm-lab');
+  let ml = 0, mr = 0;
+  for (const d of cfg.items) {
+    meas.text(d.label); ml = Math.max(ml, meas.node().getComputedTextLength());
+    meas.text(cfg.fmt(d.value)); mr = Math.max(mr, meas.node().getComputedTextLength());
+  }
+  meas.remove();
+  const x = d3.scaleLinear([0, d3.max(cfg.items, d => d.value) || 1], [0, Math.max(10, W - ml - mr - 24)]);
+  cfg.items.forEach((d, i) => {
+    const yy = i * rh + 3;
+    svg.append('text').attr('class', 'mm-lab').attr('x', 0).attr('y', yy + 15).text(d.label);
+    svg.append('rect').attr('x', ml + 10).attr('y', yy + 3).attr('height', 16).attr('width', Math.max(2, x(d.value))).attr('rx', 4).style('fill', cfg.color);
+    svg.append('text').attr('class', 'mm-lab').attr('x', ml + 10 + Math.max(2, x(d.value)) + 6).attr('y', yy + 15).text(cfg.fmt(d.value));
+  });
+}
+
+const sortState = {};
+function fillTable(tbl, id, spec, rowsFilter) {
+  tbl._redraw = () => fillTable(tbl, id, spec, rowsFilter);
+  const d = dash.data(id);
+  const body = tbl.tBodies[0] || tbl.createTBody();
+  if (d.status !== 'ok') { body.replaceChildren(); return; }
+  const fields = [...tbl.querySelectorAll('th[data-field]')].map(t => t.dataset.field);
+  body.replaceChildren();
+  let rows = rowsFilter ? d.data.filter(rowsFilter) : d.data;
+  const st = sortState[tbl.id] || (sortState[tbl.id] = {field: null, dir: 1});
+  if (!tbl._sortInit) {
+    tbl._sortInit = true;
+    tbl.querySelectorAll('th[data-field]').forEach(th => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'mm-sortbtn'; b.textContent = th.textContent;
+      b.addEventListener('click', () => { const s = sortState[tbl.id]; if (s.field === th.dataset.field) s.dir = -s.dir; else { s.field = th.dataset.field; s.dir = 1; } tbl._redraw(); });
+      th.replaceChildren(b);
+    });
+  }
+  tbl.querySelectorAll('th[data-field]').forEach(th => th.setAttribute('aria-sort', st.field === th.dataset.field ? (st.dir === 1 ? 'ascending' : 'descending') : 'none'));
+  if (st.field) {
+    const f = st.field, k = st.dir;
+    rows = rows.slice().sort((a, b) => {
+      const x = a[f], y = b[f];
+      if (x == null && y == null) return 0;
+      if (x == null) return 1;
+      if (y == null) return -1;
+      return (typeof x === 'number' && typeof y === 'number' ? x - y : String(x).localeCompare(String(y), undefined, {numeric: true})) * k;
+    });
+  }
+  for (const r of rows) {
+    const tr = body.insertRow();
+    if (tbl.dataset.rowKey) tr.dataset.key = tbl.dataset.rowKey.split(',').map(k => encodeURIComponent(r[k.trim()])).join(',');
+    fields.forEach((f, i) => {
+      const td = tr.insertCell(); const v = r[f];
+      td.textContent = spec[f] ? spec[f](v, r) : (v === null || v === undefined ? '—' : String(v));
+      if (spec.__text && spec.__text.includes(f)) td.className = 'mm-txt';
+      if (spec.__style) spec.__style(td, f, r);
+    });
+  }
+}
+
+const refreshIds = ['daily_markets', 'monthly_markets', 'renewables', 'conflicts_2025', 'nuclear_2026', 'ust_auctions', 'metals_daily', 'vix_daily', 'fx_daily', 'watch_monthly', 'news_prices', 'yield_curve', 'metals_history', 'source_map', 'claude_conclusion', 'chart_guides'];
+q('#mm-refresh').addEventListener('click', () => {
+  refreshIds.forEach(i => { try { dash.refresh(i); } catch (e) { console.error(e); } });
+  q('#mm-loaded').textContent = 'Reloaded at ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) + '. This re-reads the saved data; new data arrives when you tell Claude: refresh my dashboard.';
+});
+const rangeMonths = () => { const v = dash.params().range; return v === null || v === undefined ? 36 : Number(v); };
+const cut = (last, m) => (m === 0 ? new Date(0) : d3.utcMonth.offset(last, -m));
+
+function syncButtons() {
+  const r = String(rangeMonths()), p = dash.params().pair || 'wti_sp500', w = dash.params().corrwin || '60 months';
+  root.querySelectorAll('#range-bar .mm-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.r === r)));
+  root.querySelectorAll('#pair-bar .mm-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.p === p)));
+  root.querySelectorAll('#corrwin-bar .mm-btn').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.w === w)));
+}
+root.querySelectorAll('#range-bar .mm-btn').forEach(b => b.addEventListener('click', () => dash.setParams({range: b.dataset.r})));
+root.querySelectorAll('#pair-bar .mm-btn').forEach(b => b.addEventListener('click', () => dash.setParams({pair: b.dataset.p})));
+root.querySelectorAll('#corrwin-bar .mm-btn').forEach(b => b.addEventListener('click', () => dash.setParams({corrwin: b.dataset.w})));
+root.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => { const el = document.getElementById(b.dataset.go); if (el) { el.scrollIntoView(); dash.setLink(b.dataset.go); } }));
+
+const pairNames = {wti_sp500: 'Oil · S&P 500', wti_gold: 'Oil · gold', wti_ust10: 'Oil · 10-yr yield', gold_sp500: 'Gold · S&P 500', gold_ust10: 'Gold · 10-yr yield', sp500_ust10: 'S&P 500 · 10-yr yield'};
+
+
+const guideBox = wrap.querySelector('#mm-guide');
+let guideMap = {};
+function guideHide() { guideBox.style.display = 'none'; }
+function guideShow(btn, r) {
+  guideBox.replaceChildren();
+  const h1 = document.createElement('b'); h1.textContent = 'How to read it';
+  const p1 = document.createElement('div'); p1.textContent = r.how_to_read;
+  const h2 = document.createElement('b'); h2.textContent = 'What to make of it';
+  const p2 = document.createElement('div'); p2.textContent = r.what_to_make_of_it;
+  guideBox.append(h1, p1, h2, p2);
+  guideBox.style.display = 'block';
+  const wb = wrap.getBoundingClientRect(), bb = btn.getBoundingClientRect();
+  let left = bb.left - wb.left - 8;
+  const w = guideBox.offsetWidth;
+  if (left + w > wb.width) left = Math.max(0, wb.width - w);
+  if (left < 0) left = 0;
+  guideBox.style.left = left + 'px';
+  guideBox.style.top = (bb.bottom - wb.top + 6) + 'px';
+}
+function addHelp(head, r) {
+  const b = document.createElement('button'); b.type = 'button'; b.className = 'mm-help'; b.textContent = '?'; b.setAttribute('aria-label', 'How to read this and what to make of it');
+  b.addEventListener('mouseenter', () => guideShow(b, r)); b.addEventListener('focus', () => guideShow(b, r));
+  b.addEventListener('mouseleave', guideHide); b.addEventListener('blur', guideHide);
+  b.addEventListener('click', ev => { ev.stopPropagation(); if (guideBox.style.display === 'block') guideHide(); else guideShow(b, r); });
+  head.append(b);
+}
+document.addEventListener('click', guideHide);
+
+/* ---------- draw ---------- */
+dash.onData(() => {
+  syncButtons();
+  const m = rangeMonths();
+  const C = dash.colors;
+  const xf = m > 0 && m <= 12 ? d3.utcFormat('%b %Y') : fYr;
+  const fmtU = (v, u) => (v == null ? '—' : u === '%' ? F.r2(v) + '%' : u === '$/oz' ? '$' + F.d0(v) : u === 'pts' ? F.d0(v) : '$' + F.d2(v));
+  const fmtC = (v, u) => (v == null ? '—' : u === '%' ? F.s2(v) + ' pp' : F.c1(v) + '%');
+  const run = fn => { try { fn(); } catch (e) { console.error(e); } };
+
+
+  // guides: a ? button on every chart and table card
+  run(() => {
+    const g = dash.data('chart_guides');
+    if (g.status !== 'ok') return;
+    guideMap = {};
+    g.data.forEach(r => { guideMap[r.id] = r; });
+    root.querySelectorAll('.mm-card').forEach(cardEl => {
+      if (cardEl.dataset.guided) return;
+      const t = cardEl.querySelector('[id^="c-"],[id^="t-"]');
+      const r = t ? guideMap[t.id] : null;
+      const head = cardEl.querySelector('.mm-ct');
+      if (!r || !head) return;
+      addHelp(head, r); cardEl.dataset.guided = '1';
+    });
+    root.querySelectorAll('.mm-sh2').forEach(h => {
+      if (h.dataset.guided) return;
+      const key = h.firstChild && h.firstChild.textContent.trim() === 'Markets' ? 'tiles_markets' : h.firstChild && h.firstChild.textContent.trim() === 'Beyond markets' ? 'tiles_beyond' : null;
+      if (key && guideMap[key]) { addHelp(h, guideMap[key]); h.dataset.guided = '1'; }
+    });
+  });
+
+  // headline tiles
+  run(() => {
+    const kp = dash.data('kpis');
+    root.querySelectorAll('[data-source="kpis"][data-field]').forEach(el => {
+      const id = (el.dataset.where || '').split('=')[1];
+      const r = kp.status === 'ok' ? kp.data.find(x => x.id === id) : null;
+      if (!r) { el.textContent = '—'; return; }
+      const f = el.dataset.field;
+      if (f === 'value') el.textContent = r.unit === '%' ? F.r2(r.value) + '%' : r.unit === '$/oz' ? '$' + F.d0(r.value) : r.unit === 'pts' ? F.d2(r.value) : '$' + F.d2(r.value);
+      else if (f === 'change') el.textContent = r.unit === '%' ? F.s2(r.change) + ' pp' : r.unit === '$/oz' ? F.c0(r.change) : F.c2(r.change);
+      else if (f === 'change_pct') el.textContent = '(' + F.d1(r.change_pct) + '%)';
+      else if (f === 'date') el.textContent = (r.cadence === 'monthly' ? 'Month of ' + fMon(pm(r.date.slice(0, 7))) : fDay(pd(r.date))) + ' vs prior ' + (r.cadence === 'monthly' ? 'month' : 'close');
+    });
+  });
+  // watchlist tiles
+  run(() => {
+    const wk = dash.data('watch_kpis');
+    const wf = {cpi: {v: v => F.d1(v) + '%', c: v => F.c1(v) + ' pp'}, vix: {v: v => F.d1(v), c: v => F.c2(v) + ' pts'}, co2: {v: v => F.d1(v) + ' ppm', c: v => F.c2(v) + ' ppm'}, temp: {v: v => F.r2(v) + ' °C', c: v => F.s2(v) + ' °C'}, usd: {v: v => F.c1(v) + '%', c: null}};
+    root.querySelectorAll('[data-source="watch_kpis"][data-field]').forEach(el => {
+      const id = (el.dataset.where || '').split('=')[1];
+      const r = wk.status === 'ok' ? wk.data.find(x => x.id === id) : null;
+      if (!r) { el.textContent = '—'; return; }
+      const f = el.dataset.field;
+      if (f === 'value') el.textContent = wf[id].v(r.value);
+      else if (f === 'change') el.textContent = r.change == null || !wf[id].c ? '—' : wf[id].c(r.change);
+      else if (f === 'basis') el.textContent = r.basis;
+      else if (f === 'date') el.textContent = r.cadence === 'monthly' ? 'Month of ' + fMon(pm(r.date.slice(0, 7))) : fDay(pd(r.date));
+    });
+  });
+
+  // news, scorecard, freshness, source map
+  run(() => {
+    const nf = (v, unit) => unit === '%' ? String(v) + '%' : (unit === '$/bbl' || unit === '$/oz') ? '$' + d3.format(',.2~f')(v) : d3.format(',.2~f')(v);
+    fillTable(q('#t-news'), 'news_prices', {as_of: v => fDay(pd(v)), value: (v, r) => nf(v, r.unit), __text: ['source']});
+    fillTable(q('#t-score'), 'scorecard', {newest: (v, r) => fmtU(v, r.unit), newest_as_of: v => (v.length === 7 ? fMon(pm(v)) : fDay(pd(v))), chg_1m: (v, r) => fmtC(v, r.unit), chg_3m: (v, r) => fmtC(v, r.unit), chg_ytd: (v, r) => fmtC(v, r.unit), pos_52w: v => (v == null ? '—' : F.d0(v) + '%'), __text: ['newest_source', 'trend_basis']});
+    const parseL = v => (v.length === 4 ? new Date(Date.UTC(Number(v), 11, 31)) : v.length === 7 ? pm(v) : pd(v));
+    const limit = c => (c === 'daily' ? 5 : c === 'monthly' ? 60 : 400);
+    fillTable(q('#t-fresh'), 'freshness', {
+      latest: v => (v == null ? '—' : v.length === 4 ? v : v.length === 7 ? fMon(pm(v)) : fDay(pd(v))),
+      __text: ['source'],
+      __style: (td, f, r) => { if (f === 'latest' && r.latest && (Date.now() - parseL(r.latest).getTime()) / 864e5 > limit(r.cadence)) td.style.color = 'var(--color-bad)'; }
+    });
+    const fr = dash.data('freshness');
+    if (fr.status === 'ok') {
+      const stale = fr.data.filter(r => r.latest && (Date.now() - parseL(r.latest).getTime()) / 864e5 > limit(r.cadence)).map(r => r.series);
+      const nw = fr.data.find(r => r.series.indexOf('News prices') === 0);
+      q('#mm-fresh').textContent = stale.length + ' of ' + fr.data.length + ' series are older than expected' + (stale.length ? ': ' + stale.join('; ') : '') + '. Newest reading: ' + (nw ? fDay(pd(nw.latest)) : '—') + ' (news). Each tile and chart names its source; the Data quality section lists them all.';
+    }
+    fillTable(q('#t-src'), 'source_map', {__text: ['views', 'source', 'comparison', 'status']});
+    fillTable(q('#t-concl'), 'claude_conclusion', {__text: ['headline', 'analysis', 'evidence', 'confidence']});
+  });
+
+  // energy
+  run(() => guard(q('#c-oil'), ['daily_markets', 'news_prices'], () => {
+    const rows = dash.data('daily_markets').data;
+    const c = cut(pd(rows.filter(r => r.wti != null).slice(-1)[0].date), m);
+    const spot = (name, key, col) => ({name: name, color: col, pts: rows.filter(r => r[key] != null && pd(r.date) >= c).map(r => ({x: pd(r.date), y: r[key]}))});
+    const fut = (name, series, col) => { const o = dash.data('news_prices').data.filter(r => r.series === series && r.change_pct != null).sort((a, b) => (a.as_of < b.as_of ? -1 : 1)); return {name: name, color: col, dashed: true, pts: o.map(r => ({x: pd(r.as_of), y: r.value}))}; };
+    lineChart(q('#c-oil'), {series: [spot('WTI spot', 'wti', C[0]), spot('Brent spot', 'brent', C[1]), fut('WTI futures', 'WTI crude (futures)', C[0]), fut('Brent futures', 'Brent crude (futures)', C[1])], yFmt: v => '$' + F.d0(v), xFmt: xf, tipFmt: fDay});
+  }));
+  run(() => guard(q('#c-spread'), ['oil_spread'], () => {
+    const rows = dash.data('oil_spread').data, c = cut(pd(rows[rows.length - 1].date), m);
+    lineChart(q('#c-spread'), {series: [{name: 'Brent − WTI', color: C[4], pts: rows.filter(r => pd(r.date) >= c).map(r => ({x: pd(r.date), y: r.spread}))}], yFmt: v => '$' + F.d0(v), xFmt: xf, tipFmt: fDay, ref: 0});
+  }));
+  run(() => guard(q('#c-gas'), ['daily_markets'], () => {
+    const rows = dash.data('daily_markets').data.filter(r => r.natgas != null), c = cut(pd(rows[rows.length - 1].date), m);
+    lineChart(q('#c-gas'), {series: [{name: 'Gas', color: C[5], pts: rows.filter(r => pd(r.date) >= c).map(r => ({x: pd(r.date), y: r.natgas}))}], yFmt: v => '$' + F.d2(v), xFmt: xf, tipFmt: fDay});
+  }));
+  run(() => {
+    guard(q('#c-ren'), ['renew_gw'], () => {
+      const rows = dash.data('renew_gw').data.filter(r => r.region === 'World'), yr = y => new Date(Date.UTC(y, 0, 1));
+      lineChart(q('#c-ren'), {series: [{name: 'Solar', color: C[2], pts: rows.map(r => ({x: yr(r.year), y: r.solar_gw}))}, {name: 'Wind', color: C[0], pts: rows.map(r => ({x: yr(r.year), y: r.wind_gw}))}], yFmt: v => F.d0(v) + ' GW', xFmt: fYr, tipFmt: fYr, yMin: 0});
+    });
+    guard(q('#c-adds'), ['renew_adds'], () => {
+      const rows = dash.data('renew_adds').data, yr = y => new Date(Date.UTC(y, 0, 1));
+      lineChart(q('#c-adds'), {series: [{name: 'Solar', color: C[2], pts: rows.map(r => ({x: yr(r.year), y: r.solar_add_gw}))}, {name: 'Wind', color: C[0], pts: rows.map(r => ({x: yr(r.year), y: r.wind_add_gw}))}], yFmt: v => F.d0(v) + ' GW', xFmt: fYr, tipFmt: fYr, yMin: 0});
+    });
+    const reg = (sel, key, col) => guard(q(sel), ['renew_gw'], () => {
+      const items = dash.data('renew_gw').data.filter(r => r.year === 2025 && r.region !== 'World').map(r => ({label: r.region, value: r[key]})).sort((a, b) => b.value - a.value);
+      barChart(q(sel), {items: items, fmt: v => F.d1(v) + ' GW', color: col});
+    });
+    reg('#c-sol', 'solar_gw', C[2]); reg('#c-wind', 'wind_gw', C[0]);
+  });
+
+  // metals
+  run(() => {
+    guard(q('#c-met'), ['metals_index'], () => {
+      const rows = dash.data('metals_index').data;
+      const mk = (name, key, col) => ({name: name, color: col, pts: rows.filter(r => r[key] != null).map(r => ({x: pd(r.date), y: r[key]}))});
+      lineChart(q('#c-met'), {series: [mk('Gold', 'gold', C[2]), mk('Silver', 'silver', C[5]), mk('Platinum', 'platinum', C[0]), mk('Palladium', 'palladium', C[3])], yFmt: v => F.d0(v), xFmt: d3.utcFormat('%b %-d'), tipFmt: fDay});
+    });
+    fillTable(q('#t-metals'), 'metals_latest', {price: v => '$' + F.d2(v), d1_pct: v => F.c1(v) + '%', since_pct: v => F.c1(v) + '%', as_of: v => fDay(pd(v))});
+    guard(q('#c-ratio'), ['gs_ratio'], () => {
+      const rows = dash.data('gs_ratio').data;
+      lineChart(q('#c-ratio'), {series: [{name: 'Quarterly', color: C[2], pts: rows.filter(r => r.quarterly != null).map(r => ({x: pd(r.date), y: r.quarterly}))}, {name: 'Daily', color: C[5], pts: rows.filter(r => r.daily != null).map(r => ({x: pd(r.date), y: r.daily}))}], yFmt: v => F.d0(v), xFmt: d3.utcFormat('%b %Y'), tipFmt: fMon});
+    });
+    guard(q('#c-mh'), ['metals_hist_index'], () => {
+      const rows = dash.data('metals_hist_index').data;
+      const mk = (name, key, col) => ({name: name, color: col, pts: rows.map(r => ({x: pd(r.date), y: r[key]}))});
+      lineChart(q('#c-mh'), {series: [mk('Gold', 'gold', C[2]), mk('Silver', 'silver', C[5]), mk('Platinum', 'platinum', C[0])], yFmt: v => F.d0(v), xFmt: d3.utcFormat('%b %Y'), tipFmt: fMon});
+    });
+    fillTable(q('#t-mh'), 'metals_history', {gold: v => '$' + F.d0(v), silver: v => '$' + F.d1(v), platinum: v => '$' + F.d0(v), palladium: v => (v == null ? '—' : '$' + F.d0(v)), __text: ['source']});
+    guard(q('#c-gold'), ['monthly_markets', 'metals_daily'], () => {
+      const rows = dash.data('monthly_markets').data.filter(r => r.gold_usd != null), c = cut(pm(rows[rows.length - 1].month), m);
+      const md = dash.data('metals_daily').data, l = md[md.length - 1];
+      lineChart(q('#c-gold'), {series: [{name: 'Monthly', color: C[2], pts: rows.filter(r => pm(r.month) >= c).map(r => ({x: pm(r.month), y: r.gold_usd}))}, {name: 'Latest spot', color: C[5], dot: true, pts: [{x: pd(l.date), y: l.gold}]}], yFmt: v => '$' + F.d0(v), xFmt: xf, tipFmt: fMon});
+    });
+  });
+
+  // rates
+  run(() => {
+    guard(q('#c-ust'), ['monthly_markets', 'daily_markets'], () => {
+      const rows = dash.data('monthly_markets').data.filter(r => r.ust10_pct != null), c = cut(pm(rows[rows.length - 1].month), m);
+      const dl = dash.data('daily_markets').data.filter(r => r.ust10_pct != null), l = dl[dl.length - 1];
+      lineChart(q('#c-ust'), {series: [{name: 'Monthly', color: C[0], pts: rows.filter(r => pm(r.month) >= c).map(r => ({x: pm(r.month), y: r.ust10_pct}))}, {name: 'Latest daily', color: C[3], dot: true, pts: [{x: pd(l.date), y: l.ust10_pct}]}], yFmt: v => F.r2(v) + '%', xFmt: xf, tipFmt: fMon});
+    });
+    guard(q('#c-real'), ['real_yield'], () => {
+      const rows = dash.data('real_yield').data, c = cut(pm(rows[rows.length - 1].month), m);
+      lineChart(q('#c-real'), {series: [{name: 'Real yield', color: C[2], pts: rows.filter(r => pm(r.month) >= c).map(r => ({x: pm(r.month), y: r.real_pct}))}], yFmt: v => F.d1(v) + '%', xFmt: xf, tipFmt: fMon, ref: 0});
+    });
+    const cs = dash.data('curve_stats');
+    root.querySelectorAll('[data-source="curve_stats"]').forEach(el => { const r = cs.status === 'ok' ? cs.data.find(x => x.id === 'spread') : null; el.textContent = r ? F.r2(r.value) : '—'; });
+    guard(q('#c-curve'), ['yield_curve'], () => {
+      barChart(q('#c-curve'), {items: dash.data('yield_curve').data.map(r => ({label: r.tenor, value: r.yield_pct})), fmt: v => F.r2(v) + '%', color: C[0]});
+    });
+    guard(q('#c-atrend'), ['auction_trend'], () => {
+      const rows = dash.data('auction_trend').data;
+      const mk = (name, col) => ({name: name, color: col, pts: rows.filter(r => r.tenor === name).map(r => ({x: pd(r.date), y: r.yield_pct}))});
+      lineChart(q('#c-atrend'), {series: [mk('10-year', C[0]), mk('2-year', C[1])], yFmt: v => F.r2(v) + '%', xFmt: d3.utcFormat('%b %Y'), tipFmt: fDay, h: 230});
+    });
+    fillTable(q('#t-auc'), 'ust_auctions', {
+      size_usd_bn: v => (v == null ? '—' : F.d0(v)), high_yield_pct: v => (v == null ? '—' : d3.format('.3f')(v) + '%'), bid_to_cover: v => (v == null ? '—' : F.r2(v)),
+      indirect_pct: v => (v == null ? '—' : v + '%'), direct_pct: v => (v == null ? '—' : v + '%'), coupon_pct: v => (v == null ? 'n/a' : d3.format('.3f')(v) + '%'), __text: ['security', 'coupon_basis', 'source']
+    });
+  });
+
+  // markets and risk
+  run(() => {
+    guard(q('#c-sp'), ['monthly_markets', 'news_prices'], () => {
+      const rows = dash.data('monthly_markets').data.filter(r => r.sp500 != null), c = cut(pm(rows[rows.length - 1].month), m);
+      const o = dash.data('news_prices').data.filter(r => r.series === 'S&P 500' && r.change_pct != null).sort((a, b) => (a.as_of < b.as_of ? 1 : -1))[0];
+      lineChart(q('#c-sp'), {series: [{name: 'Monthly', color: C[3], pts: rows.filter(r => pm(r.month) >= c).map(r => ({x: pm(r.month), y: r.sp500}))}, {name: 'Latest close', color: C[5], dot: true, pts: o ? [{x: pd(o.as_of), y: o.value}] : []}], yFmt: v => F.d0(v), xFmt: xf, tipFmt: fMon});
+    });
+    guard(q('#c-vix'), ['vix_daily', 'news_prices'], () => {
+      const rows = dash.data('vix_daily').data.filter(r => r.close != null), c = cut(pd(rows[rows.length - 1].date), m);
+      const nv = dash.data('news_prices').data.filter(r => r.series === 'VIX').sort((a, b) => (a.as_of < b.as_of ? -1 : 1));
+      lineChart(q('#c-vix'), {series: [{name: 'Dataset', color: C[4], pts: rows.filter(r => pd(r.date) >= c).map(r => ({x: pd(r.date), y: r.close}))}, {name: 'News closes', color: C[5], dot: true, pts: nv.map(r => ({x: pd(r.as_of), y: r.value}))}], yFmt: v => F.d0(v), xFmt: xf, tipFmt: fDay});
+    });
+    guard(q('#c-fx'), ['fx_index'], () => {
+      const rows = dash.data('fx_index').data;
+      const mk = (name, key, col) => ({name: name, color: col, pts: rows.filter(r => r[key] != null).map(r => ({x: pd(r.date), y: r[key]}))});
+      lineChart(q('#c-fx'), {series: [mk('EUR', 'eur', C[0]), mk('GBP', 'gbp', C[1]), mk('JPY', 'jpy', C[2]), mk('CNY', 'cny', C[3]), mk('INR', 'inr', C[4])], yFmt: v => F.d0(v), xFmt: d3.utcFormat('%b %Y'), tipFmt: fDay});
+    });
+    fillTable(q('#t-fx'), 'fx_latest', {per_usd: v => F.d2(v), chg_1y_pct: v => F.c1(v) + '%', as_of: v => fDay(pd(v))});
+    const win = dash.params().corrwin || '60 months';
+    fillTable(q('#t-corr'), 'corr_matrix', {
+      wti: v => F.s2(v), gold: v => F.s2(v), sp500: v => F.s2(v), ust10: v => F.s2(v), n: v => F.d0(v),
+      __style: (td, f, r) => { if (['wti', 'gold', 'sp500', 'ust10'].includes(f)) { const a = Math.round(Math.abs(r[f]) * 60); td.style.background = 'color-mix(in srgb, ' + (r[f] >= 0 ? C[0] : C[3]) + ' ' + a + '%, transparent)'; } }
+    }, r => r.window === win);
+    guard(q('#c-roll'), ['roll_corr'], () => {
+      const p = dash.params().pair || 'wti_sp500';
+      const rows = dash.data('roll_corr').data.filter(r => r.pair === p);
+      lineChart(q('#c-roll'), {series: [{name: pairNames[p], color: C[0], pts: rows.map(r => ({x: pm(r.month), y: r.r}))}], yFmt: v => F.s2(v), yMin: -1, yMax: 1, ref: 0, h: 220, xFmt: fYr, tipFmt: fMon});
+    });
+  });
+
+  // security
+  run(() => {
+    guard(q('#c-conf'), ['conflicts_2025'], () => {
+      const items = dash.data('conflicts_2025').data.filter(r => r.kind === 'region').map(r => ({label: r.label, value: r.value})).sort((a, b) => b.value - a.value);
+      barChart(q('#c-conf'), {items: items, fmt: v => F.d0(v), color: C[3]});
+    });
+    guard(q('#c-confd'), ['conflicts_2025'], () => {
+      const items = dash.data('conflicts_2025').data.filter(r => r.kind === 'region_deaths').map(r => ({label: r.label, value: r.value})).sort((a, b) => b.value - a.value);
+      barChart(q('#c-confd'), {items: items, fmt: v => F.d0(v), color: C[3]});
+    });
+    guard(q('#c-confh'), ['conflicts_2025'], () => {
+      const items = dash.data('conflicts_2025').data.filter(r => r.kind === 'history').map(r => ({label: r.label, value: r.value}));
+      barChart(q('#c-confh'), {items: items, fmt: v => F.d0(v), color: C[0]});
+    });
+    guard(q('#c-confi'), ['conflicts_2025'], () => {
+      const items = dash.data('conflicts_2025').data.filter(r => r.kind === 'interstate').map(r => ({label: r.label, value: r.value}));
+      barChart(q('#c-confi'), {items: items, fmt: v => F.d0(v), color: C[1]});
+    });
+    fillTable(q('#t-regs'), 'region_stats', {conflicts: v => F.d0(v), deaths: v => F.d0(v), deaths_per_conflict: v => F.d0(v), share_conflicts_pct: v => F.d1(v) + '%', share_deaths_pct: v => F.d1(v) + '%'});
+    fillTable(q('#t-conf'), 'conflicts_2025', {value: v => F.d0(v), __text: ['note']}, r => r.kind === 'headline');
+    fillTable(q('#t-nuc'), 'nuclear_view', {
+      deployed_strategic: v => F.d0(v), deployed_nonstrategic: v => (v == null ? 'n.a.' : F.d0(v)), reserve_nondeployed: v => F.d0(v), military_stockpile: v => F.d0(v), retired: v => F.d0(v), total_inventory: v => F.d0(v), share_pct: v => F.d1(v) + '%',
+      __style: (td, f, r) => { if (f === 'total_inventory') { const p = Math.round(r.total_inventory / 5420 * 100); td.style.background = 'linear-gradient(to right, color-mix(in srgb, ' + C[4] + ' 30%, transparent) ' + p + '%, transparent ' + p + '%)'; } }
+    });
+    const nt = dash.data('nuclear_totals');
+    root.querySelectorAll('[data-source="nuclear_totals"]').forEach(el => {
+      const id = (el.dataset.where || '').split('=')[1];
+      const r = nt.status === 'ok' ? nt.data.find(x => x.id === id) : null;
+      el.textContent = r ? F.d0(r.value) : '—';
+    });
+  });
+
+  // climate and cost of living
+  run(() => {
+    guard(q('#c-cpi'), ['cpi_yoy'], () => {
+      const rows = dash.data('cpi_yoy').data, c = cut(pm(rows[rows.length - 1].month), m);
+      lineChart(q('#c-cpi'), {series: [{name: 'CPI', color: C[3], pts: rows.filter(r => pm(r.month) >= c).map(r => ({x: pm(r.month), y: r.cpi_yoy_pct}))}], yFmt: v => F.d1(v) + '%', xFmt: xf, tipFmt: fMon, ref: 0});
+    });
+    guard(q('#c-co2'), ['co2_growth'], () => {
+      const rows = dash.data('co2_growth').data, c = cut(pm(rows[rows.length - 1].month), m);
+      lineChart(q('#c-co2'), {series: [{name: 'CO2 growth', color: C[1], pts: rows.filter(r => pm(r.month) >= c).map(r => ({x: pm(r.month), y: r.co2_yoy_ppm}))}], yFmt: v => F.d1(v) + ' ppm', xFmt: xf, tipFmt: fMon, ref: 0});
+    });
+    guard(q('#c-temp'), ['temp_ma'], () => {
+      const rows = dash.data('temp_ma').data, c = cut(pm(rows[rows.length - 1].month), m);
+      lineChart(q('#c-temp'), {series: [{name: 'Monthly', color: C[3], pts: rows.filter(r => pm(r.month) >= c).map(r => ({x: pm(r.month), y: r.anomaly_c}))}, {name: '12-month mean', color: C[0], thick: true, pts: rows.filter(r => r.ma12_c != null && pm(r.month) >= c).map(r => ({x: pm(r.month), y: r.ma12_c}))}], yFmt: v => F.r2(v) + ' °C', xFmt: xf, tipFmt: fMon});
+    });
+  });
+});
+function q(s) { return root.querySelector(s); }
+})();
+</script>
+</div>
+</div></body></html>

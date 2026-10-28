@@ -1,0 +1,177 @@
+[
+{
+"kind": "region",
+"label": "Africa",
+"value": 29,
+"unit": "state-based conflicts",
+"note": "UCDP Appendix A, counted row by row; matches the article's text where it gives a figure"
+},
+{
+"kind": "region",
+"label": "Asia",
+"value": 19,
+"unit": "state-based conflicts",
+"note": "UCDP Appendix A, counted row by row; matches the article's text where it gives a figure"
+},
+{
+"kind": "region",
+"label": "Middle East",
+"value": 14,
+"unit": "state-based conflicts",
+"note": "UCDP Appendix A, counted row by row; matches the article's text where it gives a figure"
+},
+{
+"kind": "region",
+"label": "Americas",
+"value": 2,
+"unit": "state-based conflicts",
+"note": "UCDP Appendix A, counted row by row; matches the article's text where it gives a figure"
+},
+{
+"kind": "region",
+"label": "Europe",
+"value": 1,
+"unit": "state-based conflicts",
+"note": "UCDP Appendix A, counted row by row; matches the article's text where it gives a figure"
+},
+{
+"kind": "region_deaths",
+"label": "Europe",
+"value": 94741,
+"unit": "battle deaths, best estimate",
+"note": "Sum of UCDP Appendix A best estimates for the region"
+},
+{
+"kind": "region_deaths",
+"label": "Africa",
+"value": 32497,
+"unit": "battle deaths, best estimate",
+"note": "Sum of UCDP Appendix A best estimates for the region"
+},
+{
+"kind": "region_deaths",
+"label": "Middle East",
+"value": 18326,
+"unit": "battle deaths, best estimate",
+"note": "Sum of UCDP Appendix A best estimates for the region"
+},
+{
+"kind": "region_deaths",
+"label": "Asia",
+"value": 6570,
+"unit": "battle deaths, best estimate",
+"note": "Sum of UCDP Appendix A best estimates for the region"
+},
+{
+"kind": "region_deaths",
+"label": "Americas",
+"value": 1509,
+"unit": "battle deaths, best estimate",
+"note": "Sum of UCDP Appendix A best estimates for the region"
+},
+{
+"kind": "history",
+"label": "2010",
+"value": 31,
+"unit": "state-based conflicts",
+"note": "JPR/UCDP: more than doubled since 2010"
+},
+{
+"kind": "history",
+"label": "2023",
+"value": 59,
+"unit": "state-based conflicts",
+"note": "JPR/UCDP: previous peak of 59 in 2023 and 2024"
+},
+{
+"kind": "history",
+"label": "2024",
+"value": 59,
+"unit": "state-based conflicts",
+"note": "JPR/UCDP: previous peak of 59 in 2023 and 2024"
+},
+{
+"kind": "history",
+"label": "2025",
+"value": 65,
+"unit": "state-based conflicts",
+"note": "Record since 1946"
+},
+{
+"kind": "interstate",
+"label": "2023",
+"value": 2,
+"unit": "interstate conflicts",
+"note": "JPR/UCDP: doubled for the second year; highest since 1946 by a fair margin"
+},
+{
+"kind": "interstate",
+"label": "2024",
+"value": 4,
+"unit": "interstate conflicts",
+"note": "JPR/UCDP: doubled for the second year; highest since 1946 by a fair margin"
+},
+{
+"kind": "interstate",
+"label": "2025",
+"value": 8,
+"unit": "interstate conflicts",
+"note": "JPR/UCDP: doubled for the second year; highest since 1946 by a fair margin"
+},
+{
+"kind": "headline",
+"label": "State-based conflicts, world, 2025",
+"value": 65,
+"unit": "conflicts",
+"note": "Record since 1946; the regional rows above sum to this"
+},
+{
+"kind": "headline",
+"label": "Wars (1,000+ battle deaths), 2025",
+"value": 13,
+"unit": "wars",
+"note": "Equals the 2013 peak; 11 in 2024"
+},
+{
+"kind": "headline",
+"label": "State-based battle deaths, 2025",
+"value": 153600,
+"unit": "deaths",
+"note": "Article text; Appendix A best estimates sum to 153,643"
+},
+{
+"kind": "headline",
+"label": "State-based battle deaths, 2010",
+"value": 21700,
+"unit": "deaths",
+"note": "JPR/UCDP"
+},
+{
+"kind": "headline",
+"label": "All organized-violence deaths, 2025",
+"value": 244600,
+"unit": "deaths",
+"note": "State-based, non-state and one-sided; about 187,000 in 2024"
+},
+{
+"kind": "headline",
+"label": "One-sided violence deaths, 2025",
+"value": 76500,
+"unit": "deaths",
+"note": "Fivefold rise, driven by Sudan; 14,300 in 2024"
+},
+{
+"kind": "headline",
+"label": "Non-state conflicts, 2025",
+"value": 75,
+"unit": "conflicts",
+"note": "79 in 2024; lowest since 2019"
+},
+{
+"kind": "headline",
+"label": "Non-state conflict deaths, 2025",
+"value": 14500,
+"unit": "deaths",
+"note": "17,700 in 2024; lowest since 2013"
+}
+]

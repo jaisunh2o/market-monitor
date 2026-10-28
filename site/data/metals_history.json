@@ -1,0 +1,122 @@
+[
+{
+"period": "2023",
+"kind": "annual",
+"date": "2023-07-01",
+"gold": 1943,
+"silver": 23.4,
+"platinum": 966,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "2024",
+"kind": "annual",
+"date": "2024-07-01",
+"gold": 2388,
+"silver": 28.3,
+"platinum": 955,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "2025",
+"kind": "annual",
+"date": "2025-07-01",
+"gold": 3442,
+"silver": 39.8,
+"platinum": 1278,
+"palladium": 1150.29,
+"source": "World Bank Pink Sheet (May 2026); palladium: LBMA PM average per LBMA Alchemist"
+},
+{
+"period": "Q1 2025",
+"kind": "quarter",
+"date": "2025-02-15",
+"gold": 2863,
+"silver": 31.9,
+"platinum": 969,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "Q2 2025",
+"kind": "quarter",
+"date": "2025-05-15",
+"gold": 3293,
+"silver": 33.7,
+"platinum": 1063,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "Q3 2025",
+"kind": "quarter",
+"date": "2025-08-15",
+"gold": 3459,
+"silver": 39.6,
+"platinum": 1389,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "Q4 2025",
+"kind": "quarter",
+"date": "2025-11-15",
+"gold": 4152,
+"silver": 54.1,
+"platinum": 1691,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "Q1 2026",
+"kind": "quarter",
+"date": "2026-02-15",
+"gold": 4876,
+"silver": 84.0,
+"platinum": 2206,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "Feb 2026",
+"kind": "month",
+"date": "2026-02-15",
+"gold": 5020,
+"silver": 81.9,
+"platinum": 2137,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "Mar 2026",
+"kind": "month",
+"date": "2026-03-15",
+"gold": 4856,
+"silver": 77.9,
+"platinum": 2046,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "Apr 2026",
+"kind": "month",
+"date": "2026-04-15",
+"gold": 4721,
+"silver": 75.9,
+"platinum": 2028,
+"palladium": null,
+"source": "World Bank Pink Sheet (May 2026)"
+},
+{
+"period": "27 Oct 2026",
+"kind": "spot",
+"date": "2026-10-27",
+"gold": 4009.86,
+"silver": 53.4,
+"platinum": 1506.59,
+"palladium": 1020.72,
+"source": "StackerScan spot, partial day (aggregator)"
+}
+]

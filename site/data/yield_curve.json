@@ -1,0 +1,51 @@
+[
+{
+"date": "2026-10-23",
+"tenor": "6M",
+"years": 0.5,
+"yield_pct": 4.3,
+"source": "Freenance, citing the US Treasury par yield curve; 10Y matches FRED DGS10, 2Y matches the NEXUS morning note"
+},
+{
+"date": "2026-10-23",
+"tenor": "1Y",
+"years": 1,
+"yield_pct": 4.44,
+"source": "Freenance, citing the US Treasury par yield curve; 10Y matches FRED DGS10, 2Y matches the NEXUS morning note"
+},
+{
+"date": "2026-10-23",
+"tenor": "2Y",
+"years": 2,
+"yield_pct": 4.69,
+"source": "Freenance, citing the US Treasury par yield curve; 10Y matches FRED DGS10, 2Y matches the NEXUS morning note"
+},
+{
+"date": "2026-10-23",
+"tenor": "3Y",
+"years": 3,
+"yield_pct": 4.75,
+"source": "Freenance, citing the US Treasury par yield curve; 10Y matches FRED DGS10, 2Y matches the NEXUS morning note"
+},
+{
+"date": "2026-10-23",
+"tenor": "5Y",
+"years": 5,
+"yield_pct": 4.82,
+"source": "Freenance, citing the US Treasury par yield curve; 10Y matches FRED DGS10, 2Y matches the NEXUS morning note"
+},
+{
+"date": "2026-10-23",
+"tenor": "10Y",
+"years": 10,
+"yield_pct": 5.0,
+"source": "Freenance, citing the US Treasury par yield curve; 10Y matches FRED DGS10, 2Y matches the NEXUS morning note"
+},
+{
+"date": "2026-10-23",
+"tenor": "30Y",
+"years": 30,
+"yield_pct": 5.33,
+"source": "Freenance, citing the US Treasury par yield curve; 10Y matches FRED DGS10, 2Y matches the NEXUS morning note"
+}
+]

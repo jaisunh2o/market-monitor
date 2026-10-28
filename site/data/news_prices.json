@@ -1,0 +1,212 @@
+[
+{
+"as_of": "2026-10-27",
+"series": "WTI crude (futures, pre-market)",
+"value": 101.99,
+"unit": "$/bbl",
+"basis": "5:37 a.m. EDT",
+"source": "TipRanks",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "WTI crude (futures)",
+"value": 100.83,
+"unit": "$/bbl",
+"basis": "early Asian trade",
+"source": "HDFC Sky, via FinanceFeeds",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "WTI crude (CFD)",
+"value": 101.25,
+"unit": "$/bbl",
+"basis": "intraday",
+"source": "Trading Economics (quotes dated Oct/27)",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "Brent crude (futures, pre-market)",
+"value": 116.01,
+"unit": "$/bbl",
+"basis": "5:37 a.m. EDT",
+"source": "TipRanks",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "Brent crude (futures)",
+"value": 114.68,
+"unit": "$/bbl",
+"basis": "early Asian trade",
+"source": "HDFC Sky, via FinanceFeeds",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-27",
+"series": "Brent crude (CFD)",
+"value": 115.26,
+"unit": "$/bbl",
+"basis": "intraday",
+"source": "Trading Economics (quotes dated Oct/27)",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-26",
+"series": "WTI crude (futures)",
+"value": 101.76,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "CNBC, Herald Business and Grafa via FinanceFeeds (-1.46%, consistent with the 23 Oct settle). A CNBC live-blog snippet reads -1.7% for WTI, unresolved",
+"change_pct": -1.46,
+"change_abs": null
+},
+{
+"as_of": "2026-10-26",
+"series": "VIX",
+"value": 18.39,
+"unit": "index",
+"basis": "close",
+"source": "Investing.com; Yahoo Finance/Zacks, Saxo and Rio Times give the same close",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-26",
+"series": "US 10-year yield",
+"value": 4.978,
+"unit": "%",
+"basis": "intraday",
+"source": "Investrade",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-26",
+"series": "S&P 500",
+"value": 7676.77,
+"unit": "index",
+"basis": "close",
+"source": "CNBC, Yahoo Finance/Zacks, CNN and Motley Fool agree on 7,676.77 (+53.09), which matches the 23 Oct close plus the gain; TheStreet gave 7,676.80",
+"change_pct": 0.7,
+"change_abs": 53.09
+},
+{
+"as_of": "2026-10-26",
+"series": "Gold (US close)",
+"value": 4026.3,
+"unit": "$/oz",
+"basis": "close",
+"source": "Motley Fool",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-26",
+"series": "Brent crude, Bloomberg wrap",
+"value": 116,
+"unit": "$/bbl",
+"basis": "settle, approximate ('near $116')",
+"source": "Bloomberg markets wrap headline, 26 Oct (page itself blocked to me)",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-26",
+"series": "Brent crude (futures)",
+"value": 115.81,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "CNBC, Herald Business and Grafa, via FinanceFeeds",
+"change_pct": -0.78,
+"change_abs": null
+},
+{
+"as_of": "2026-10-23",
+"series": "WTI crude (futures)",
+"value": 103.27,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Rio Times; consistent with the 26 Oct percentage change reported by CNBC",
+"change_pct": 3.8,
+"change_abs": null
+},
+{
+"as_of": "2026-10-23",
+"series": "VIX",
+"value": 19.45,
+"unit": "index",
+"basis": "close",
+"source": "Zacks via Yahoo Finance",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-23",
+"series": "US 30-year yield",
+"value": 5.33,
+"unit": "%",
+"basis": "close",
+"source": "Freenance, citing the US Treasury par yield curve",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-23",
+"series": "US 2-year yield",
+"value": 4.69,
+"unit": "%",
+"basis": "close",
+"source": "NEXUS morning note; Freenance",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-23",
+"series": "US 10-year yield",
+"value": 5.0,
+"unit": "%",
+"basis": "close",
+"source": "FRED DGS10; NEXUS morning note",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-23",
+"series": "S&P 500",
+"value": 7623.68,
+"unit": "index",
+"basis": "close",
+"source": "Zacks via Yahoo Finance; NEXUS morning note",
+"change_pct": -0.52,
+"change_abs": null
+},
+{
+"as_of": "2026-10-23",
+"series": "Brent crude (futures)",
+"value": 116.72,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Rio Times; consistent with the 26 Oct percentage change reported by CNBC",
+"change_pct": 3.1,
+"change_abs": null
+},
+{
+"as_of": "2026-10-22",
+"series": "Brent crude, Bloomberg wrap",
+"value": 117,
+"unit": "$/bbl",
+"basis": "settle, approximate ('near $117')",
+"source": "Bloomberg markets wrap headline, 22 Oct (page itself blocked to me)",
+"change_pct": null,
+"change_abs": null
+}
+]

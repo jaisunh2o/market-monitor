@@ -1,0 +1,74 @@
+[
+{
+"country": "Russia",
+"deployed_strategic": 1796,
+"deployed_nonstrategic": 0,
+"reserve_nondeployed": 2604,
+"military_stockpile": 4400,
+"total_inventory": 5420
+},
+{
+"country": "United States",
+"deployed_strategic": 1670,
+"deployed_nonstrategic": 100,
+"reserve_nondeployed": 1930,
+"military_stockpile": 3700,
+"total_inventory": 5042
+},
+{
+"country": "France",
+"deployed_strategic": 280,
+"deployed_nonstrategic": null,
+"reserve_nondeployed": 10,
+"military_stockpile": 290,
+"total_inventory": 370
+},
+{
+"country": "China",
+"deployed_strategic": 34,
+"deployed_nonstrategic": null,
+"reserve_nondeployed": 586,
+"military_stockpile": 620,
+"total_inventory": 620
+},
+{
+"country": "United Kingdom",
+"deployed_strategic": 120,
+"deployed_nonstrategic": null,
+"reserve_nondeployed": 105,
+"military_stockpile": 225,
+"total_inventory": 225
+},
+{
+"country": "Israel",
+"deployed_strategic": 0,
+"deployed_nonstrategic": null,
+"reserve_nondeployed": 90,
+"military_stockpile": 90,
+"total_inventory": 90
+},
+{
+"country": "Pakistan",
+"deployed_strategic": 0,
+"deployed_nonstrategic": null,
+"reserve_nondeployed": 170,
+"military_stockpile": 170,
+"total_inventory": 170
+},
+{
+"country": "India",
+"deployed_strategic": 0,
+"deployed_nonstrategic": null,
+"reserve_nondeployed": 178,
+"military_stockpile": 190,
+"total_inventory": 190
+},
+{
+"country": "North Korea",
+"deployed_strategic": 0,
+"deployed_nonstrategic": null,
+"reserve_nondeployed": 60,
+"military_stockpile": 60,
+"total_inventory": 60
+}
+]
