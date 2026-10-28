@@ -17,22 +17,38 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
       - name: Refresh data (never deletes history)
+        id: refresh
+        continue-on-error: true
         run: python refresh_data.py site/data
       - name: Save the new data in the repository
+        id: save
+        continue-on-error: true
         run: |
           git config user.name "refresh-bot"
           git config user.email "refresh-bot@users.noreply.github.com"
           git add site/data
-          if git diff --cached --quiet; then echo "No new data today"; else git commit -m "Data update $(date -u +%F)"; git push; fi
+          if git diff --cached --quiet; then
+            echo "No new data today"
+          else
+            git commit -m "Data update $(date -u +%F)"
+            git pull --rebase --autostash origin main
+            git push origin HEAD:main
+          fi
       - name: Keep the daily schedule switched on
+        continue-on-error: true
         run: |
           curl -s -X PUT -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" -H "Accept: application/vnd.github+json" "https://api.github.com/repos/${{ github.repository }}/actions/workflows/update-and-deploy.yml/enable" || true
+      - name: Flag any problem without stopping the site update
+        if: ${{ steps.refresh.outcome == 'failure' || steps.save.outcome == 'failure' }}
+        run: |
+          echo "::warning title=Data step problem::refresh=${{ steps.refresh.outcome }} save=${{ steps.save.outcome }}. The site is still being rebuilt with the data already saved."
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
