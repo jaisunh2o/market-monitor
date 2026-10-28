@@ -1,0 +1,39 @@
+{
+ "files": {
+  "daily_markets.json": {
+   "rows": 2786,
+   "new_rows": 0,
+   "latest": "2026-10-23"
+  },
+  "monthly_markets.json": {
+   "rows": 249,
+   "new_rows": 0,
+   "latest": "2026-09"
+  },
+  "vix_daily.json": {
+   "rows": 2728,
+   "new_rows": 0,
+   "latest": "2026-09-22"
+  },
+  "fx_daily.json": {
+   "rows": 2821,
+   "new_rows": 0,
+   "latest": "2026-10-23"
+  },
+  "watch_monthly.json": {
+   "rows": 332,
+   "new_rows": 0,
+   "latest": "2026-08"
+  },
+  "metals_daily.json": {
+   "rows": 28,
+   "new_rows": 1,
+   "latest": "2026-10-28"
+  }
+ },
+ "notes": [
+  "daily_markets: FRED unreachable (TimeoutError); GitHub datasets only"
+ ],
+ "failures": [],
+ "ran_at": "2026-10-28T08:38:17Z"
+}
