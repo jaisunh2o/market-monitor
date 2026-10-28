@@ -79,14 +79,14 @@ def daily_markets():
             if r["Date"] >= "2016-01-01" and v is not None:
                 d.setdefault(r["Date"], {})[k] = v
     try:
-        f = fred(["DCOILWTICO", "DCOILBRENTEU", "DHHNGSP", "DGS10"])
-        for fid, k in [("DCOILWTICO", "wti"), ("DCOILBRENTEU", "brent"), ("DHHNGSP", "natgas"), ("DGS10", "ust10_pct")]:
+        f = fred(["DCOILWTICO", "DCOILBRENTEU", "DHHNGSP", "DGS10", "DGS2", "DGS30"])
+        for fid, k in [("DCOILWTICO", "wti"), ("DCOILBRENTEU", "brent"), ("DHHNGSP", "natgas"), ("DGS10", "ust10_pct"), ("DGS2", "ust2_pct"), ("DGS30", "ust30_pct")]:
             for dt, v in f[fid].items():
                 d.setdefault(dt, {})[k] = v
         summary["notes"].append("daily_markets: FRED overlay applied")
     except Exception as e:
         summary["notes"].append("daily_markets: FRED unreachable (%s); GitHub datasets only" % type(e).__name__)
-    merge_save("daily_markets.json", [{"date": k, "wti": d[k].get("wti"), "brent": d[k].get("brent"), "natgas": d[k].get("natgas"), "ust10_pct": d[k].get("ust10_pct")} for k in sorted(d)], "date")
+    merge_save("daily_markets.json", [{"date": k, "wti": d[k].get("wti"), "brent": d[k].get("brent"), "natgas": d[k].get("natgas"), "ust10_pct": d[k].get("ust10_pct"), "ust2_pct": d[k].get("ust2_pct"), "ust30_pct": d[k].get("ust30_pct")} for k in sorted(d)], "date")
 
 def monthly_markets():
     g = {r["Date"]: num(r["Price"]) for r in rows(GH + "gold-prices/main/data/monthly.csv") if r["Date"] >= "2006-01"}
