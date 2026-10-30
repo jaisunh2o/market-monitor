@@ -1,5 +1,125 @@
 [
 {
+"as_of": "2026-10-30",
+"series": "WTI crude (futures, pre-market)",
+"value": 102.77,
+"unit": "$/bbl",
+"basis": "pre-market, 00:05 GMT",
+"source": "OilPrice.com",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-30",
+"series": "Brent crude (futures, pre-market)",
+"value": 116,
+"unit": "$/bbl",
+"basis": "intraday, approximate ('near $116')",
+"source": "Private Banker citing Reuters; FinanceFeeds also says 'about $116'",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-29",
+"series": "WTI crude (futures)",
+"value": 102.0,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Reuters, Bloomberg and DTN agree (down 0.78, 0.76%)",
+"change_pct": -0.76,
+"change_abs": -0.78
+},
+{
+"as_of": "2026-10-29",
+"series": "VIX",
+"value": 17.2,
+"unit": "index",
+"basis": "close",
+"source": "CBOE history via the daily job",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-29",
+"series": "US 10-year yield",
+"value": 4.98,
+"unit": "%",
+"basis": "close",
+"source": "US Treasury via the daily job; Forbes Advisor gives the same",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-29",
+"series": "S&P 500",
+"value": 7720.39,
+"unit": "index",
+"basis": "close",
+"source": "Yahoo Finance (down 23.59, 0.30%)",
+"change_pct": -0.3,
+"change_abs": -23.59
+},
+{
+"as_of": "2026-10-29",
+"series": "Brent crude (futures)",
+"value": 114.88,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Reuters, Bloomberg and DTN agree (down 0.44, 0.38%). Brent's December contract expires 30 Oct",
+"change_pct": -0.38,
+"change_abs": -0.44
+},
+{
+"as_of": "2026-10-28",
+"series": "WTI crude (futures)",
+"value": 102.78,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "MT Newswires headline (up 2.88, 2.9%); NEXUS, Cappnotes and Bloomberg agree",
+"change_pct": 2.9,
+"change_abs": 2.88
+},
+{
+"as_of": "2026-10-28",
+"series": "VIX",
+"value": 16.91,
+"unit": "index",
+"basis": "close",
+"source": "CBOE history via the daily job; Trade90X gives the same close",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-28",
+"series": "US 10-year yield",
+"value": 5.05,
+"unit": "%",
+"basis": "close",
+"source": "FRED DGS10",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-28",
+"series": "S&P 500",
+"value": 7743.98,
+"unit": "index",
+"basis": "close",
+"source": "Zacks via Yahoo Finance and note.com agree (up 21.38, 0.28%)",
+"change_pct": 0.28,
+"change_abs": 21.38
+},
+{
+"as_of": "2026-10-28",
+"series": "Brent crude (futures)",
+"value": 115.32,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Bloomberg via Rigzone (up 1.3%) and NEXUS; the 29 Oct settle of 114.88 down 0.44 confirms it",
+"change_pct": 1.3,
+"change_abs": 1.44
+},
+{
 "as_of": "2026-10-27",
 "series": "WTI crude (futures, pre-market)",
 "value": 101.99,
@@ -62,12 +182,12 @@
 {
 "as_of": "2026-10-27",
 "series": "S&P 500",
-"value": 7722.67,
+"value": 7722.6,
 "unit": "index",
 "basis": "close",
-"source": "Investrade (shows 7,722; +45.90, +0.60%). Value is the 26 Oct close 7,676.77 plus the reported +45.90; HDFC Sky and Yahoo Finance also report +0.60%",
+"source": "Derived: the 28 Oct close of 7,743.98 minus its reported gain of 21.38 (Zacks via Yahoo Finance and note.com agree); Investrade showed 7,722. Replaces 7,722.67, which added a rounded gain to the 26 Oct close",
 "change_pct": 0.6,
-"change_abs": 45.9
+"change_abs": 45.83
 },
 {
 "as_of": "2026-10-27",

@@ -127,9 +127,21 @@
 "bid_to_cover": 2.21,
 "indirect_pct": 54.31,
 "direct_pct": 29.92,
-"coupon_pct": null,
-"coupon_basis": "not stated in the sources I read",
+"coupon_pct": 5.0,
+"coupon_basis": "stated (Your Best Savings, citing Treasury)",
 "source": "InvestingLive, dated 23 Sep; TFTC and RTTNews give the same yield"
+},
+{
+"auction": "2026-09-24",
+"security": "7-year note (new issue)",
+"size_usd_bn": 44,
+"high_yield_pct": 5.085,
+"bid_to_cover": 2.42,
+"indirect_pct": 57.2,
+"direct_pct": null,
+"coupon_pct": 5.0,
+"coupon_basis": "stated (Your Best Savings, citing Treasury)",
+"source": "MarketScreener (Dow Jones) and Your Best Savings agree; highest 7-year yield since April 1993"
 },
 {
 "auction": "2026-10-07",
@@ -142,6 +154,18 @@
 "coupon_pct": 4.625,
 "coupon_basis": "reopening of the 12 Aug issue",
 "source": "Wolf Street, Helious and Investing.com agree on the yield; Wolf Street says the same coupon"
+},
+{
+"auction": "2026-10-08",
+"security": "30-year bond (reopening)",
+"size_usd_bn": null,
+"high_yield_pct": 5.618,
+"bid_to_cover": 2.54,
+"indirect_pct": null,
+"direct_pct": null,
+"coupon_pct": 5.125,
+"coupon_basis": "stated (Your Best Savings, citing Treasury)",
+"source": "Your Best Savings"
 },
 {
 "auction": "2026-10-21",
@@ -178,5 +202,17 @@
 "coupon_pct": null,
 "coupon_basis": "not stated in the sources I read",
 "source": "RTTNews, TFTC, Rallies and The Vault Report agree on the yield and cover"
+},
+{
+"auction": "2026-10-29",
+"security": "7-year note (new issue)",
+"size_usd_bn": 44,
+"high_yield_pct": 4.894,
+"bid_to_cover": 2.46,
+"indirect_pct": 57.8,
+"direct_pct": 32.8,
+"coupon_pct": 4.875,
+"coupon_basis": "stated (Treasury Fiscal Data)",
+"source": "InvestingLive, Helious, MarketScreener and Rallies agree; coupon from Treasury Fiscal Data via Fed Gazette"
 }
 ]

@@ -40,5 +40,19 @@
 "brent": 113.88,
 "contract": "December 2026",
 "note": ""
+},
+{
+"date": "2026-10-28",
+"wti": 102.78,
+"brent": 115.32,
+"contract": "December 2026",
+"note": ""
+},
+{
+"date": "2026-10-29",
+"wti": 102.0,
+"brent": 114.88,
+"contract": "December 2026",
+"note": "Brent's December contract expires 30 Oct"
 }
 ]
