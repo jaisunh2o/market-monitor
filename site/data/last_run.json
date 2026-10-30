@@ -1,9 +1,9 @@
 {
  "files": {
   "daily_markets.json": {
-   "rows": 2789,
+   "rows": 2790,
    "new_rows": 1,
-   "latest": "2026-10-28"
+   "latest": "2026-10-29"
   },
   "monthly_markets.json": {
    "rows": 249,
@@ -11,9 +11,9 @@
    "latest": "2026-09"
   },
   "vix_daily.json": {
-   "rows": 2754,
+   "rows": 2755,
    "new_rows": 1,
-   "latest": "2026-10-28"
+   "latest": "2026-10-29"
   },
   "fx_daily.json": {
    "rows": 2821,
@@ -26,16 +26,16 @@
    "latest": "2026-08"
   },
   "metals_daily.json": {
-   "rows": 29,
+   "rows": 30,
    "new_rows": 1,
-   "latest": "2026-10-29"
+   "latest": "2026-10-30"
   }
  },
  "notes": [
   "daily_markets: FRED unreachable (TimeoutError)",
-  "daily_markets: Treasury yields applied (40 days)",
-  "vix: CBOE history applied (2754 days)"
+  "daily_markets: Treasury yields applied (41 days)",
+  "vix: CBOE history applied (2755 days)"
  ],
  "failures": [],
- "ran_at": "2026-10-29T07:33:17Z"
+ "ran_at": "2026-10-30T07:31:55Z"
 }
