@@ -36,6 +36,8 @@
   "daily_markets: Treasury yields applied (41 days)",
   "vix: CBOE history applied (2755 days)"
  ],
- "failures": [],
- "ran_at": "2026-10-30T11:55:54Z"
+ "failures": [
+  "rates_h15: RuntimeError: no rows parsed from the H.15 page"
+ ],
+ "ran_at": "2026-10-30T13:47:34Z"
 }
