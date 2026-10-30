@@ -16,8 +16,8 @@
 },
 {
 "id": "c-oil",
-"how_to_read": "Solid lines are EIA daily spot prices for WTI and Brent. Dashed lines end in a dot at the latest futures settles reported by news. Use the range buttons to zoom.",
-"what_to_make_of_it": "Spot and futures are different measures, so a step between the line and the dashed segment is partly basis, not only a price move. EIA publishes with a lag, so the solid lines end earlier than the dashed ones. A widening gap between the two benchmarks signals a squeeze in one of them."
+"how_to_read": "Two lines: WTI and Brent December-contract futures settles reported by news. The line starts on 20 Oct, when both benchmarks first traded in the same contract month, and it grows with every refresh.",
+"what_to_make_of_it": "Read the level and the gap between the lines. The EIA spot series, which lags and measures something different, feeds the spread chart and the scorecard. Contracts roll: when Brent's December contract expires at the end of October, a jump in the line will be the roll, not a price move."
 },
 {
 "id": "c-spread",
@@ -131,18 +131,18 @@
 },
 {
 "id": "c-conf",
-"how_to_read": "Number of state-based armed conflicts in each region in 2025 (UCDP).",
+"how_to_read": "The number of state-based conflicts in each region in 2025, counted from the 65 rows of the journal article's list. Click a bar to see the rows.",
 "what_to_make_of_it": "Counts show breadth, not severity. Compare with the deaths chart."
 },
 {
 "id": "c-confd",
-"how_to_read": "Battle deaths in 2025 by region, UCDP best estimates.",
-"what_to_make_of_it": "Compare with the conflict counts: where deaths and conflicts diverge, a few very intense wars account for most of the toll."
+"how_to_read": "Battle deaths in 2025 by region: the sum of UCDP best estimates over the conflicts in the region. Click a bar to see the rows that are added up.",
+"what_to_make_of_it": "Where deaths and conflicts diverge, a few very intense wars account for most of the toll."
 },
 {
 "id": "t-regs",
-"how_to_read": "Conflicts, battle deaths, deaths per conflict and each region's share of the world totals, for 2025.",
-"what_to_make_of_it": "A region with a large share of deaths but a small share of conflicts has few, very intense wars. Click a header to rank regions."
+"how_to_read": "Conflicts, wars, interstate conflicts, deaths, deaths per conflict and shares, all computed from the conflict rows. Click a row to see how it adds up. Click a header to sort.",
+"what_to_make_of_it": "A region with a large share of deaths but a small share of conflicts has few, very intense wars."
 },
 {
 "id": "c-confh",
@@ -155,14 +155,9 @@
 "what_to_make_of_it": "Rising counts mean more interstate tension, which tends to carry wider economic and security spillovers."
 },
 {
-"id": "t-conf",
-"how_to_read": "Headline conflict counts and fatalities with a note on each source.",
-"what_to_make_of_it": "Use it for exact figures and caveats behind the charts."
-},
-{
 "id": "t-nuc",
-"how_to_read": "Estimated warheads per country: deployed, reserve, military stockpile, retired and total, with each country's share of the world total.",
-"what_to_make_of_it": "Deployed warheads are the forces ready to use; retired ones await dismantlement. Figures are estimates and are least certain for the most secretive states."
+"how_to_read": "Estimated warheads per country: deployed, reserve, military stockpile, retired and total, with each country's share of the world total. The bottom row is the sum of the nine rows.",
+"what_to_make_of_it": "Deployed warheads are the forces ready to use; retired ones await dismantlement. Figures are estimates and are least certain for the most secretive states. The bottom row shows how the world total adds up."
 },
 {
 "id": "c-cpi",
@@ -198,5 +193,20 @@
 "id": "t-news",
 "how_to_read": "A raw feed of prices quoted by news and finance sites, with the basis (close, settle or intraday) and the source of each.",
 "what_to_make_of_it": "Mostly single-sourced, so use it to check the tiles and chart dots rather than as a record. Oil is futures, not EIA spot."
+},
+{
+"id": "t-drillsum",
+"how_to_read": "The rows for the group you pick, summed, next to the figure the article publishes. Low, best and high are UCDP's three estimates; the best estimate is used everywhere else on this page.",
+"what_to_make_of_it": "A group passes when the count equals the published count and the deaths are within 1% of the published figure. Where the article publishes no figure for a group, the check says so. The list below shows every conflict in the group."
+},
+{
+"id": "t-hl",
+"how_to_read": "Headline counts for 2024 and 2025, with a note on how each is built. Click a row that has a link to see the conflicts behind it. 2026 year to date is not available.",
+"what_to_make_of_it": "Compare 2024 with 2025 for direction. Conflict counts are annual and complete; death figures are best estimates that UCDP revises, and 2024 has already been revised upward."
+},
+{
+"id": "t-pre",
+"how_to_read": "Preliminary UCDP events and estimated deaths over the 12 months to 30 Sep 2026, republished by a secondary site. A different measure from the conflict counts above.",
+"what_to_make_of_it": "Use it for direction only: it is preliminary, covers 49 countries, and a count of events is not a measure of danger. The types and regions each sum to the total."
 }
 ]

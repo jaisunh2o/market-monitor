@@ -1,10 +1,10 @@
 [
 {
 "measure": "WTI and Brent crude",
-"views": "Headline tiles; oil chart (dots); news panel",
-"source": "Tiles and dots: futures settles reported by news sites. Oil chart, scorecard, spread, correlation: EIA daily spot via public dataset",
-"comparison": "Differ by design: futures settle versus spot. The chart now shows the futures settle as a dot beside the spot line",
-"status": "Labelled on every view; not interchangeable (27 Oct WTI settle 99.90 against 20 Oct EIA spot 107.89)"
+"views": "Headline tiles; oil price chart; spread chart; scorecard; news panel",
+"source": "Tiles and oil chart: December-contract futures settles reported by news. Spread chart, scorecard and correlations: EIA daily spot via public dataset",
+"comparison": "Tiles and the oil chart share one source, the settle rows. EIA spot differs by design: it lags and measures the physical market",
+"status": "Chart now matches the tiles; EIA history is kept for the spread chart and scorecard"
 },
 {
 "measure": "US 10-year yield",
@@ -64,10 +64,10 @@
 },
 {
 "measure": "Armed conflicts",
-"views": "Region charts and tables; history; headline table",
-"source": "UCDP via the Journal of Peace Research article",
-"comparison": "One source; regional tallies reproduce the article's totals",
-"status": "Consistent"
+"views": "Region charts and tables; drill-down; headline counts by year; preliminary 2026 table",
+"source": "UCDP via the Journal of Peace Research article: Appendix A rows and the article text. Preliminary 2026 data: ConflictStats republishing UCDP Candidate Events",
+"comparison": "Region figures are computed from the 65 rows, so charts, tables and the drill-down cannot disagree, and they reproduce the article's totals",
+"status": "Consistent; non-state and one-sided lists not loaded"
 },
 {
 "measure": "Solar and wind capacity",

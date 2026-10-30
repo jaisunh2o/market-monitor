@@ -1,0 +1,74 @@
+[
+{
+"measure": "State-based conflicts",
+"y2024": 59,
+"y2025": 65,
+"y2026": null,
+"how_built": "2025: the rows of Appendix A, counted. 2024: article text (previous peak of 59 in 2024 and 2023). Click to see the rows.",
+"drill": "all"
+},
+{
+"measure": "  of which interstate (between states)",
+"y2024": 4,
+"y2025": 8,
+"y2026": null,
+"how_built": "2025: Appendix A rows with two states and no opposition group, which match the article's 8. 2024: article text. Click to see the rows.",
+"drill": "interstate"
+},
+{
+"measure": "Wars (1,000 or more battle deaths)",
+"y2024": 11,
+"y2025": 13,
+"y2026": null,
+"how_built": "2025: Appendix A rows with a best estimate of at least 1,000, which match the article's 13. 2024: the article says 13 is 2 more than 2024. Click to see the rows.",
+"drill": "wars"
+},
+{
+"measure": "State-based battle deaths",
+"y2024": 155000,
+"y2025": 153643,
+"y2026": null,
+"how_built": "2025: sum of the Appendix A best estimates (the article text rounds it to 153,600). 2024: article text, revised up from 128,400 as new Ukraine information arrived. Click to see the rows.",
+"drill": "all"
+},
+{
+"measure": "Non-state conflicts",
+"y2024": 79,
+"y2025": 75,
+"y2026": null,
+"how_built": "Article text. The Appendix B list is only partly loaded here, so this cannot be rebuilt from rows.",
+"drill": ""
+},
+{
+"measure": "Non-state conflict deaths",
+"y2024": 17700,
+"y2025": 14500,
+"y2026": null,
+"how_built": "Article text.",
+"drill": ""
+},
+{
+"measure": "One-sided violence deaths (against civilians)",
+"y2024": 14300,
+"y2025": 76500,
+"y2026": null,
+"how_built": "Article text. The article gives 14,300 for 2024 in one place and 14,200 in another.",
+"drill": ""
+},
+{
+"measure": "All organized-violence deaths",
+"y2024": 187000,
+"y2025": 244600,
+"y2026": null,
+"how_built": "Article text. It adds up: 2024 is 155,000 + 17,700 + 14,300 = 187,000 and 2025 is 153,600 + 14,500 + 76,500 = 244,600.",
+"drill": ""
+},
+{
+"measure": "Actors in one-sided violence",
+"y2024": 54,
+"y2025": 55,
+"y2026": null,
+"how_built": "Article text. 55 is the highest ever recorded.",
+"drill": ""
+}
+]

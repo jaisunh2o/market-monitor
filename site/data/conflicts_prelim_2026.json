@@ -1,0 +1,93 @@
+[
+{
+"label": "Events, all types",
+"value": 22144,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Estimated deaths, all types",
+"value": 240922,
+"unit": "deaths",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "  of which civilian deaths",
+"value": 88850,
+"unit": "deaths",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events: state-based conflict",
+"value": 13932,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events: non-state conflict",
+"value": 5291,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events: one-sided violence",
+"value": 2921,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events in Africa",
+"value": 6532,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events in Europe",
+"value": 4982,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events in the Americas",
+"value": 4792,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events in the Middle East",
+"value": 3269,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events in Asia",
+"value": 2569,
+"unit": "events",
+"period": "12 months to 30 Sep 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Events, September 2026",
+"value": 1981,
+"unit": "events",
+"period": "September 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+},
+{
+"label": "Estimated deaths, September 2026",
+"value": 13260,
+"unit": "deaths",
+"period": "September 2026",
+"note": "ConflictStats (a secondary site) republishing UCDP Candidate Events v26.0.9; preliminary and revised later; covers the 49 countries with a page, not the whole world"
+}
+]

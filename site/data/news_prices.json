@@ -115,7 +115,7 @@
 "value": 101.76,
 "unit": "$/bbl",
 "basis": "settle",
-"source": "CNBC, Herald Business and Grafa via FinanceFeeds (-1.46%). Confirmed on 27 Oct: Investrade and Cappnotes report the 27 Oct settle of 99.90 as down 1.86 from 101.76",
+"source": "MT Newswires headline (down 1.51, 1.5%) and FinanceFeeds report 101.76; confirmed by the 27 Oct change (down 1.86 to 99.90). A CNBC live-blog snippet read -1.7%, which these sources do not support",
 "change_pct": -1.46,
 "change_abs": null
 },
@@ -177,7 +177,7 @@
 "basis": "settle",
 "source": "CNBC, Herald Business and Grafa, via FinanceFeeds",
 "change_pct": -0.78,
-"change_abs": null
+"change_abs": -0.91
 },
 {
 "as_of": "2026-10-23",
@@ -185,9 +185,9 @@
 "value": 103.27,
 "unit": "$/bbl",
 "basis": "settle",
-"source": "Rio Times; consistent with the 26 Oct percentage change reported by CNBC",
+"source": "MT Newswires headline (up 3.80, 3.8%); Admiral Markets, Rio Times and an AP-sourced briefing agree",
 "change_pct": 3.8,
-"change_abs": null
+"change_abs": 3.8
 },
 {
 "as_of": "2026-10-23",
@@ -245,9 +245,19 @@
 "value": 116.72,
 "unit": "$/bbl",
 "basis": "settle",
-"source": "Rio Times; consistent with the 26 Oct percentage change reported by CNBC",
+"source": "Admiral Markets, Rio Times and an AP-sourced briefing agree (up 3.55, 3.1%)",
 "change_pct": 3.1,
-"change_abs": null
+"change_abs": 3.55
+},
+{
+"as_of": "2026-10-22",
+"series": "WTI crude (futures)",
+"value": 99.47,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "MT Newswires headline (up 2.32, 2.4%); consistent with the 23 Oct gain of 3.80",
+"change_pct": 2.4,
+"change_abs": 2.32
 },
 {
 "as_of": "2026-10-22",
@@ -258,5 +268,55 @@
 "source": "Bloomberg markets wrap headline, 22 Oct (page itself blocked to me)",
 "change_pct": null,
 "change_abs": null
+},
+{
+"as_of": "2026-10-22",
+"series": "Brent crude (futures)",
+"value": 113.17,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Derived: the 23 Oct settle of 116.72 is reported as up 3.55 (AP-sourced briefing and Admiral Markets)",
+"change_pct": null,
+"change_abs": 4.35
+},
+{
+"as_of": "2026-10-21",
+"series": "WTI crude (futures)",
+"value": 97.15,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Derived: MT Newswires reports the 22 Oct settle of 99.47 as up 2.32",
+"change_pct": null,
+"change_abs": null
+},
+{
+"as_of": "2026-10-21",
+"series": "Brent crude (futures)",
+"value": 108.82,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "Reuters as quoted by HeizOel24 (single source)",
+"change_pct": null,
+"change_abs": 0.03
+},
+{
+"as_of": "2026-10-20",
+"series": "WTI crude (futures)",
+"value": 97.82,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "December contract. SPA, CNBC and TokenPost agree; the expiring November contract settled at 101.79",
+"change_pct": null,
+"change_abs": -0.72
+},
+{
+"as_of": "2026-10-20",
+"series": "Brent crude (futures)",
+"value": 108.79,
+"unit": "$/bbl",
+"basis": "settle",
+"source": "December contract. SPA, CNBC and TokenPost agree",
+"change_pct": -0.69,
+"change_abs": -0.76
 }
 ]

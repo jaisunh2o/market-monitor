@@ -1,0 +1,44 @@
+[
+{
+"date": "2026-10-20",
+"wti": 97.82,
+"brent": 108.79,
+"contract": "December 2026",
+"note": ""
+},
+{
+"date": "2026-10-21",
+"wti": 97.15,
+"brent": 108.82,
+"contract": "December 2026",
+"note": "WTI derived from the 22 Oct settle and its reported gain"
+},
+{
+"date": "2026-10-22",
+"wti": 99.47,
+"brent": 113.17,
+"contract": "December 2026",
+"note": "Brent derived from the 23 Oct settle and its reported gain"
+},
+{
+"date": "2026-10-23",
+"wti": 103.27,
+"brent": 116.72,
+"contract": "December 2026",
+"note": ""
+},
+{
+"date": "2026-10-26",
+"wti": 101.76,
+"brent": 115.81,
+"contract": "December 2026",
+"note": ""
+},
+{
+"date": "2026-10-27",
+"wti": 99.9,
+"brent": 113.88,
+"contract": "December 2026",
+"note": ""
+}
+]
