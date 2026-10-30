@@ -1,13 +1,13 @@
 [
 {
 "id": "tiles_markets",
-"how_to_read": "Each tile shows the newest reading of a market, its change from the previous close and its date. Oil tiles are futures settles, gold is an aggregator reading, and gas is the EIA daily series.",
-"what_to_make_of_it": "Use the tiles as a pulse check. Always look at the date on each tile, because different tiles are as of different days, and compare oil futures with oil futures, not with spot."
+"how_to_read": "Newest readings for oil and the Treasury market: WTI and Brent futures settles, the 10-year yield, its real yield (the inflation-protected, TIPS, yield) and the breakeven inflation rate, which is the difference between the two. Each tile shows its change from the previous reading and its date.",
+"what_to_make_of_it": "The real yield is what the market demands above inflation; the breakeven is the inflation it expects. A rising real yield with a flat breakeven means tighter financial conditions; a rising breakeven means inflation worries are growing. Oil tiles are futures, not spot."
 },
 {
 "id": "tiles_beyond",
-"how_to_read": "Inflation, market volatility (VIX), CO2, global temperature and the dollar. Each tile shows its newest value and its change against the prior reading or the same month a year earlier.",
-"what_to_make_of_it": "The slow series (CPI, CO2, temperature) are monthly and lag. The VIX is a daily fear gauge: higher means traders are paying more for protection. The dollar tile averages the one-year move against five currencies."
+"how_to_read": "Gold, the S&P 500, the VIX fear gauge, the Fed's effective policy rate and consumer inflation year on year. Gold is an aggregator reading.",
+"what_to_make_of_it": "Compare gold's moves with real yields (gold tends to fall when real yields rise) and the VIX with the S&P 500 (the VIX tends to jump when stocks fall). The policy rate changes only at Fed meetings."
 },
 {
 "id": "t-score",
@@ -25,11 +25,6 @@
 "what_to_make_of_it": "A wide spread suggests seaborne (Brent) supply is tighter than inland US supply; a narrow one means the two markets are moving together. Judge the level against the history on the chart, not against a single day."
 },
 {
-"id": "c-gas",
-"how_to_read": "Henry Hub is the US natural gas benchmark, in dollars per million BTU, daily from EIA.",
-"what_to_make_of_it": "Gas is driven mainly by US weather and storage, so it often moves differently from oil. A divergence from oil is normal and not a signal by itself."
-},
-{
 "id": "c-ren",
 "how_to_read": "Cumulative installed solar and wind capacity at each year end, in gigawatts (IRENA).",
 "what_to_make_of_it": "A steeper line means faster build-out. Capacity is not output: a gigawatt of solar or wind generates less energy over a year than a gigawatt of conventional plant, so read it as direction and pace."
@@ -38,16 +33,6 @@
 "id": "c-adds",
 "how_to_read": "Gigawatts added each year, the year-on-year change of the capacity chart.",
 "what_to_make_of_it": "Rising lines mean deployment is accelerating; a flat or falling year would signal slowing. Compare solar and wind to see which is driving the growth."
-},
-{
-"id": "c-sol",
-"how_to_read": "Year-end solar capacity by region, in gigawatts.",
-"what_to_make_of_it": "Shows concentration: a few regions hold most of the capacity, so the global trend depends on them."
-},
-{
-"id": "c-wind",
-"how_to_read": "Year-end wind capacity by region, in gigawatts.",
-"what_to_make_of_it": "Compare with the solar chart: regional leaders differ, which shows where each technology has scaled."
 },
 {
 "id": "c-met",
@@ -73,11 +58,6 @@
 "id": "t-mh",
 "how_to_read": "Annual, quarterly and monthly average prices from the World Bank Pink Sheet, plus the latest spot reading.",
 "what_to_make_of_it": "Use it to look up exact levels. Palladium is available only as a 2025 average, and there is no data between April and late September."
-},
-{
-"id": "c-gold",
-"how_to_read": "The line is the monthly gold series; the dot is the latest spot reading, the same figure as the headline tile.",
-"what_to_make_of_it": "A dot below the end of the line means spot has moved below the last monthly average. A monthly average smooths out intramonth swings that the dot does not."
 },
 {
 "id": "c-ust",
@@ -131,28 +111,18 @@
 },
 {
 "id": "c-conf",
-"how_to_read": "The number of state-based conflicts in each region in 2025, counted from the 65 rows of the journal article's list. Click a bar to see the rows.",
-"what_to_make_of_it": "Counts show breadth, not severity. Compare with the deaths chart."
+"how_to_read": "State-based conflicts by region in 2025, counted from the 65 rows of the journal article's list; click a bar to see the rows. Below it: the world total in the years I could verify, and how many of those conflicts were between states.",
+"what_to_make_of_it": "Counts show breadth, not severity; compare with the deaths chart. The history shows the long-run rise in conflict."
 },
 {
 "id": "c-confd",
-"how_to_read": "Battle deaths in 2025 by region: the sum of UCDP best estimates over the conflicts in the region. Click a bar to see the rows that are added up.",
-"what_to_make_of_it": "Where deaths and conflicts diverge, a few very intense wars account for most of the toll."
+"how_to_read": "Battle deaths in 2025 by region (the sum of UCDP best estimates; click a bar to see the rows added up), then the world total in the years I could verify.",
+"what_to_make_of_it": "Where deaths and conflicts diverge, a few very intense wars account for most of the toll. The 2024 figure was revised upward after the original publication."
 },
 {
 "id": "t-regs",
 "how_to_read": "Conflicts, wars, interstate conflicts, deaths, deaths per conflict and shares, all computed from the conflict rows. Click a row to see how it adds up. Click a header to sort.",
 "what_to_make_of_it": "A region with a large share of deaths but a small share of conflicts has few, very intense wars."
-},
-{
-"id": "c-confh",
-"how_to_read": "The world total of state-based conflicts in the years I could verify.",
-"what_to_make_of_it": "Shows the long-run rise in conflict. Only four years appear because those are the figures I could confirm from the source."
-},
-{
-"id": "c-confi",
-"how_to_read": "Conflicts between states, as opposed to conflicts inside one state.",
-"what_to_make_of_it": "Rising counts mean more interstate tension, which tends to carry wider economic and security spillovers."
 },
 {
 "id": "t-nuc",
@@ -200,13 +170,23 @@
 "what_to_make_of_it": "A group passes when the count equals the published count and the deaths are within 1% of the published figure. Where the article publishes no figure for a group, the check says so. The list below shows every conflict in the group."
 },
 {
-"id": "t-hl",
-"how_to_read": "Headline counts for 2024 and 2025, with a note on how each is built. Click a row that has a link to see the conflicts behind it. 2026 year to date is not available.",
-"what_to_make_of_it": "Compare 2024 with 2025 for direction. Conflict counts are annual and complete; death figures are best estimates that UCDP revises, and 2024 has already been revised upward."
+"id": "tiles_security",
+"how_to_read": "UCDP headline numbers for 2025 with the 2024 figure beside each. Click a tile that links to the rows to see the conflicts behind it. The last tile is a preliminary measure from a different dataset and cannot be compared with the others.",
+"what_to_make_of_it": "Compare 2025 with 2024 for direction. The wars and between-states counts show how the mix is changing even when the death total is steady."
 },
 {
-"id": "t-pre",
-"how_to_read": "Preliminary UCDP events and estimated deaths over the 12 months to 30 Sep 2026, republished by a secondary site. A different measure from the conflict counts above.",
-"what_to_make_of_it": "Use it for direction only: it is preliminary, covers 49 countries, and a count of events is not a measure of danger. The types and regions each sum to the total."
+"id": "t-real",
+"how_to_read": "For the latest day: the nominal Treasury yield, the inflation-protected (TIPS) yield, and breakeven inflation, which is nominal minus real. Source: Federal Reserve H.15.",
+"what_to_make_of_it": "The breakeven is the average inflation the market expects over that horizon. A breakeven well below current inflation means the market expects it to fall. Compare with the CPI chart in the climate and cost of living section."
+},
+{
+"id": "t-oilstocks",
+"how_to_read": "US commercial crude, gasoline and distillate stocks, refinery utilization and the Strategic Petroleum Reserve from the EIA's weekly report, with the change on the week and the position against the five-year average.",
+"what_to_make_of_it": "Stocks below their five-year average and a falling reserve mean less cushion if supply is disrupted, which tends to add to price spikes. Refinery utilization shows how hard refiners are running."
+},
+{
+"id": "t-renreg",
+"how_to_read": "Year-end 2025 solar and wind capacity by region in gigawatts, each region's share of the world total, and growth on 2024. Click a header to sort.",
+"what_to_make_of_it": "Shows where the build-out is concentrated and which regions are growing fastest. Capacity is not output, so read it as direction and pace."
 }
 ]

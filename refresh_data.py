@@ -21,6 +21,7 @@ STACKER = "https://www.stackerscan.com/api/metal-prices.md?currency=USD&unit=tro
 TREAS_A = "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value_month=%s"
 TREAS_B = "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/pages/xml?data=daily_treasury_yield_curve&field_tdr_date_value=%s"
 CBOE_VIX = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv"
+H15 = "https://www.federalreserve.gov/releases/h15/"
 os.makedirs(OUT, exist_ok=True)
 summary = {"files": {}, "notes": [], "failures": []}
 
@@ -101,6 +102,44 @@ def parse_cboe(rows_):
             mo, dd, yy = d.split("/")
             out["%s-%s-%s" % (yy, mo.zfill(2), dd.zfill(2))] = v
     return out
+
+def parse_h15(html):
+    """Federal Reserve H.15 page -> [{date, fed_funds, n2, n5, n7, n10, n30, r5, r7, r10, r30}] for the last five business days.
+    n* are nominal Treasury constant-maturity yields, r* are inflation-indexed (TIPS) yields."""
+    mon = {m: i for i, m in enumerate(["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"], 1)}
+    def cells(row):
+        return [re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", c)).strip() for c in re.findall(r"<t[hd][^>]*>(.*?)</t[hd]>", row, re.S | re.I)]
+    dates, section, out = None, None, {}
+    for row in re.findall(r"<tr[^>]*>(.*?)</tr>", html, re.S | re.I):
+        cs = cells(row)
+        if len(cs) < 4:
+            continue
+        ds = [re.search(r"(\d{4})\D+([A-Za-z]{3})\D+(\d{1,2})", c) for c in cs[1:]]
+        if dates is None:
+            if all(ds):
+                dates = ["%s-%02d-%02d" % (m.group(1), mon[m.group(2).title()], int(m.group(3))) for m in ds]
+            continue
+        label = re.sub(r"(\s+\d+)+\s*$", "", cs[0]).strip().lower()
+        if label.startswith("nominal"):
+            section = "n"; continue
+        if label.startswith("inflation indexed"):
+            section = "r"; continue
+        if label.startswith("federal funds (effective)"):
+            key = "fed_funds"
+        elif section and re.fullmatch(r"(2|5|7|10|30)-year", label):
+            key = section + label.split("-")[0]
+            if key == "r2":
+                continue
+        else:
+            continue
+        for d, c in zip(dates, cs[1:]):
+            try:
+                v = float(c)
+            except ValueError:
+                continue
+            if 0 < v < 20:
+                out.setdefault(d, {"date": d})[key] = v
+    return [out[d] for d in sorted(out)]
 
 def merge_save(name, new_rows, key):
     """Append-only merge into <OUT>/<name>, then write it."""
@@ -199,6 +238,12 @@ def watch():
     ms = sorted(set(cpi) | set(co2) | set(tmp))
     merge_save("watch_monthly.json", [{"month": m, "cpi_index": cpi.get(m), "co2_ppm": co2.get(m), "temp_anomaly_c": tmp.get(m)} for m in ms], "month")
 
+def rates_h15():
+    rows_ = parse_h15(get(H15, 30))
+    if not rows_:
+        raise RuntimeError("no rows parsed from the H.15 page")
+    merge_save("rates_h15.json", rows_, "date")
+
 def metals():
     new, cur = {}, None
     for line in get(STACKER).splitlines():
@@ -212,7 +257,7 @@ def metals():
             new.setdefault(m.group(1), {"date": m.group(1)})[cur] = float(m.group(2).replace(",", ""))
     merge_save("metals_daily.json", [new[k] for k in sorted(new)], "date")
 
-for label, fn in [("daily_markets", daily_markets), ("monthly_markets", monthly_markets), ("vix", vix), ("fx", fx), ("watch", watch), ("metals", metals)]:
+for label, fn in [("daily_markets", daily_markets), ("monthly_markets", monthly_markets), ("vix", vix), ("fx", fx), ("watch", watch), ("metals", metals), ("rates_h15", rates_h15)]:
     attempt(label, fn)
 
 summary["ran_at"] = datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")

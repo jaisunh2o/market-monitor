@@ -1,0 +1,47 @@
+[
+{
+"measure": "Commercial crude stocks (excluding SPR)",
+"value": 410.6,
+"unit": "million barrels",
+"week_change": -1.9,
+"vs_5yr": "4% below the five-year average",
+"week_ending": "2026-10-23",
+"source": "Reuters and the EIA summary agree; the week before was 412.5"
+},
+{
+"measure": "Strategic Petroleum Reserve",
+"value": 282.6,
+"unit": "million barrels",
+"week_change": -0.1,
+"vs_5yr": "126.5 million barrels lower than a year ago; near its lowest since 1982",
+"week_ending": "2026-10-23",
+"source": "EIA table via SuperTWIP and Trading Economics (282,600 thousand); OilPrice for the 1982 comparison"
+},
+{
+"measure": "Motor gasoline stocks",
+"value": 209.2,
+"unit": "million barrels",
+"week_change": 3.9,
+"vs_5yr": "about 2% below the five-year average",
+"week_ending": "2026-10-23",
+"source": "Reuters; five-year comparison from an analyst summary of the EIA data"
+},
+{
+"measure": "Distillate stocks (diesel and heating oil)",
+"value": 102.8,
+"unit": "million barrels",
+"week_change": -1.5,
+"vs_5yr": "about 10% below the five-year average",
+"week_ending": "2026-10-23",
+"source": "Reuters; five-year comparison from an analyst summary of the EIA data"
+},
+{
+"measure": "Refinery utilization",
+"value": 92.8,
+"unit": "percent of capacity",
+"week_change": -0.6,
+"vs_5yr": "not given in the sources I read",
+"week_ending": "2026-10-23",
+"source": "Reuters and the EIA"
+}
+]

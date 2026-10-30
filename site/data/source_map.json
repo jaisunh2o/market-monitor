@@ -8,7 +8,7 @@
 },
 {
 "measure": "US 10-year yield",
-"views": "Headline tile; monthly chart; real-yield chart; yield curve; news panel",
+"views": "Headline tile; monthly chart; real-yield chart; yield curve; news panel; real-yield proxy chart; real yields and breakevens table",
 "source": "Tile and chart dot: FRED DGS10 daily (to 26 Oct); the 2-year and 30-year are also FRED. Monthly chart and real yield: Fed monthly average (FRED GS10). Curve: Treasury par yields via Freenance",
 "comparison": "Agree on 23 Oct: FRED 5.00, curve 5.00, news 5.00. The September monthly average (4.99) is a different measure",
 "status": "Consistent"
@@ -82,5 +82,19 @@
 "source": "Federation of American Scientists, start of 2026",
 "comparison": "One source; table totals reproduce the published totals",
 "status": "Consistent"
+},
+{
+"measure": "Real yields, breakevens and policy rate",
+"views": "Overview tiles; real yields and breakevens table",
+"source": "Federal Reserve H.15 release of 29 Oct 2026 (Treasury data); effective federal funds rate",
+"comparison": "Its nominal 2-year, 10-year and 30-year yields equal the FRED and Treasury values already on the page on all five days; real yields and breakevens have no second source",
+"status": "Consistent; grows with each refresh"
+},
+{
+"measure": "US oil stocks and the Strategic Petroleum Reserve",
+"views": "US oil stocks table",
+"source": "EIA weekly petroleum status report for the week ending 23 Oct 2026, read through Reuters, an EIA table summary and Trading Economics",
+"comparison": "Crude and SPR levels agree across sources; five-year comparisons come from an analyst summary of the EIA data",
+"status": "Weekly; updated by hand"
 }
 ]
