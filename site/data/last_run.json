@@ -2,7 +2,7 @@
  "files": {
   "daily_markets.json": {
    "rows": 16432,
-   "new_rows": 13641,
+   "new_rows": 0,
    "latest": "2026-10-30"
   },
   "monthly_markets.json": {
@@ -27,16 +27,17 @@
   },
   "metals_daily.json": {
    "rows": 32,
-   "new_rows": 2,
+   "new_rows": 0,
    "latest": "2026-11-02"
   }
  },
  "notes": [
   "daily_markets: FRED overlay applied",
-  "vix: FRED applied"
+  "vix: FRED applied",
+  "rates_h15: FRED failed (UnicodeDecodeError); trying the H.15 page"
  ],
  "failures": [
   "rates_h15: RuntimeError: no rows parsed from the H.15 page"
  ],
- "ran_at": "2026-11-02T07:52:56Z"
+ "ran_at": "2026-11-02T10:42:12Z"
 }
