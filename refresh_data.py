@@ -179,7 +179,8 @@ def daily_markets():
         f = fred(["DCOILWTICO", "DCOILBRENTEU", "DHHNGSP", "DGS10", "DGS2", "DGS30"])
         for fid, k in [("DCOILWTICO", "wti"), ("DCOILBRENTEU", "brent"), ("DHHNGSP", "natgas"), ("DGS10", "ust10_pct"), ("DGS2", "ust2_pct"), ("DGS30", "ust30_pct")]:
             for dt, v in f[fid].items():
-                d.setdefault(dt, {})[k] = v
+                if dt >= "2016-01-01":
+                    d.setdefault(dt, {})[k] = v
         summary["notes"].append("daily_markets: FRED overlay applied")
     except Exception as e:
         summary["notes"].append("daily_markets: FRED unreachable (%s)" % type(e).__name__)
@@ -239,6 +240,23 @@ def watch():
     merge_save("watch_monthly.json", [{"month": m, "cpi_index": cpi.get(m), "co2_ppm": co2.get(m), "temp_anomaly_c": tmp.get(m)} for m in ms], "month")
 
 def rates_h15():
+    """Policy rate, nominal and inflation-indexed (TIPS) yields. FRED first (same Treasury and Fed data as H.15), the H.15 page as a fallback."""
+    ids = {"DFF": "fed_funds", "DGS2": "n2", "DGS5": "n5", "DGS7": "n7", "DGS10": "n10", "DGS30": "n30", "DFII5": "r5", "DFII7": "r7", "DFII10": "r10", "DFII30": "r30"}
+    try:
+        f = fred(list(ids))
+        out = {}
+        for fid, key in ids.items():
+            for dt, v in f[fid].items():
+                if dt >= "2026-01-01":
+                    out.setdefault(dt, {"date": dt})[key] = v
+        rows_ = [out[d] for d in sorted(out) if "n10" in out[d] and "r10" in out[d]]
+        if not rows_:
+            raise RuntimeError("FRED returned no complete rows")
+        merge_save("rates_h15.json", rows_, "date")
+        summary["notes"].append("rates_h15: from FRED")
+        return
+    except Exception as e:
+        summary["notes"].append("rates_h15: FRED failed (%s); trying the H.15 page" % type(e).__name__)
     rows_ = parse_h15(get(H15, 30))
     if not rows_:
         raise RuntimeError("no rows parsed from the H.15 page")

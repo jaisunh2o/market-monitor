@@ -54,5 +54,12 @@
 "brent": 114.88,
 "contract": "December 2026",
 "note": "Brent's December contract expires 30 Oct"
+},
+{
+"date": "2026-10-30",
+"wti": 104.12,
+"brent": 117.64,
+"contract": "December 2026",
+"note": "Brent's December contract expired at 117.64; the January contract, now the front month, settled at 113.43, which is 4.21 lower. WTI December remains the front month until 20 Nov"
 }
 ]
