@@ -1,24 +1,24 @@
 {
  "files": {
   "daily_markets.json": {
-   "rows": 16432,
-   "new_rows": 0,
-   "latest": "2026-10-30"
+   "rows": 16433,
+   "new_rows": 1,
+   "latest": "2026-11-02"
   },
   "monthly_markets.json": {
    "rows": 250,
-   "new_rows": 1,
+   "new_rows": 0,
    "latest": "2026-10"
   },
   "vix_daily.json": {
-   "rows": 2756,
-   "new_rows": 0,
-   "latest": "2026-10-30"
+   "rows": 2757,
+   "new_rows": 1,
+   "latest": "2026-11-02"
   },
   "fx_daily.json": {
-   "rows": 2821,
-   "new_rows": 0,
-   "latest": "2026-10-23"
+   "rows": 2826,
+   "new_rows": 5,
+   "latest": "2026-10-30"
   },
   "watch_monthly.json": {
    "rows": 333,
@@ -26,9 +26,9 @@
    "latest": "2026-09"
   },
   "metals_daily.json": {
-   "rows": 33,
+   "rows": 34,
    "new_rows": 1,
-   "latest": "2026-11-03"
+   "latest": "2026-11-04"
   }
  },
  "notes": [
@@ -39,5 +39,5 @@
  "failures": [
   "rates_h15: RuntimeError: no rows parsed from the H.15 page"
  ],
- "ran_at": "2026-11-03T07:42:00Z"
+ "ran_at": "2026-11-04T07:44:51Z"
 }
