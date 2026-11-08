@@ -2,7 +2,7 @@
  "files": {
   "daily_markets.json": {
    "rows": 16437,
-   "new_rows": 2,
+   "new_rows": 0,
    "latest": "2026-11-06"
   },
   "monthly_markets.json": {
@@ -12,7 +12,7 @@
   },
   "vix_daily.json": {
    "rows": 2761,
-   "new_rows": 2,
+   "new_rows": 0,
    "latest": "2026-11-06"
   },
   "fx_daily.json": {
@@ -40,5 +40,5 @@
  "failures": [
   "rates_h15: RuntimeError: no rows parsed from the H.15 page"
  ],
- "ran_at": "2026-11-07T07:30:54Z"
+ "ran_at": "2026-11-08T07:32:24Z"
 }
