@@ -26,9 +26,9 @@
    "latest": "2026-09"
   },
   "metals_daily.json": {
-   "rows": 36,
-   "new_rows": 0,
-   "latest": "2026-11-06"
+   "rows": 38,
+   "new_rows": 2,
+   "latest": "2026-11-09"
   }
  },
  "notes": [
@@ -40,5 +40,5 @@
  "failures": [
   "rates_h15: RuntimeError: no rows parsed from the H.15 page"
  ],
- "ran_at": "2026-11-08T07:32:24Z"
+ "ran_at": "2026-11-09T07:52:48Z"
 }
