@@ -1,9 +1,9 @@
 {
  "files": {
   "daily_markets.json": {
-   "rows": 16441,
-   "new_rows": 2,
-   "latest": "2026-11-12"
+   "rows": 16442,
+   "new_rows": 1,
+   "latest": "2026-11-13"
   },
   "monthly_markets.json": {
    "rows": 250,
@@ -11,9 +11,9 @@
    "latest": "2026-10"
   },
   "vix_daily.json": {
-   "rows": 2765,
+   "rows": 2766,
    "new_rows": 1,
-   "latest": "2026-11-12"
+   "latest": "2026-11-13"
   },
   "fx_daily.json": {
    "rows": 2831,
@@ -27,18 +27,18 @@
   },
   "metals_daily.json": {
    "rows": 42,
-   "new_rows": 1,
+   "new_rows": 0,
    "latest": "2026-11-13"
   }
  },
  "notes": [
   "daily_markets: FRED unreachable (TimeoutError)",
-  "daily_markets: Treasury yields applied (29 days)",
-  "vix: CBOE history applied (2765 days)",
+  "daily_markets: Treasury yields applied (30 days)",
+  "vix: CBOE history applied (2766 days)",
   "rates_h15: FRED failed (RuntimeError); trying the H.15 page"
  ],
  "failures": [
   "rates_h15: RuntimeError: no rows parsed from the H.15 page"
  ],
- "ran_at": "2026-11-13T07:46:33Z"
+ "ran_at": "2026-11-14T07:34:04Z"
 }
